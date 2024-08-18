@@ -1,6 +1,7 @@
 import '../styles/globals.css';
 import { Footer } from '../components/footer';
 import { Header } from '../components/header';
+import { BottomNavigationPanel } from '../components/bottom-navigation';
 import React from "react";
 
 export const metadata = {
@@ -22,6 +23,7 @@ export default function RootLayout({ children }) {
                         <Header />
                         <div className="grow">{children}</div>
                         <Footer />
+                        <BottomNavigationPanel />
                     </div>
                 </div>
             </body>

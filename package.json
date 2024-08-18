@@ -9,6 +9,7 @@
         "lint": "next lint"
     },
     "dependencies": {
+        "@headlessui/react": "^2.1.2",
         "@netlify/blobs": "^8.0.0",
         "blobshape": "^1.0.0",
         "bright": "^0.8.5",
