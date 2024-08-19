@@ -40,7 +40,7 @@ const AirdropGuide = () => {
   useEffect(() => {
     const fetchAirdrop = async (slug) => {
       try {
-        const response = await fetch(`${apiUrl}/airdrops/${slug}`);
+        const response = await axios.get(`${apiUrl}/airdrops/${slug}`);
         const airdrop = await response.json();
         setAirdropData(airdrop);
       } catch (error) {

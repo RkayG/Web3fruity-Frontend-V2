@@ -15,10 +15,6 @@
     }
 }
 
-a {
-    @apply underline
-}
-
 .markdown {
     @apply mb-1;
 }
