@@ -9,11 +9,21 @@ module.exports = {
                 'grid-pattern': "linear-gradient(to bottom, theme('colors.neutral.950 / 0%'), theme('colors.neutral.950 / 100%')), url('/images/noise.png')"
             },
             colors: {
-                neutral: colors.neutral
+                neutral: colors.neutral,
+                burgundy: '#800020',
             },
             fontFamily: {
                 sans: ['Inter', ...defaultTheme.fontFamily.sans]
-            }
+            },
+            keyframes: {
+                slideUp: {
+                  '0%': { transform: 'translateY(100%)', opacity: '0' },
+                  '100%': { transform: 'translateY(0)', opacity: '1' },
+                },
+              },
+              animation: {
+                slideUp: 'slideUp 0.5s ease-out',
+              },
         }
     },
     daisyui: {
