@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { useParams, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
@@ -14,17 +14,17 @@ import Disclaimer from 'components/disclaimer';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const Navigation = ({ title }) => {
-    return (
-      <nav className="flex items-center space-x-2 text-gray-600 px-4 py-6 bg-gray-100">
-        <Link href="/token-farming" className="flex items-center hover:text-blue-600 transition-colors duration-300">
-          <FaChevronLeft className="mr-2" />
-          <span>Back to Token Farming</span>
-        </Link>
-        <span className="mx-2">/</span>
-        <p className="font-semibold text-blue-800 truncate max-w-md">{title}</p>
-      </nav>
-    );
-  };
+  return (
+    <nav className="flex items-center space-x-2 text-gray-600 px-4 py-6 bg-gray-100">
+      <Link href="/token-farming" className="flex items-center hover:text-blue-600 transition-colors duration-300">
+        <FaChevronLeft className="mr-2" />
+        <span>Back to Token Farming</span>
+      </Link>
+      <span className="mx-2">/</span>
+      <p className="font-semibold text-blue-800 truncate max-w-md">{title}</p>
+    </nav>
+  );
+};
 
 const ShareButton = ({ icon, color, onClick, label }) => (
   <button
@@ -37,24 +37,21 @@ const ShareButton = ({ icon, color, onClick, label }) => (
 );
 
 const TokenFarmingGuide = () => {
-    const [tokenData, setTokenData] = useState(null);
-    const [additionalTokens, setAdditionalTokens] = useState([]);
-    const [error, setError] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [copied, setCopied] = useState(false);
-    const params = useParams();
-    const searchParams = useSearchParams();
-  
+  const [tokenData, setTokenData] = useState(null);
+  const [additionalTokens, setAdditionalTokens] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [copied, setCopied] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     // -----fetch data from server----------------------
     const fetchTokenData = async (slug) => {
-        try {
-          const response = await fetch(`${apiUrl}/farm-tokens/${slug}`);
-          const data = await response.json();
-          setTokenData(data);
-          setLoading(false);
-  
+      try {
+        const response = await fetch(`${apiUrl}/farm-tokens/${slug}`);
+        const data = await response.json();
+        setTokenData(data);
+        setLoading(false);
 
          // Fetch additional tokens
          const additionalTokensResponse = await fetch(`${apiUrl}/farm-tokens`);
@@ -70,11 +67,15 @@ const TokenFarmingGuide = () => {
     //----------------fetch data from server end --------------------
 
     //---- page router
-    const slug = params.slug;
-    if (slug) {
-      fetchTokenData(slug);
+    if (router.isReady) {
+        console.log(router.query);
+      const { slug } = router.query;
+     // alert(_id);
+      if (slug) {
+        fetchTokenData(slug);
+      }
     }
-  }, [params.slug]);
+  }, [router.isReady, router.query.slug]);
 
   /*------------- Share links setting -----------------------------------------------
   const shareOnFacebook = () => {
