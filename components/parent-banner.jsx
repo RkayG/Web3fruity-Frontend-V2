@@ -1,5 +1,5 @@
 // ParentBanner.js
-import Banner from './Banner';
+import Banner from "./banner";
 
 const ParentComponent = () => {
   const texts = [
