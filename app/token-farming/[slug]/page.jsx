@@ -15,13 +15,13 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
  
 const Navigation = ({ title }) => {
   return (
-    <nav className="flex items-center space-x-2 text-gray-600 px-4 py-6 bg-gray-100">
-      <Link href="/token-farming" className="flex items-center hover:text-blue-600 transition-colors duration-300">
-        <FaChevronLeft className="mr-2" />
-        <span>Back to Token Farming</span>
-      </Link>
-      <span className="mx-2">/</span>
-      <p className="font-semibold text-blue-800 truncate max-w-md">{title}</p>
+    <nav className="flex items-center space-x-2 text-pink-900 ml-6 mt-6">
+      <p>
+        <Link href="/academy" className="hover:text-blue-600">
+          Token Farming <span className='mr-1'>&gt;</span>
+        </Link>
+        <p className="font-semibold text-blue-800 inline">{title}</p>
+      </p>
     </nav>
   );
 };

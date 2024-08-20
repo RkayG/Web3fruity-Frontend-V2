@@ -228,9 +228,9 @@ const Games = () => {
                 : games.slice(0, 9).map((game, index) => (
                 <Link href={`/games/${game.slug}`} key={game._id}>
                     <motion.div
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    className="bg-white rounded-lg mx-2 overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
+                    whileHover={{ scale: 0.92 }}
+                    whileTap={{ scale: 0.75 }}
+                    className="bg-white rounded-lg mx-5 overflow-hidden shadow-lg hover:shadow-lg transition-all duration-300"
                     >
                     <img className="w-full h-48 object-cover" src={game.image} alt={game.title} />
                     <div className="p-4">
