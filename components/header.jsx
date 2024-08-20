@@ -1,10 +1,10 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import Logo from './logo';
-import { FaAngleDown, FaBars, FaTimes, FaSearch, FaTwitter, FaFacebook, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import { FaAngleDown, FaBars, FaTimes, FaSearch, FaTwitter, FaFacebookF, FaInstagram, FaLinkedin } from 'react-icons/fa';
 import { motion, AnimatePresence } from 'framer-motion';
 import SearchBar from './global-search';
 
@@ -16,7 +16,7 @@ export function Header() {
   const pathname = usePathname();
   const dropdownRef = useRef(null);
 
-  const menuList = [
+  const menuList = useMemo(() => [
     { name: "Discover", path: "/" },
     { name: "Airdrops", path: "/airdrops" },
     { name: "Farming", path: "/token-farming" },
@@ -25,11 +25,11 @@ export function Header() {
     { name: "Academy", path: "/academy" },
     { name: "Crypto News", path: "/crypto-news" },
     { name: "About", path: "/about" },
-  ];
+  ], []);
 
   const socialLinks = [
     { icon: <FaTwitter />, url: "#" },
-    { icon: <FaFacebook />, url: "#" },
+    { icon: <FaFacebookF />, url: "#" },
     { icon: <FaInstagram />, url: "#" },
     { icon: <FaLinkedin />, url: "#" },
   ];
@@ -41,7 +41,7 @@ export function Header() {
     } else {
       setActivePage('');
     }
-  }, [pathname]);
+  }, [pathname, menuList]);
 
   const NavItem = ({ el, mobile = false }) => (
     <div className={`${mobile ? 'mb-4' : ''} relative`} ref={el.dropdown ? dropdownRef : null}>

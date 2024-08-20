@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, INLINES } from '@contentful/rich-text-types';
 import Link from 'next/link';
 import axios from 'axios';
-import { FaTwitter, FaTelegram, FaDiscord, FaReddit, FaGlobe, FaFile, FaLink, FaCoins, FaPercentage, FaCalendarAlt, FaFileAlt, FaExternalLinkAlt } from 'react-icons/fa';
+import { FaTwitter, FaTelegram, FaDiscord, FaReddit, FaGlobe, FaFile, FaLink, FaCoins, FaPercentage, FaCalendarAlt, FaFileAlt, FaExternalLinkAlt, FaFacebookF } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import Disclaimer from 'components/disclaimer';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -37,30 +37,29 @@ const AirdropGuide = () => {
   const [showFullDescription, setShowFullDescription] = useState(false);
   const router = useRouter();
 
+  const fetchAirdrop = useCallback(async (slug) => {
+    try {
+      const response = await axios.get(`${apiUrl}/airdrops/${slug}`);
+      setAirdropData(response.data);
+    } catch (error) {
+      console.error('Failed to load airdrop guide:', error);
+      setError('Failed to load airdrop guide');
+    }
+  }, []);
+
+  const fetchAdditionalAirdrops = useCallback(async (slug) => {
+    try {
+      const response = await axios.get(`${apiUrl}/airdrops`, {
+        params: { limit: 7, page: 1 },
+      });
+      const moreAirdrops = response.data.airdrops.filter((airdrop) => airdrop.slug !== slug);
+      setAdditionalAirdrops(moreAirdrops);
+    } catch (error) {
+      console.error('Failed to load additional airdrops:', error);
+    }
+  }, []);
+
   useEffect(() => {
-    const fetchAirdrop = async (slug) => {
-      try {
-        const response = await axios.get(`${apiUrl}/airdrops/${slug}`);
-        const airdrop = await response.json();
-        setAirdropData(airdrop);
-      } catch (error) {
-        console.error('Failed to load airdrop guide:', error);
-        setError('Failed to load airdrop guide');
-      }
-    };
-
-    const fetchAdditionalAirdrops = async (slug) => {
-      try {
-        const response = await axios.get(`${apiUrl}/airdrops`, {
-          params: { limit: 7, page: 1 },
-        });
-        const moreAirdrops = response.data.airdrops.filter((airdrop) => airdrop.slug !== slug);
-        setAdditionalAirdrops(moreAirdrops);
-      } catch (error) {
-        console.error('Failed to load additional airdrops:', error);
-      }
-    };
-
     if (router.isReady) {
       const { slug } = router.query;
       if (slug) {
@@ -68,7 +67,7 @@ const AirdropGuide = () => {
         fetchAdditionalAirdrops(slug);
       }
     }
-  }, [router.isReady, router.query.slug]);
+  }, [router.isReady, router.query, router.query.slug, fetchAirdrop, fetchAdditionalAirdrops]);
 
   if (error) return <div className="text-red-500 text-center mt-10">{error}</div>;
   if (!airdropData) return <div className="loading-dots m-auto my-44"><span className="dot"></span><span className="dot"></span><span className="dot"></span></div>;
@@ -213,7 +212,7 @@ const AirdropGuide = () => {
             {airdropData.socialLinks.map((link, index) => {
               let icon;
               if (link.includes("twitter.com") || link.includes("x.com")) icon = <FaTwitter size={24}  title={link} />;
-              else if (link.includes("facebook.com")) icon = <FaFacebook size={24} title={link} />;
+              else if (link.includes("facebook.com")) icon = <FaFacebookF size={24} title={link} />;
               else if (link.includes("discord.com") || link.includes("discord.gg")) icon = <FaDiscord size={24} title={link} />;
               else if (link.includes("telegram.com") || link.includes("t.me")) icon = <FaTelegram size={24} title={link} />;
               else if (link.includes("reddit.com")) icon = <FaReddit size={24} title={link} />;

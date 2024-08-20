@@ -93,7 +93,7 @@ const BottomSubscribe = () => {
                   <div className="bg-green-500 rounded-full p-3 mb-4">
                     <FaCheck className="text-white text-3xl" />
                   </div>
-                  <h3 className="text-2xl font-bold text-green-800 mb-2">You're In!</h3>
+                  <h3 className="text-2xl font-bold text-green-800 mb-2">You&apos;re In!</h3>
                   <p className="text-green-700 text-center mb-4">
                     Thank you for subscribing. Get ready for exclusive updates and opportunities!
                   </p>

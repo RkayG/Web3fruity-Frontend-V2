@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react';
 import { Fragment } from 'react';
@@ -10,7 +10,7 @@ export function BottomNavigationPanel() {
   const [isVisible, setIsVisible] = useState(true);
   const [lastScrollY, setLastScrollY] = useState(0);
 
-  const handleScroll = () => {
+  const handleScroll = useCallback(() => {
     if (typeof window !== 'undefined') {
       const currentScrollY = window.scrollY;
       if (currentScrollY > lastScrollY) {
@@ -22,7 +22,7 @@ export function BottomNavigationPanel() {
       }
       setLastScrollY(currentScrollY);
     }
-  };
+  }, [lastScrollY]);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -31,7 +31,7 @@ export function BottomNavigationPanel() {
         window.removeEventListener('scroll', handleScroll);
       };
     }
-  }, [lastScrollY]);
+  }, [handleScroll]);
 
   return (
     <nav className={`fixed lg:hidden bottom-0 left-0 right-0 bg-white shadow-lg z-50 rounded-t-3xl border border-gray-400 transition-transform duration-300 ${isVisible ? 'translate-y-0' : 'translate-y-full'}`}>

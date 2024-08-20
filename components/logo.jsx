@@ -5,6 +5,7 @@ const Logo = ({ color }) => {
     <img
       className={`w-8 ${color} text-teal-accent-400`}
       src="/images/logo.jpg"
+      alt=""
     />
   );
 };

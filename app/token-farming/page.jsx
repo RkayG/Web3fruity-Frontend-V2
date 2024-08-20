@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { FaFilter, FaCoins, FaExternalLinkAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import BottomSubscribe from 'components/bottom-subscribe';
@@ -40,18 +40,7 @@ const TokenFarming = () => {
     fetchTokens();
   }, []);
 
-  if (error) {
-    return (
-      <div className="max-w-4xl mx-auto p-6 my-32">
-        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded" role="alert">
-          <p className="font-bold">Error</p>
-          <p>{error}</p>
-        </div>
-      </div>
-    );
-  }
-
-  const applyFilters = () => {
+  const applyFilters = useCallback(() => {
     let result = tokens;
     if (selectedBlockchain) {
       result = result.filter(token => token.blockchain === selectedBlockchain);
@@ -62,11 +51,23 @@ const TokenFarming = () => {
     
     setFilteredTokens(result);
     setCurrentPage(1);
-  };
+  }, [selectedBlockchain, stakeFilter, tokens]);
 
   useEffect(() => {
     applyFilters();
-  }, [selectedBlockchain, stakeFilter, tokens]);
+  });
+
+
+  if (error) {
+    return (
+      <div className="max-w-4xl mx-auto p-6 my-32">
+        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded" role="alert">
+          <p className="font-bold">Error</p>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
 
   // Get current tokens
   const indexOfLastToken = currentPage * tokensPerPage;

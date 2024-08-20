@@ -50,7 +50,7 @@ const RewardTooltip = ({ reward }) => {
       ) : (
         <>
           <span className="flex flex-wrap">
-            <img src={reward.logo} className="w-8 h-8 rounded-sm mb-2" />
+            <img src={reward.logo} alt="" className="w-8 h-8 rounded-sm mb-2" />
             <p className="pl-4 font-bold">${reward.token}</p>
           </span>
           {tokenData && (

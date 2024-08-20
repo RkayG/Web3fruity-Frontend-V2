@@ -1,18 +1,18 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, INLINES } from '@contentful/rich-text-types';
 import { FaChevronLeft, FaExternalLinkAlt, FaTwitter,
-     FaReddit, FaDiscord, FaTelegram, FaFacebook, FaGlobe, FaFileAlt
+     FaReddit, FaDiscord, FaTelegram, FaFacebookF, FaGlobe, FaFileAlt
 } from 'react-icons/fa';
 import Disclaimer from 'components/disclaimer';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
+ 
 const Navigation = ({ title }) => {
   return (
     <nav className="flex items-center space-x-2 text-gray-600 px-4 py-6 bg-gray-100">
@@ -44,38 +44,30 @@ const TokenFarmingGuide = () => {
   const [copied, setCopied] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    // -----fetch data from server----------------------
-    const fetchTokenData = async (slug) => {
-      try {
-        const response = await fetch(`${apiUrl}/farm-tokens/${slug}`);
-        const data = await response.json();
-        setTokenData(data);
-        setLoading(false);
+  const fetchTokenData = useCallback(async (slug) => {
+    try {
+      const response = await fetch(`${apiUrl}/farm-tokens/${slug}`);
+      const data = await response.json();
+      setTokenData(data);
+      setLoading(false);
 
-         // Fetch additional tokens
-         const additionalTokensResponse = await fetch(`${apiUrl}/farm-tokens`);
-         const allTokens = await additionalTokensResponse.json();
-         const filteredTokens = allTokens.filter(token => token.slug !== slug).slice(0, 3);
-         setAdditionalTokens(filteredTokens);
-      } catch (error) {
-        console.error('Failed to load token data:', error);
-        setError('Failed to load token data');
-        setLoading(false);
-      }
-    };
-    //----------------fetch data from server end --------------------
-
-    //---- page router
-    if (router.isReady) {
-        console.log(router.query);
-      const { slug } = router.query;
-     // alert(_id);
-      if (slug) {
-        fetchTokenData(slug);
-      }
+      // Fetch additional tokens
+      const additionalTokensResponse = await fetch(`${apiUrl}/farm-tokens`);
+      const allTokens = await additionalTokensResponse.json();
+      const filteredTokens = allTokens.filter(token => token.slug !== slug).slice(0, 3);
+      setAdditionalTokens(filteredTokens);
+    } catch (error) {
+      console.error('Failed to load token data:', error);
+      setError('Failed to load token data');
+      setLoading(false);
     }
-  }, [router.isReady, router.query.slug]);
+  }, []);
+
+  useEffect(() => {
+    if (router.isReady && router.query?.slug) {
+      fetchTokenData(router.query.slug);
+    }
+  }, [router.isReady, router.query, fetchTokenData]);
 
   /*------------- Share links setting -----------------------------------------------
   const shareOnFacebook = () => {
@@ -277,7 +269,7 @@ const TokenFarmingGuide = () => {
               icon = <FaTwitter size={20} />;
               title = "Twitter";
             } else if (link.includes("facebook.com")) {
-              icon = <FaFacebook size={20} />;
+              icon = <FaFacebookF size={20} />;
               title = "Facebook";
             } else if (link.includes("discord.com") || link.includes("discord.gg")) {
               icon = <FaDiscord size={20} />;
