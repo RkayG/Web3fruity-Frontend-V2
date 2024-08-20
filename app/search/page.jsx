@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import axios from 'axios';
 import BottomSubscribe from 'components/bottom-subscribe';
@@ -12,7 +12,9 @@ const SearchResults = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const router = useRouter();
-  const { query } = router.query;
+  
+  // Safely destructure the 'query' property
+  const { query = '' } = router.query || {};
 
   useEffect(() => {
     if (query) {

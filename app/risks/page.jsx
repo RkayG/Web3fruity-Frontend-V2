@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import { FaExclamationTriangle, FaChartLine, FaLock, FaGlobe, FaBalanceScale, FaBook } from 'react-icons/fa';
 import { motion } from 'framer-motion';
