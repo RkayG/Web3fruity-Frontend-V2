@@ -17,7 +17,7 @@ export function Header() {
   const dropdownRef = useRef(null);
 
   const menuList = useMemo(() => [
-    { name: "Discover", path: "/" },
+    { name: "Discover", path: "/index" },
     { name: "Airdrops", path: "/airdrops" },
     { name: "Farming", path: "/token-farming" },
     { name: "Games", path: "/games" },
