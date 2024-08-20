@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
@@ -42,7 +42,7 @@ const TokenFarmingGuide = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
-  const router = useRouter();
+  const { slug } = useParams();
 
   const fetchTokenData = useCallback(async (slug) => {
     try {
@@ -64,10 +64,10 @@ const TokenFarmingGuide = () => {
   }, []);
 
   useEffect(() => {
-    if (router.isReady && router.query?.slug) {
-      fetchTokenData(router.query.slug);
+    if (slug) {
+      fetchTokenData(slug);
     }
-  }, [router.isReady, router.query, fetchTokenData]);
+  }, [slug, fetchTokenData]);
 
   /*------------- Share links setting -----------------------------------------------
   const shareOnFacebook = () => {

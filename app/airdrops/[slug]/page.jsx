@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, INLINES } from '@contentful/rich-text-types';
 import Link from 'next/link';
@@ -35,7 +35,7 @@ const AirdropGuide = () => {
   const [additionalAirdrops, setAdditionalAirdrops] = useState([]);
   const [error, setError] = useState(null);
   const [showFullDescription, setShowFullDescription] = useState(false);
-  const router = useRouter();
+  const { slug } = useParams();
 
   const fetchAirdrop = useCallback(async (slug) => {
     try {
@@ -60,14 +60,11 @@ const AirdropGuide = () => {
   }, []);
 
   useEffect(() => {
-    if (router.isReady) {
-      const { slug } = router.query;
-      if (slug) {
+    if (slug) {
         fetchAirdrop(slug);
         fetchAdditionalAirdrops(slug);
-      }
     }
-  }, [router.isReady, router.query, router.query.slug, fetchAirdrop, fetchAdditionalAirdrops]);
+  }, [slug, fetchAirdrop, fetchAdditionalAirdrops]);
 
   if (error) return <div className="text-red-500 text-center mt-10">{error}</div>;
   if (!airdropData) return <div className="loading-dots m-auto my-44"><span className="dot"></span><span className="dot"></span><span className="dot"></span></div>;

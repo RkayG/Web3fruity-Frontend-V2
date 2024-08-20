@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, INLINES } from '@contentful/rich-text-types';
 import Link from 'next/link';
@@ -42,7 +42,7 @@ const CryptoNewsContent = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
-  const router = useRouter();
+  const { slug } = useParams();
 
   useEffect(() => {
     const fetchCryptoNews = async (slug) => {
@@ -70,14 +70,11 @@ const CryptoNewsContent = () => {
       }
     };
 
-    if (router.isReady) {
-      const { slug } = router.query;
-      if (slug) {
+    if (slug) {  
         fetchCryptoNews(slug);
         fetchAdditionalCryptoNews(slug);
-      }
     }
-  }, [router.isReady, router.query, router.query.slug]);
+  }, [slug]);
 
   const shareOnFacebook = () => {
     window.open(`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`, '_blank');

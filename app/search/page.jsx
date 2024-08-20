@@ -1,27 +1,26 @@
 "use client";
 
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import axios from 'axios';
 import BottomSubscribe from 'components/bottom-subscribe';
+
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const SearchResults = () => {
   const [results, setResults] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const router = useRouter();
-  
-  // Safely destructure the 'query' property
-  const { query = '' } = router.query || {};
+  const searchParams = useSearchParams();
 
   useEffect(() => {
-    if (query) {
+    const searchQuery = searchParams.get('query');
+    if (searchQuery) {
       const fetchResults = async () => {
         try {
           setLoading(true);
-          const response = await axios.get(`${apiUrl}/search`, { params: { query } });
+          const response = await axios.get(`${apiUrl}/search`, { params: { query: searchQuery } });
           setResults(response.data);
           setError(null);
         } catch (error) {
@@ -34,7 +33,7 @@ const SearchResults = () => {
 
       fetchResults();
     }
-  }, [query]);
+  }, [searchParams]);
   
   const categories = [
     { name: 'Airdrops', key: 'airdrops', itemKey: 'title', linkPrefix: '/airdrops/' },
@@ -95,7 +94,7 @@ const SearchResults = () => {
   return (
     <section>
       <div className="max-w-4xl mx-auto p-6 mb-32">
-        <h1 className="text-3xl font-bold mb-8 text-gray-800">Search Results for &quot;{query}&quot;</h1>
+        <h1 className="text-3xl font-bold mb-8 text-gray-800">Search Results for &quot;{searchParams.get('query')}&quot;</h1>
         {categoriesWithResults.length > 0 ? (
           categoriesWithResults.map((category) => (
             <ResultCard
@@ -107,7 +106,7 @@ const SearchResults = () => {
             />
           ))
         ) : (
-          <p className="text-xl text-gray-600">No results found for &quot;{query}&quot;</p>
+          <p className="text-xl text-gray-600">No results found for &quot;{searchParams.get('query')}&quot;</p>
         )}
       </div>
       <BottomSubscribe />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import React, { useState, useEffect } from 'react';
 import { FaTwitter, FaFacebookF, FaDiscord, FaTelegram, FaReddit, FaGlobe, FaDollarSign, FaChartLine, FaCoins, FaSackDollar } from 'react-icons/fa';
 import axios from 'axios';
@@ -164,7 +164,6 @@ const GalleryAndTrailer = ({ trailer, gallery }) => {
   );
 };
 
-  
 const GameDetails = () => {
   const [game, setGame] = useState(null);
   const [additionalGames, setAdditionalGames] = useState([]);
@@ -172,12 +171,12 @@ const GameDetails = () => {
   const [loading, setLoading] = useState(true);
   const [price, setPrice] = useState('$0.00');
   const [marketCap, setMarketCap] = useState('$0');
-  const router = useRouter();
+  const { slug } = useParams();
 
   useEffect(() => {
-    const fetchGame = async (_slug) => {
+    const fetchGame = async () => {
       try {
-        const response = await fetch(`${apiUrl}/games/${_slug}`);
+        const response = await fetch(`${apiUrl}/games/${slug}`);
         const gameData = await response.json();
         setGame(gameData);
         setLoading(false);
@@ -198,32 +197,27 @@ const GameDetails = () => {
         setError('Failed to load game info');
       }
     };
-      const fetchAdditionalGames = async () => {
-        try {
-          const response = await axios.get(`${apiUrl}/games`, {
-            params: {
-              limit: 4,
-            },
-          });
-         // console.log(response);
-          const games = await response.data;
-         // console.log(games);
-          setAdditionalGames(games);
-        } catch (error) {
-          console.error('Failed to load additional games:', error);
-        }
-      };
-  
-      if (router.isReady) {
-        console.log(router.query);
-        const { slug } = router.query;
-        console.log(slug);
-        if (slug) {
-          fetchGame(slug);
-          fetchAdditionalGames();
-        }
+
+    const fetchAdditionalGames = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/games`, {
+          params: {
+            limit: 4,
+          },
+        });
+        const games = await response.data;
+        setAdditionalGames(games);
+      } catch (error) {
+        console.error('Failed to load additional games:', error);
       }
-    }, [router.isReady, router.query, router.query.slug]);
+    };
+
+    if (slug) {
+      fetchGame();
+      fetchAdditionalGames();
+    }
+  }, [slug]);
+
   
     if (error) {
       return <div className="text-red-500">{error}</div>;
