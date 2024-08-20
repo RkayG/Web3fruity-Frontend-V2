@@ -102,7 +102,7 @@ export function Header() {
     >
       <div className="px-4 py-5 mx-auto max-w-7xl">
         <div className="flex items-center justify-between">
-          <Link href="/discover" className="flex items-center space-x-2">
+          <Link href="/" className="flex items-center space-x-2">
             <Logo color="text-black" />
             <span className="text-2xl font-bold tracking-wide text-blue-800">
               Web<span className="font-serif">3</span><span className="text-orange-800">Fruity</span>

@@ -7,7 +7,7 @@ import React from "react";
 export const metadata = {
     title: {
         template: '%s | Netlify',
-        default: 'Netlify Starter'
+        default: 'Web3Fruity'
     }
 };
 
@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en" data-theme="lofi">
             <head>
-                <link rel="icon" href="/favicon.svg" sizes="any" />
+                <link rel="icon" href="/favicon.ico" sizes="any" />
             </head>
             <body className="antialiased bg-white">
                 <div className="">
