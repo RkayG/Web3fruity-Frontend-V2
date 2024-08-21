@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import axios from 'axios';
@@ -8,7 +8,7 @@ import BottomSubscribe from 'components/bottom-subscribe';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-const SearchResults = () => {
+const SearchResultsContent = () => {
   const [results, setResults] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -111,6 +111,14 @@ const SearchResults = () => {
       </div>
       <BottomSubscribe />
     </section>
+  );
+};
+
+const SearchResults = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SearchResultsContent />
+    </Suspense>
   );
 };
 
