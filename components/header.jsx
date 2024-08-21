@@ -123,11 +123,16 @@ export function Header() {
               <FaSearch className="mr-2" />
               Search
             </button>
-          </div>
-          
-          
+          </div>      
 
-          <div className="lg:hidden">
+          <div className="lg:hidden flex items-center space-x-4">
+            <button
+              onClick={() => setIsSearchOpen(!isSearchOpen)}
+              className="p-2 text-gray-600 transition duration-200 rounded focus:outline-none focus:shadow-outline hover:bg-gray-100"
+            >
+              <FaSearch size={24} />
+            </button>
+
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="p-2 text-gray-600 transition duration-200 rounded focus:outline-none focus:shadow-outline hover:bg-gray-100"
