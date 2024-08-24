@@ -1,31 +1,43 @@
+"use client";
+
 import '../styles/globals.css';
 import { Footer } from '../components/footer';
 import { Header } from '../components/header';
 import { BottomNavigationPanel } from '../components/bottom-navigation';
 import React from "react";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-export const metadata = {
-    title: {
-        template: '%s | Netlify',
-        default: 'Web3Fruity'
-    }
-};
+// Move this inside the RootLayout component
+// const queryClient = new QueryClient();
+
+// Remove this metadata export, as it's not used in client components
+// export const metadata = {
+//     title: {
+//         template: '%s | Netlify',
+//         default: 'Web3Fruity'
+//     }
+// };
 
 export default function RootLayout({ children }) {
+    // Create a new QueryClient instance for each request
+    const [queryClient] = React.useState(() => new QueryClient());
+
     return (
         <html lang="en" data-theme="lofi">
             <head>
                 <link rel="icon" href="/favicon.ico" sizes="any" />
             </head>
             <body className="antialiased bg-white">
-                <div className="">
+                <QueryClientProvider client={queryClient}>
                     <div className="">
-                        <Header />
-                        <div className="grow">{children}</div>
-                        <Footer />
-                        <BottomNavigationPanel />
+                        <div className="">
+                            <Header />
+                            <div className="grow">{children}</div>
+                            <Footer />
+                            <BottomNavigationPanel />
+                        </div>
                     </div>
-                </div>
+                </QueryClientProvider>
             </body>
         </html>
     );

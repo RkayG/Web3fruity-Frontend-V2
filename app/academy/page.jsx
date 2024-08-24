@@ -1,50 +1,53 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useState } from 'react';
 import Link from 'next/link';
-import { FaShip, FaShare, FaBookReader, FaSearch, FaCaretDown } from 'react-icons/fa';
+import { FaShip, FaBookReader, FaSearch, FaCaretDown } from 'react-icons/fa';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 import Close from 'components/close';
 import { formatTimestamp } from 'utils';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
+// Custom hook to fetch articles using React Query
+const useFetchArticles = () => {
+  return useQuery({
+    queryKey: ['academyArticles'],
+    queryFn: async () => {
+      const response = await axios.get(`${apiUrl}/academy`);
+      return response.data;
+    },
+    staleTime: 10 * 60 * 1000, // Cache the data for 10 minutes
+  });
+};
+
 const Academy = () => {
-  const [articles, setArticles] = useState([]);
-  const [categories, setCategories] = useState([]);
+  const { data: articles = [], isLoading, isError, error } = useFetchArticles();
+  const [categories, setCategories] = useState(['All']);
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [selectedTrack, setSelectedTrack] = useState('Any');
   const [selectedTopic, setSelectedTopic] = useState('All');
   const [searchQuery, setSearchQuery] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
-  const [progress, setProgress] = useState({});
   const [searchResults, setSearchResults] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const tracks = ['Any', 'Beginner', 'Intermediate', 'Advanced'];
   const topics = ['All', 'Blockchain', 'DeFi', 'NFTs', 'TON', 'Cryptocurrency', 'Trading', 'Altcoin', 'Bitcoin', 'Staking'];
 
-  useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const response = await axios.get(`${apiUrl}/academy`);
-        setArticles(response.data);
-        setCategories(['All', ...new Set(response.data.map(article => article.category))]);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching articles:', error);
-        setLoading(false);
-        setError('Unable to fetch articles, please check your internet.');
-      }
-    };
-
-    fetchArticles();
-  }, []);
-
-  const handleClearSearch = () => {
-    setSearchQuery('');
-    setSearchResults([]);
+  // Filter articles based on category, track, and topic
+  const filterArticles = () => {
+    return articles.filter(article => (
+      (selectedCategory === 'All' || article.category === selectedCategory) &&
+      (selectedTrack === 'Any' || article.track === selectedTrack) &&
+      (selectedTopic === 'All' || article.tags.includes(selectedTopic)) &&
+      (searchQuery === '' || article.postHeading.toLowerCase().includes(searchQuery.toLowerCase()))
+    ));
   };
+
+  // Update categories when articles data is available
+  if (articles.length && categories.length === 1) {
+    setCategories(['All', ...new Set(articles.map(article => article.category))]);
+  }
 
   const handleSearch = (query) => {
     setSearchQuery(query);
@@ -64,21 +67,11 @@ const Academy = () => {
     setSearchQuery('');
   };
 
-  const filterArticles = () => {
-    return articles.filter(article => (
-      (selectedCategory === 'All' || article.category === selectedCategory) &&
-      (selectedTrack === 'Any' || article.track === selectedTrack) &&
-      (selectedTopic === 'All' || article.tags.includes(selectedTopic)) &&
-      (searchQuery === '' || article.postHeading.toLowerCase().includes(searchQuery.toLowerCase()))
-    ));
-  };
-
-  const filteredArticles = filterArticles();
-
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
+  const filteredArticles = filterArticles();
 
   return (
     <section className="w-full pb-32 bg-gradient-to-b from-gray-50 to-white">
@@ -113,7 +106,7 @@ const Academy = () => {
                   {searchResults.length} result{searchResults.length !== 1 ? 's' : ''} for &apos;{searchQuery}&apos;:
                   <ul className="mt-2">
                     {searchResults.map(result => (
-                      <li key={result._id} className="hover:bg-gray-100  rounded-lg py-1 px-2 cursor-pointer">
+                      <li key={result._id} className="hover:bg-gray-100 rounded-lg py-1 px-2 cursor-pointer">
                         <Link href={`/academy/${result.slug}`}>
                           {result.postHeading}
                         </Link>
@@ -185,9 +178,9 @@ const Academy = () => {
           <FaShip className="inline-block ml-4 text-orange-600" />
         </h2>
 
-        {error && <p className='text-center font-semibold text-red-600'>{error}</p>}
+        {isError && <p className='text-center font-semibold text-red-600'>{error.message}</p>}
         
-        {loading ? (
+        {isLoading ? (
           <div className="flex justify-center items-center h-64">
             <div className="loader"></div>
           </div>

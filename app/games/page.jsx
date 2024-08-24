@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useRef } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Link from 'next/link';
 import GameCard from "components/game-card";
 import Slider from "react-slick";
@@ -15,84 +16,33 @@ const roboto_slab = Roboto_Slab({ subsets: ['latin'] })
 const sevillana = Sevillana({ subsets: ['latin'], weight: '400' })
 const pacifico = Pacifico({ subsets: ['latin'], weight: '400'})
 
+const fetchGames = async () => {
+  const response = await fetch(`${apiUrl}/games`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch games.");
+  }
+  return response.json();
+};
+
 const Games = () => {
-  const [games, setGames] = useState([]);
   const [filteredGames, setFilteredGames] = useState([]);
-  const [genres, setGenres] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
   const gamesPerPage = 12;
 
-  const pageStateRef = useRef({
-    games: [],
-    filteredGames: [],
-    genres: [],
-    selectedGenre: "",
-    currentPage: 1,
+  const { data: games, isLoading, error } = useQuery({
+    queryKey: ['games'],
+    queryFn: fetchGames,
+    staleTime: 5 * 60 * 1000, // 5 minutes
   });
 
   useEffect(() => {
-    const fetchGames = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/games`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch games.");
-        }
-        const data = await response.json();
-        setGames(data);
-        setFilteredGames(data.slice(1)); // Set filtered games to start from index 1
-        const uniqueGenres = [...new Set(data.map(game => game.genre))];
-        setGenres(uniqueGenres);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching games:", error);
-        setError('An error occurred while fetching games. Please check your internet connection.');
-      } finally {
-        setLoading(false);
-      }
-    };
+    if (games) {
+      setFilteredGames(games.slice(1));
+    }
+  }, [games]);
 
-    fetchGames();
-  }, []);
-
-  useEffect(() => {
-    const handlePageShow = (event) => {
-      if (event.persisted) {
-        const cachedState = pageStateRef.current;
-        setGames(cachedState.games);
-        setFilteredGames(cachedState.filteredGames);
-        setGenres(cachedState.genres);
-        setSelectedGenre(cachedState.selectedGenre);
-        setCurrentPage(cachedState.currentPage);
-      }
-    };
-
-    window.addEventListener('pageshow', handlePageShow);
-
-    return () => {
-      window.removeEventListener('pageshow', handlePageShow);
-    };
-  }, []);
-
-  useEffect(() => {
-    const handlePageHide = () => {
-      pageStateRef.current = {
-        games,
-        filteredGames,
-        genres,
-        selectedGenre,
-        currentPage,
-      };
-    };
-
-    window.addEventListener('pagehide', handlePageHide);
-
-    return () => {
-      window.removeEventListener('pagehide', handlePageHide);
-    };
-  }, [games, filteredGames, genres, selectedGenre, currentPage]);
+  const genres = games ? [...new Set(games.map(game => game.genre))] : [];
 
   const handleGenreFilter = (genre) => {
     setSelectedGenre(genre);
@@ -186,14 +136,13 @@ const Games = () => {
     </div>
   );
 
-  if (error) {
+   if (error) {
     return (
       <div className="max-w-4xl mx-auto p-6 my-32">
         <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded" role="alert">
           <p className="font-bold">Error</p>
-          <p>{error}</p>
+          <p>{error.message}</p>
         </div>
-        
       </div>
     );
   }
@@ -223,7 +172,7 @@ const Games = () => {
             text-transparent bg-gradient-to-r from-blue-500 to-red-500">Featured Games</h2>
           <div className="max-w-full overflow-hidden">
           <Slider {...featuredSliderSettings} className="w-[99%]  -mr-3">
-            {loading
+            {isLoading
                 ? Array(9).fill().map((_, index) => <SkeletonFeaturedGame key={`loading-${index}`} />)
                 : games.slice(0, 9).map((game, index) => (
                 <Link href={`/games/${game.slug}`} key={game._id}>
@@ -270,23 +219,23 @@ const Games = () => {
           )}
         </div>
 
-        {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {Array(12).fill().map((_, index) => <SkeletonGameCard key={index} />)}
-          </div>
-        ) : (
-          <>       
-            {currentGames.map((game, index) => (
-              <GameCard key={index} game={game} />
-            ))}
-            <Pagination
-              gamesPerPage={gamesPerPage}
-              totalGames={filteredGames.length}
-              paginate={paginate}
-              currentPage={currentPage}
-            />
-          </>
-        )}
+        {isLoading ? (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {Array(12).fill().map((_, index) => <SkeletonGameCard key={index} />)}
+        </div>
+      ) : (
+        <>       
+          {currentGames.map((game, index) => (
+            <GameCard key={index} game={game} />
+          ))}
+          <Pagination
+            gamesPerPage={gamesPerPage}
+            totalGames={filteredGames.length}
+            paginate={paginate}
+            currentPage={currentPage}
+          />
+        </>
+      )}
         
       </div>
       <BottomSubscribe />

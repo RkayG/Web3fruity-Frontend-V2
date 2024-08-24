@@ -12,6 +12,7 @@
         "@contentful/rich-text-react-renderer": "^15.22.9",
         "@headlessui/react": "^2.1.2",
         "@netlify/blobs": "^8.0.0",
+        "@tanstack/react-query": "^5.52.1",
         "axios": "^1.7.4",
         "blobshape": "^1.0.0",
         "bright": "^0.8.5",

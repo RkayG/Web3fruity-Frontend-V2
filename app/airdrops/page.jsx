@@ -1,43 +1,38 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import Link from 'next/link';
 import { FaLink, FaCoins, FaPercentage, FaCalendarAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import Disclaimer from 'components/disclaimer';
 import BottomSubscribe from 'components/bottom-subscribe';
+
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
+const fetchAirdrops = async ({ queryKey }) => {
+  const [_, page] = queryKey;
+  const response = await axios.get(`${apiUrl}/airdrops`, {
+    params: { limit: 10, page },
+  });
+  return response.data;
+};
+
 const Airdrops = () => {
-  const [airdrops, setAirdrops] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${apiUrl}/airdrops`, {
-          params: { limit: 10, page: page },
-        });
-        setAirdrops(response.data.airdrops);
-        setTotalPages(response.data.totalPages);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching airdrops:', error);
-        setError('An error occurred while fetching data. Please check your internet connection.');
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [page]);
+  const { data, isLoading, error } = useQuery(
+    ['airdrops', page],
+    fetchAirdrops,
+    {
+      keepPreviousData: true,
+      staleTime: 10 * 60 * 1000, // 10 minutes
+    }
+  );
 
   const handlePageChange = (newPage) => {
-    if (newPage >= 1 && newPage <= totalPages) {
+    if (newPage >= 1 && newPage <= (data?.totalPages || 1)) {
       setPage(newPage);
     }
   };
@@ -47,9 +42,8 @@ const Airdrops = () => {
       <div className="max-w-4xl mx-auto p-6 my-32">
         <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded" role="alert">
           <p className="font-bold">Error</p>
-          <p>{error}</p>
+          <p>{error.message || 'An error occurred while fetching data. Please check your internet connection.'}</p>
         </div>
-        
       </div>
     );
   }
@@ -83,7 +77,7 @@ const Airdrops = () => {
         </motion.div>
       </section>
 
-      {loading ? (
+      {isLoading ? (
         <div className="flex justify-center items-center h-64">
           <div className="loader"></div>
         </div>
@@ -95,7 +89,7 @@ const Airdrops = () => {
             transition={{ duration: 0.2 }}
             className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 px-4 sm:px-6 lg:px-8"
           >
-            {airdrops?.map((airdrop, index) => (
+             {data?.airdrops.map((airdrop) => (
               <motion.div
                 key={airdrop._id}
                 initial={{ opacity: 0, y: 20 }}
@@ -104,42 +98,42 @@ const Airdrops = () => {
                 className="  transition-all duration-300 hover:-translate-y-2"
               >
                  <div key={airdrop._id} className="group bg-gradient-to-br from-blue-800 to-orange-800 p-1 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
-              <div className="bg-white h-full rounded-2xl p-6 transition-all duration-300 group-hover:bg-gray-100">
-                <div className="relative mb-6">
-                  <img src={airdrop.logo} className="w-20 h-20 rounded-full mx-auto shadow-md" alt={airdrop.title} />
-                  <div className="absolute top-0 right-0 bg-orange-800 text-gray-200 text-xs font-semibold py-1 px-3 rounded-full">
-                    {airdrop.platformType}
-                  </div>
-                </div>
-                <h3 className="text-2xl font-bold text-center mb-2 text-blue-800">{airdrop.title}</h3>
-                <p className="text-sm text-center text-gray-600 mb-4">{airdrop.chain}</p>
-                <div className="space-y-3 text-sm">
-                  <p className="flex items-center justify-between">
-                    <span className="flex items-center text-gray-600"><FaCoins className="mr-2 text-orange-800" /> Total Pool:</span>
-                    <span className="font-semibold text-blue-800">{airdrop.rewardPool || 'N/A'}</span>
-                  </p>
-                  <p className="flex items-center justify-between">
-                    <span className="flex items-center text-gray-600"><FaPercentage className="mr-2 text-orange-800" /> % of Supply:</span>
-                    <span className="font-semibold text-blue-800">{airdrop.rewardPercentFromSupply || 'N/A'}</span>
-                  </p>
-                  <p className="flex items-center justify-between">
-                    <span className="flex items-center text-gray-600"><FaCalendarAlt className="mr-2 text-orange-800" /> End Date:</span>
-                    <span className="font-semibold text-blue-800">{new Date(airdrop.endDate).toLocaleDateString() || 'N/A'}</span>
-                  </p>
-                </div>
-              </div>
-              <Link href={`/airdrops/${airdrop.slug}`}>
-                <div className="bg-gradient-to-r from-gray-900 to-orange-800 text-gray-200 p-4 rounded-b-2xl flex justify-between items-center cursor-pointer hover:from-orange-800 hover:to-blue-800 transition-all duration-300">
-                  <span className="font-semibold">View Details</span>
-                  <FaLink />
-                </div>
-              </Link>
-            </div>
-              </motion.div>
+                    <div className="bg-white h-full rounded-2xl p-6 transition-all duration-300 group-hover:bg-gray-100">
+                      <div className="relative mb-6">
+                        <img src={airdrop.logo} className="w-20 h-20 rounded-full mx-auto shadow-md" alt={airdrop.title} />
+                        <div className="absolute top-0 right-0 bg-orange-800 text-gray-200 text-xs font-semibold py-1 px-3 rounded-full">
+                          {airdrop.platformType}
+                        </div>
+                      </div>
+                      <h3 className="text-2xl font-bold text-center mb-2 text-blue-800">{airdrop.title}</h3>
+                      <p className="text-sm text-center text-gray-600 mb-4">{airdrop.chain}</p>
+                      <div className="space-y-3 text-sm">
+                        <p className="flex items-center justify-between">
+                          <span className="flex items-center text-gray-600"><FaCoins className="mr-2 text-orange-800" /> Total Pool:</span>
+                          <span className="font-semibold text-blue-800">{airdrop.rewardPool || 'N/A'}</span>
+                        </p>
+                        <p className="flex items-center justify-between">
+                          <span className="flex items-center text-gray-600"><FaPercentage className="mr-2 text-orange-800" /> % of Supply:</span>
+                          <span className="font-semibold text-blue-800">{airdrop.rewardPercentFromSupply || 'N/A'}</span>
+                        </p>
+                        <p className="flex items-center justify-between">
+                          <span className="flex items-center text-gray-600"><FaCalendarAlt className="mr-2 text-orange-800" /> End Date:</span>
+                          <span className="font-semibold text-blue-800">{new Date(airdrop.endDate).toLocaleDateString() || 'N/A'}</span>
+                        </p>
+                      </div>
+                    </div>
+                    <Link href={`/airdrops/${airdrop.slug}`}>
+                      <div className="bg-gradient-to-r from-gray-900 to-orange-800 text-gray-200 p-4 rounded-b-2xl flex justify-between items-center cursor-pointer hover:from-orange-800 hover:to-blue-800 transition-all duration-300">
+                        <span className="font-semibold">View Details</span>
+                        <FaLink />
+                      </div>
+                    </Link>
+                 </div>
+               </motion.div>
             ))}
           </motion.div>
           <div className="flex justify-center mt-12 mb-32">
-            <Pagination currentPage={page} totalPages={totalPages} onPageChange={handlePageChange} />
+          <Pagination currentPage={page} totalPages={data?.totalPages || 1} onPageChange={handlePageChange} />
           </div>
         </>
       )}

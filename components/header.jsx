@@ -35,7 +35,13 @@ export function Header() {
   ];
 
   useEffect(() => {
-    const activeItem = menuList.find(item => pathname.startsWith(item.path));
+    const activeItem = menuList.find(item => {
+      if (item.path === '/') {
+        return pathname === '/';
+      }
+      return pathname.startsWith(item.path);
+    });
+  
     if (activeItem) {
       setActivePage(activeItem.name);
     } else {
@@ -81,7 +87,8 @@ export function Header() {
       ) : (
         <Link href={el.path}>
           <span className={`font-medium cursor-pointer transition-colors duration-200 block
-            ${pathname.startsWith(el.path) ? 'text-orange-700' : 'text-gray-800 hover:text-orange-700'}
+            ${el.path === '/' ? (pathname === '/' ? 'text-orange-700' : 'text-gray-800 hover:text-orange-700') 
+            : (pathname.startsWith(el.path) ? 'text-orange-700' : 'text-gray-800 hover:text-orange-700')}
             ${mobile ? 'text-lg py-2' : ''}`}
             onClick={() => setIsMenuOpen(false)}
           >
