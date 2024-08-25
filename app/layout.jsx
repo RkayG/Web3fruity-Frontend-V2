@@ -25,6 +25,7 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en" data-theme="lofi">
             <head>
+                <link rel="manifest" href="/manifest.json" />
                 <link rel="icon" href="/favicon.ico" sizes="any" />
             </head>
             <body className="antialiased bg-white">
