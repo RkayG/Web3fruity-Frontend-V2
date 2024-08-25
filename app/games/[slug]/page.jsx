@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams } from 'next/navigation';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { FaTwitter, FaFacebookF, FaDiscord, FaTelegram, FaReddit, FaGlobe, FaDollarSign, FaChartLine, FaCoins, FaSackDollar } from 'react-icons/fa';
 import axios from 'axios';
 import { motion } from 'framer-motion';
@@ -30,6 +30,15 @@ const GalleryAndTrailer = ({ trailer, gallery }) => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
+  const navigateImage = useCallback((direction) => {
+    if (gallery.length > 1) {
+      setSelectedImageIndex((prevIndex) => {
+        const newIndex = (prevIndex + direction + gallery.length) % gallery.length;
+        return newIndex;
+      });
+    }
+  }, [gallery.length]);
+  
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
@@ -40,24 +49,11 @@ const GalleryAndTrailer = ({ trailer, gallery }) => {
         navigateImage(1);
       }
     };
-
+  
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [selectedImageIndex]);
+  }, [selectedImageIndex, navigateImage]);
 
-  const openModal = (index) => {
-    setSelectedImageIndex(index);
-    setIsModalOpen(true);
-  };
-
-  const navigateImage = (direction) => {
-    if (gallery.length > 1) {
-      setSelectedImageIndex((prevIndex) => {
-        const newIndex = (prevIndex + direction + gallery.length) % gallery.length;
-        return newIndex;
-      });
-    }
-  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-16">

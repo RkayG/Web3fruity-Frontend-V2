@@ -27,6 +27,7 @@ export default function RootLayout({ children }) {
             <head>
                 <link rel="manifest" href="/manifest.json" />
                 <link rel="icon" href="/favicon.ico" sizes="any" />
+                <title>Web3Fruity</title>
             </head>
             <body className="antialiased bg-white">
                 <QueryClientProvider client={queryClient}>
