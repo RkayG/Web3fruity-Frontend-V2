@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { FaCoins, FaChevronRight, FaTelegramPlane, FaWallet, FaExternalLinkAlt } from 'react-icons/fa';
 import Link from 'next/link';
@@ -41,39 +42,28 @@ const TokenFarmingSkeleton = () => {
   );
 };
 
+const fetchTokens = async () => {
+  const response = await fetch(`${apiUrl}/farm-tokens`);
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  return response.json();
+};
+
 const TokenFarming = () => {
-  const router = useRouter();
-  const [tokens, setTokens] = useState([]);
-  const [filteredTokens, setFilteredTokens] = useState([]);
-  const [blockchains, setBlockchains] = useState([]);
+  const { data: tokens = [], isLoading } = useQuery({
+    queryKey: ['farmTokens'],
+    queryFn: fetchTokens,
+  });
+
+  const blockchains = [...new Set(tokens.map(token => token.blockchain))];
   const [selectedBlockchain, setSelectedBlockchain] = useState('');
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchTokens = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/farm-tokens`);
-        const data = await response.json();
-        setTokens(data);
-        const uniqueBlockchains = [...new Set(data.map(token => token.blockchain))];
-        setBlockchains(uniqueBlockchains);
-        setFilteredTokens(data.slice(0, 6));
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching tokens:', error);
-      }
-    };
-
-    fetchTokens();
-  }, []);
+  const filteredTokens = selectedBlockchain
+    ? tokens.filter(token => token.blockchain === selectedBlockchain).slice(0, 6)
+    : tokens.slice(0, 6);
 
   const handleFilterChange = (blockchain) => {
     setSelectedBlockchain(blockchain);
-    if (blockchain) {
-      setFilteredTokens(tokens.filter(token => token.blockchain === blockchain).slice(0, 6));
-    } else {
-      setFilteredTokens(tokens.slice(0, 6));
-    }
   };
 
   return (
@@ -90,7 +80,7 @@ const TokenFarming = () => {
         </span>
       </motion.h2>
 
-      {loading ? (
+      {isLoading ? (
         <TokenFarmingSkeleton />
       ) : (
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mx-3 lg:px-6">

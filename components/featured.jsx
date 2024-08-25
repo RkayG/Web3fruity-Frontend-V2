@@ -1,23 +1,32 @@
-"use client"
+"use client";
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { EffectCoverflow, Autoplay, Navigation, Pagination, A11y } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { FaArrowLeft, FaArrowRight, FaFire, FaCalendarAlt, FaChevronRight, FaWineGlass } from 'react-icons/fa';
+import { FaArrowLeft, FaArrowRight, FaFire, FaChevronRight } from 'react-icons/fa';
 import { GiWaterDrop } from 'react-icons/gi';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import 'swiper/css/autoplay';
 import 'swiper/css/effect-coverflow';
+
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+const fetchAirdrops = async () => {
+  const response = await fetch(`${apiUrl}/api/featured`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch airdrops');
+  }
+  return response.json();
+};
 
 const FeaturedEventSkeleton = () => {
   return (
     <div className="px-4 md:px-8">
       <Swiper
         spaceBetween={30}
-        slidesPerView={1.2}
         centeredSlides={true}
         loop={true}
         breakpoints={{
@@ -49,33 +58,12 @@ const FeaturedEventSkeleton = () => {
   );
 };
 
-const isNewAirdrop = (dateString) => {
-  const postDate = new Date(dateString);
-  const currentDate = new Date();
-  const differenceInTime = currentDate - postDate;
-  const differenceInDays = differenceInTime / (1000 * 3600 * 24);
-  return differenceInDays <= 3;
-};
-
 const FeaturedEvent = () => {
-  const [airdrops, setAirdrops] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    fetch(`${apiUrl}/api/featured`)
-      .then(response => response.json())
-      .then(data => {
-        if (Array.isArray(data)) {
-          setAirdrops(data);
-        } else {
-          console.error('Error: Data is not an array', data);
-        }
-        setLoading(false);
-      })
-      .catch(error => {
-        console.error('Error fetching airdrops:', error);
-      });
-  }, []);
+  const { data: airdrops = [], isLoading } = useQuery({
+    queryKey: ['featuredAirdrops'],
+    queryFn: fetchAirdrops,
+    staleTime: 1000 * 60 * 100, // Cache data for 100 minutes
+  });
 
   const breakpoints = {
     640: { slidesPerView: 1.3 },
@@ -94,7 +82,7 @@ const FeaturedEvent = () => {
         </h2>
       </div>
 
-      {loading ? (
+      {isLoading ? (
         <FeaturedEventSkeleton />
       ) : (
         <div className="swiper-container px-4 md:px-8">
@@ -118,22 +106,17 @@ const FeaturedEvent = () => {
                   <div className="bg-gray-200 h-full rounded-2xl overflow-hidden">
                     <div className="relative">
                       <img src={airdrop.bannerImageUrl} alt={airdrop.bannerHeading} className="w-full h-48 object-cover" />
-                      {/* {isNewAirdrop(airdrop.postDate) && (
-                        <span className="absolute top-2 left-2 bg-orange-800 text-gray-200 text-xs font-semibold px-3 py-1 rounded-full">
-                          NEW
-                        </span>
-                      )} */}
                     </div>
                     <div className="p-6">
                       <h2 className="text-xl font-bold text-blue-800 mb-2">{airdrop.bannerHeading}</h2>
                       <p className="text-sm text-gray-600 mb-4 line-clamp-2">{airdrop.headingDescription}</p>
                       <div className="flex items-center justify-between text-sm text-gray-500">
-                      <span className="flex items-center bg-gradient-to-r from-pink-500 to-orange-500 rounded-full px-3 py-1 shadow-lg hover:shadow-xl transition-all duration-300 group">
-                        <GiWaterDrop className="mr-2 text-pink-200 group-hover:text-pink-100 animate-bounce" />
-                        <p className='text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-pink-200 font-extrabold text-lg group-hover:text-white transition-colors duration-300'>
-                          Juicy
-                        </p>
-                      </span>
+                        <span className="flex items-center bg-gradient-to-r from-pink-500 to-orange-500 rounded-full px-3 py-1 shadow-lg hover:shadow-xl transition-all duration-300 group">
+                          <GiWaterDrop className="mr-2 text-pink-200 group-hover:text-pink-100 animate-bounce" />
+                          <p className='text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-pink-200 font-extrabold text-lg group-hover:text-white transition-colors duration-300'>
+                            Juicy
+                          </p>
+                        </span>
                         <button className="flex items-center text-blue-800 hover:text-orange-800 transition-colors duration-300">
                           Learn More <FaChevronRight className="ml-1" />
                         </button>

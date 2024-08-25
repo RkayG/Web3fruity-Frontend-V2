@@ -66,7 +66,7 @@ const RewardForTask = () => {
   const { data: rewards = [], isLoading, isError, error } = useQuery({
     queryKey: ['rewards'],
     queryFn: fetchRewards,
-    staleTime: 10 * 60 * 1000, // Cache expiry time set to 10 minutes
+    staleTime: 60 * 60 * 1000, // Cache expiry time set to 60 minutes
   });
 
   const indexOfLastReward = currentPage * rewardsPerPage;

@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { getTimeDifference } from '../utils';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { FaNewspaper, FaChevronRight } from 'react-icons/fa';
+
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
+// Skeleton loader for the news articles
 const CryptoNewsSkeleton = () => {
   return (
     <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
@@ -23,26 +25,26 @@ const CryptoNewsSkeleton = () => {
   );
 };
 
+// Fetch function to retrieve the crypto news
+const fetchCryptoNews = async () => {
+  const response = await fetch(`${apiUrl}/crypto-news`);
+  if (!response.ok) {
+    throw new Error('Network response was not ok');
+  }
+  return response.json();
+};
+
+// Main CryptoNews component
 const CryptoNews = () => {
   const router = useRouter();
-  const [news, setNews] = useState([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        const response = await fetch(`${apiUrl}/crypto-news`);
-        const data = await response.json();
-        console.log(data);
-        setNews(data.slice(0, 3)); // Limit to 3 articles
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching crypto news:', error);
-      }
-    };
-
-    fetchNews();
-  }, []);
+  // Using React Query to fetch and cache the crypto news data
+  const { data: news, isLoading, error } = useQuery({
+    queryKey: ['cryptoNews'],
+    queryFn: fetchCryptoNews,
+    staleTime: 5 * 60 * 1000, // Cache data for 5 minutes
+    select: (data) => data.slice(0, 3), // Limit to 3 articles
+  });
 
   const handleNavigateToCryptoNews = () => {
     router.push('/crypto-news');
@@ -57,8 +59,10 @@ const CryptoNews = () => {
         </span>
       </h2>
       <div className="mx-3">
-        {loading ? (
+        {isLoading ? (
           <CryptoNewsSkeleton />
+        ) : error ? (
+          <p className="text-red-600">Error fetching news: {error.message}</p>
         ) : (
           <div className="grid gap-10 md:grid-cols-2 lg:grid-cols-3">
             {news.map((item, index) => (

@@ -8,7 +8,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { formatTimestamp } from 'utils';
 import BottomSubscribe from 'components/bottom-subscribe';
-import { FaCopy, FaFacebookF, FaTwitter } from 'react-icons/fa';
+import { FaCopy, FaFacebookF, FaTwitter, FaBookReader } from 'react-icons/fa';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const Navigation = ({ title }) => {
@@ -31,35 +31,34 @@ const AcademyArticleContent = () => {
   const [headings, setHeadings] = useState([]);
   const { slug } = useParams();
 
+  const fetchAdditionalArticles = async (slug, track) => {
+    try {
+      const response = await axios.get(`${apiUrl}/academy`);
+      const allArticles = response.data;
+      const filteredArticles = allArticles.filter(article => 
+        article.slug !== slug && article.track === track
+      );
+      setAdditionalArticles(filteredArticles.slice(0, 6)); // Limit to 6 articles
+    } catch (error) {
+      console.error('Failed to load additional articles:', error);
+    }
+  };
+
   useEffect(() => {
     const fetchAcademyArticles = async (slug) => {
       try {
         const response = await fetch(`${apiUrl}/academy/${slug}`);
         const article = await response.json();
         setAcademyArticleData(article);
+        fetchAdditionalArticles(slug, article.track);
       } catch (error) {
         console.error('Failed to load article:', error);
         setError('Failed to load article');
       }
     };
 
-    const fetchAdditionalArticles = async (slug) => {
-      try {
-        const response = await axios.get(`${apiUrl}/academy`, {
-          params: {
-            limit: 6,
-          },
-        });
-        const academyArticle = response.data.filter((article) => article.slug !== slug);
-        setAdditionalArticles(academyArticle);
-      } catch (error) {
-        console.error('Failed to load additional articles:', error);
-      }
-    };
-
     if (slug) {
-        fetchAcademyArticles(slug);
-        fetchAdditionalArticles(slug);
+      fetchAcademyArticles(slug);
     }
   }, [slug]);
 
@@ -69,20 +68,22 @@ const AcademyArticleContent = () => {
     if (academyArticleData && academyArticleData.content) {
       const extractedHeadings = [];
 
-      const options = {
-        renderNode: {
-          [BLOCKS.HEADING_1]: (node, children) => {
-            const id = children[0].replace(/\s+/g, '-').toLowerCase();
-            extractedHeadings.push({ id, text: children[0], level: 1 });
-            return <h1 id={id} className="text-3xl font-bold mb-4">{children}</h1>;
-          },
-          [BLOCKS.HEADING_2]: (node, children) => {
-            const id = children[0].replace(/\s+/g, '-').toLowerCase();
-            extractedHeadings.push({ id, text: children[0], level: 2 });
-            return <h2 id={id} className="text-2xl font-bold mb-4">{children}</h2>;
-          },
-        },
-      };
+     const options = {
+  renderNode: {
+    [BLOCKS.HEADING_1]: (node, children) => {
+      const text = children.reduce((acc, child) => acc + (typeof child === 'string' ? child : ''), '');
+      const id = text.replace(/\s+/g, '-').toLowerCase();
+      extractedHeadings.push({ id, text, level: 1 });
+      return <h1 id={id} className="text-3xl font-bold mb-4">{children}</h1>;
+    },
+    [BLOCKS.HEADING_2]: (node, children) => {
+      const text = children.reduce((acc, child) => acc + (typeof child === 'string' ? child : ''), '');
+      const id = text.replace(/\s+/g, '-').toLowerCase();
+      extractedHeadings.push({ id, text, level: 2 });
+      return <h2 id={id} className="text-2xl font-bold mb-4">{children}</h2>;
+    },
+  },
+};
 
       documentToReactComponents(academyArticleData.content, options);
       setHeadings(extractedHeadings);
@@ -141,16 +142,24 @@ const AcademyArticleContent = () => {
           {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
         </p>
       ),
-      [BLOCKS.HEADING_1]: (node, children) => (
-        <h1 className="text-3xl font-bold mb-6">
-          {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
-        </h1>
-      ),
-      [BLOCKS.HEADING_2]: (node, children) => (
-        <h2 className="text-2xl font-bold mb-4">
-          {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
-        </h2>
-      ),
+      [BLOCKS.HEADING_1]: (node, children) => {
+        const text = children.reduce((acc, child) => acc + (typeof child === 'string' ? child : ''), '');
+        const id = text.replace(/\s+/g, '-').toLowerCase();
+        return (
+          <h1 id={id} className="text-3xl font-bold mb-6">
+            {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
+          </h1>
+        );
+      },
+      [BLOCKS.HEADING_2]: (node, children) => {
+        const text = children.reduce((acc, child) => acc + (typeof child === 'string' ? child : ''), '');
+        const id = text.replace(/\s+/g, '-').toLowerCase();
+        return (
+          <h2 id={id} className="text-2xl font-bold mb-4">
+            {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
+          </h2>
+        );
+      },
       [INLINES.HYPERLINK]: (node, children) => (
         <a href={node.data.uri} className="text-blue-600 font-bold hover:underline transition-colors duration-300">
           {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
@@ -199,24 +208,37 @@ const AcademyArticleContent = () => {
       </div>
 
       {/* Display additional articles */}
-      <div className="py-8 px-3 mt-12 border rounded-md bg-gray-50 mb-32">
-        <h2 className="text-2xl font-bold mb-6 px-6">More Articles</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {additionalArticles.map((item) => (
-            <Link href={`/academy/${item.slug}`} key={item._id}>
-              <div className="rounded-lg bg-[#f5f5f5] p-6 md:col-span-2 lg:col-span-1 hover:bg-black cursor-pointer">
-                <div className="relative h-[300px] overflow-hidden rounded-lg">
-                  <img src={item.imageLink} alt={item.postHeading} className="h-full w-full object-cover object-center" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <h2 className="text-2xl font-bold bg-black bg-opacity-50 text-white">{item.postHeading}</h2>
+      {additionalArticles.length > 0 && (
+        <div className="py-8 px-3 mt-12 border rounded-md bg-gray-50 mb-32">
+          <h2 className="text-2xl font-bold mb-6 px-6">More Articles in {academyArticleData.track}</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {additionalArticles.map((article) => (
+              <Link href={`/academy/${article.slug}`} key={article._id}>
+               <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
+                  <div className="relative h-48">
+                    <img src={article.imageLink} alt={article.postHeading} className="h-full w-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                    <div className="absolute bottom-0 left-0 right-0 p-4">
+                      <h3 className="text-xl font-bold text-white">{article.postHeading}</h3>
+                    </div>
+                  </div>
+                  <div className="p-6">
+                    <p className='text-sm text-gray-500 mb-2'>{formatTimestamp(article.timestamp)}</p>
+                    <p className="text-gray-600 mb-4">{article.description}</p>
+                    <div className='flex justify-between items-center'>
+                      <span className='flex items-center bg-blue-100 text-blue-800 px-3 py-1 rounded-lg'>
+                        <FaBookReader className='mr-2'/>
+                        {article.track}
+                      </span>
+                      {/* <FaShare className='text-orange-600 hover:text-orange-700 cursor-pointer'/> */}
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
       <BottomSubscribe />
     </section>
   );

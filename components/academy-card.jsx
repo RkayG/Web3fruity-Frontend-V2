@@ -1,30 +1,24 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { FaLightbulb, FaArrowRight } from 'react-icons/fa';
 import Link from 'next/link';
+import { useQuery } from '@tanstack/react-query';
+
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
+const fetchArticles = async () => {
+  const response = await axios.get(`${apiUrl}/academy`);
+  return response.data.slice(0, 3);
+};
+
 const AcademySection = () => {
-  const [articles, setArticles] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-
-  useEffect(() => {
-    const fetchArticles = async () => {
-      try {
-        const response = await axios.get(`${apiUrl}/academy`);
-        setArticles(response.data.slice(0, 3));
-        setIsLoading(false);
-      } catch (err) {
-        console.error('Failed to fetch articles:', err);
-        setIsLoading(false);
-      }
-    };
-
-    fetchArticles();
-  }, []);
+  const { data: articles, isLoading, error } = useQuery({
+    queryKey: ['academyArticles'],
+    queryFn: fetchArticles,
+  });
 
   return (
     <section className="py-16 bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-900">
@@ -46,6 +40,8 @@ const AcademySection = () => {
 
         {isLoading ? (
           <div className="text-center text-gray-600 dark:text-gray-400">Loading latest insights...</div>
+        ) : error ? (
+          <div className="text-center text-red-600 dark:text-red-400">Error loading articles</div>
         ) : (
           <div className="grid gap-8 md:grid-cols-3">
             {articles.map((article, index) => (
