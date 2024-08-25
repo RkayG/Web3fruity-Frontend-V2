@@ -25,7 +25,7 @@ const Navigation = ({ title }) => {
 };
 
 const AcademyArticleContent = () => {
-  const [acadmmyArticleData, setAcademyArticleData] = useState(null);
+  const [academyArticleData, setAcademyArticleData] = useState(null);
   const [additionalArticles, setAdditionalArticles] = useState([]);
   const [error, setError] = useState(null);
   const [headings, setHeadings] = useState([]);
@@ -66,7 +66,7 @@ const AcademyArticleContent = () => {
 
   //======= Extract Headings to have a table of contents ===================================
   useEffect(() => {
-    if (acadmmyArticleData && acadmmyArticleData.content) {
+    if (academyArticleData && academyArticleData.content) {
       const extractedHeadings = [];
 
       const options = {
@@ -84,17 +84,17 @@ const AcademyArticleContent = () => {
         },
       };
 
-      documentToReactComponents(acadmmyArticleData.content, options);
+      documentToReactComponents(academyArticleData.content, options);
       setHeadings(extractedHeadings);
     }
-  }, [acadmmyArticleData]);
+  }, [academyArticleData]);
  //===================== Extract headings end ===============
 
   if (error) {
     return <div className="text-red-500">{error}</div>;
   }
 
-  if (!acadmmyArticleData) {
+  if (!academyArticleData) {
     return (
       <div className="loading-dots m-auto my-44">
         <span className="dot"></span>
@@ -104,7 +104,7 @@ const AcademyArticleContent = () => {
     );
   }
 
-  const { postHeading, imageLink, timestamp, content, author, tags } = acadmmyArticleData;
+  const { postHeading, imageLink, timestamp, content, author, tags } = academyArticleData;
   const articleUrl = typeof window !== 'undefined' ? window.location.href : '';
 
   const handleCopyLink = () => {
@@ -130,24 +130,30 @@ const AcademyArticleContent = () => {
       [BLOCKS.EMBEDDED_ASSET]: (node) => {
         const { file, title } = node.data.target.fields;
         return (
-          <div className="my-4 rounded-md">
-            <img src={file.url} alt={title} className="mx-auto rounded-lg" />
-            {title && <p className="text-center text-sm text-gray-600">{title}</p>}
+          <div className="my-8">
+            <img src={file.url} alt={title} className="w-full rounded-lg shadow-md" />
+            {title && <p className="text-center text-sm text-gray-600 mt-2">{title}</p>}
           </div>
         );
       },
-      [BLOCKS.PARAGRAPH]: (node, children) => <p className="mb-4">{children}</p>,
-      [BLOCKS.HEADING_1]: (node, children) => {
-        const id = children[0].replace(/\s+/g, '-').toLowerCase();
-        return <h1 id={id} className="text-3xl font-bold mb-4">{children}</h1>;
-      },
-      [BLOCKS.HEADING_2]: (node, children) => {
-        const id = children[0].replace(/\s+/g, '-').toLowerCase();
-        return <h2 id={id} className="text-2xl font-bold mb-4">{children}</h2>;
-      },
+      [BLOCKS.PARAGRAPH]: (node, children) => (
+        <p className="mb-6 leading-relaxed">
+          {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
+        </p>
+      ),
+      [BLOCKS.HEADING_1]: (node, children) => (
+        <h1 className="text-3xl font-bold mb-6">
+          {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
+        </h1>
+      ),
+      [BLOCKS.HEADING_2]: (node, children) => (
+        <h2 className="text-2xl font-bold mb-4">
+          {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
+        </h2>
+      ),
       [INLINES.HYPERLINK]: (node, children) => (
-        <a href={node.data.uri} className="text-blue-700 hover:underline">
-          {children}
+        <a href={node.data.uri} className="text-blue-600 font-bold hover:underline transition-colors duration-300">
+          {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
         </a>
       ),
     },

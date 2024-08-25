@@ -22,14 +22,13 @@ const fetchAirdrops = async ({ queryKey }) => {
 const Airdrops = () => {
   const [page, setPage] = useState(1);
 
-  const { data, isLoading, error } = useQuery(
-    ['airdrops', page],
-    fetchAirdrops,
-    {
-      keepPreviousData: true,
-      staleTime: 10 * 60 * 1000, // 10 minutes
-    }
-  );
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['airdrops', page],
+    queryFn: fetchAirdrops,
+    keepPreviousData: true,
+    staleTime: 10 * 60 * 1000, // 10 minutes
+  });
+  
 
   const handlePageChange = (newPage) => {
     if (newPage >= 1 && newPage <= (data?.totalPages || 1)) {

@@ -1,7 +1,8 @@
-"use client";
+'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useParams } from 'next/navigation';
+import { useQuery } from '@tanstack/react-query';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, INLINES } from '@contentful/rich-text-types';
 import Link from 'next/link';
@@ -9,15 +10,16 @@ import axios from 'axios';
 import { formatTimestamp } from 'utils';
 import BottomSubscribe from 'components/bottom-subscribe';
 import { motion } from 'framer-motion';
-import { FaChevronLeft, FaCalendarAlt, FaUser, FaFacebookF, FaTwitter, FaLinkedinIn, FaLink } from 'react-icons/fa';
+import { FaCalendarAlt, FaUser } from 'react-icons/fa';
+
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const Navigation = ({ title }) => {
   return (
     <nav className="flex items-center space-x-2 text-pink-900 ml-6 mt-6">
       <p>
-        <Link href="/academy" className="hover:text-blue-600">
-          Crypto News <span className='mr-1'>&gt;</span>
+        <Link href="/crypto-news" className="hover:text-blue-600">
+          Crypto News <span className="mr-1">&gt;</span>
         </Link>
         <p className="font-semibold text-blue-800 inline">{title}</p>
       </p>
@@ -25,67 +27,63 @@ const Navigation = ({ title }) => {
   );
 };
 
+const fetchCryptoNews = async ({ queryKey }) => {
+  const [, slug] = queryKey;
+  const response = await axios.get(`${apiUrl}/crypto-news/${slug}`);
+  return response.data;
+};
 
-const ShareButton = ({ icon, color, onClick, label }) => (
-  <button
-    onClick={onClick}
-    className={`${color} text-white p-2 rounded-full hover:opacity-80 transition-opacity duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-${color}`}
-    aria-label={label}
-  >
-    {icon}
-  </button>
-);
+const fetchAdditionalCryptoNews = async ({ queryKey }) => {
+  const [, slug] = queryKey;
+  const response = await axios.get(`${apiUrl}/crypto-news`, {
+    params: { limit: 6 },
+  });
+  return response.data.filter((news) => news.slug !== slug);
+};
 
 const CryptoNewsContent = () => {
-  const [cryptoNewsData, setCryptoNewsData] = useState(null);
-  const [additionalNews, setAdditionalNews] = useState([]);
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [copied, setCopied] = useState(false);
   const { slug } = useParams();
 
-  useEffect(() => {
-    const fetchCryptoNews = async (slug) => {
-      try {
-        const response = await fetch(`${apiUrl}/crypto-news/${slug}`);
-        const cryptoNews = await response.json();
-        setCryptoNewsData(cryptoNews);
-        setLoading(false);
-      } catch (error) {
-        console.error('Failed to load crypto news:', error);
-        setError('Failed to load crypto News');
-        setLoading(false);
-      }
-    };
+  const {
+    data: cryptoNewsData,
+    isLoading: loadingNews,
+    isError: errorNews,
+  } = useQuery({
+    queryKey: ['cryptoNews', slug],
+    queryFn: fetchCryptoNews,
+    enabled: !!slug,
+  });
 
-    const fetchAdditionalCryptoNews = async (slug) => {
-      try {
-        const response = await axios.get(`${apiUrl}/crypto-news`, {
-          params: { limit: 6 },
-        });
-        const cryptoNews = response.data.filter((news) => news.slug !== slug);
-        setAdditionalNews(cryptoNews);
-      } catch (error) {
-        console.error('Failed to load additional crypto News:', error);
-      }
-    };
-
-    if (slug) {  
-        fetchCryptoNews(slug);
-        fetchAdditionalCryptoNews(slug);
-    }
-  }, [slug]);
+  const {
+    data: additionalNews,
+    isLoading: loadingAdditionalNews,
+    isError: errorAdditionalNews,
+  } = useQuery({
+    queryKey: ['additionalCryptoNews', slug],
+    queryFn: fetchAdditionalCryptoNews,
+    enabled: !!slug,
+  });
 
   const shareOnFacebook = () => {
     window.open(`https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`, '_blank');
   };
 
   const shareOnTwitter = () => {
-    window.open(`https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(cryptoNewsData.newsHeading)}`, '_blank');
+    window.open(
+      `https://twitter.com/intent/tweet?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(
+        cryptoNewsData.newsHeading
+      )}`,
+      '_blank'
+    );
   };
 
   const shareOnLinkedIn = () => {
-    window.open(`https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(window.location.href)}&title=${encodeURIComponent(cryptoNewsData.newsHeading)}`, '_blank');
+    window.open(
+      `https://www.linkedin.com/shareArticle?mini=true&url=${encodeURIComponent(window.location.href)}&title=${encodeURIComponent(
+        cryptoNewsData.newsHeading
+      )}`,
+      '_blank'
+    );
   };
 
   const copyLink = () => {
@@ -95,17 +93,17 @@ const CryptoNewsContent = () => {
     });
   };
 
-  if (error) {
+  if (errorNews || errorAdditionalNews) {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="text-red-500 text-xl bg-red-100 p-6 rounded-lg shadow-md">
-          {error}
+          Failed to load crypto news.
         </div>
       </div>
     );
   }
 
-  if (loading) {
+  if (loadingNews || loadingAdditionalNews) {
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="loading-dots">
@@ -130,27 +128,35 @@ const CryptoNewsContent = () => {
           </div>
         );
       },
-      [BLOCKS.PARAGRAPH]: (node, children) => <p className="mb-6 leading-relaxed">{children}</p>,
-      [BLOCKS.HEADING_1]: (node, children) => <h1 className="text-3xl font-bold mb-6">{children}</h1>,
-      [BLOCKS.HEADING_2]: (node, children) => <h2 className="text-2xl font-bold mb-4">{children}</h2>,
+      [BLOCKS.PARAGRAPH]: (node, children) => (
+        <p className="mb-6 leading-relaxed">
+          {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
+        </p>
+      ),
+      [BLOCKS.HEADING_1]: (node, children) => (
+        <h1 className="text-3xl font-bold mb-6">
+          {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
+        </h1>
+      ),
+      [BLOCKS.HEADING_2]: (node, children) => (
+        <h2 className="text-2xl font-bold mb-4">
+          {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
+        </h2>
+      ),
       [INLINES.HYPERLINK]: (node, children) => (
         <a href={node.data.uri} className="text-blue-600 font-bold hover:underline transition-colors duration-300">
-          {children}
+          {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
         </a>
       ),
     },
   };
 
   return (
-    <motion.section
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
+    <motion.section initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
       <Navigation title={newsHeading} />
 
       <div className="max-w-4xl mx-auto px-4 py-12">
-        <motion.h1 
+        <motion.h1
           className="text-4xl font-bold text-center mb-8"
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -158,8 +164,8 @@ const CryptoNewsContent = () => {
         >
           {newsHeading}
         </motion.h1>
-        
-        <motion.div 
+
+        <motion.div
           className="flex flex-wrap justify-between items-center mb-8 text-gray-600"
           initial={{ y: -10, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
@@ -176,9 +182,9 @@ const CryptoNewsContent = () => {
         </motion.div>
 
         {imageLink && (
-          <motion.img 
-            src={imageLink} 
-            alt='Crypto news thumbnail' 
+          <motion.img
+            src={imageLink}
+            alt={newsHeading}
             className="w-full h-80 object-cover rounded-xl shadow-lg mb-10"
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
@@ -186,55 +192,8 @@ const CryptoNewsContent = () => {
           />
         )}
 
-        {/* =============== SHARE BUTTONS, NEEDS MORE TWEAKING ======================*/}
-
-       {/*  <motion.div
-          className="flex justify-center space-x-4 mb-8"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5 }}
-        >
-          <ShareButton
-            icon={<FaFacebookF />}
-            color="bg-blue-600"
-            onClick={shareOnFacebook}
-            label="Share on Facebook"
-          />
-          <ShareButton
-            icon={<FaTwitter />}
-            color="bg-blue-400"
-            onClick={shareOnTwitter}
-            label="Share on Twitter"
-            title="Share on Twitter"
-            
-          />
-          <ShareButton
-            icon={<FaLinkedinIn />}
-            color="bg-blue-700"
-            onClick={shareOnLinkedIn}
-            label="Share on LinkedIn"
-          />
-          <ShareButton
-            icon={<FaLink />}
-            color="bg-gray-600"
-            onClick={copyLink}
-            label="Copy link"
-          />
-        </motion.div>
-        {copied && (
-          <motion.p
-            className="text-green-600 text-center mb-4"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-          >
-            Link copied to clipboard!
-          </motion.p>
-        )} */}
-      {/* ==================================================================== */}
-
         {content ? (
-          <motion.div 
+          <motion.div
             className="prose prose-lg max-w-none"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -247,7 +206,7 @@ const CryptoNewsContent = () => {
         )}
       </div>
 
-      <motion.div 
+      <motion.div
         className="bg-gray-100 py-16 px-4"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -270,8 +229,8 @@ const CryptoNewsContent = () => {
                       <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                     </div>
                     <div className="p-6">
-                      <h3 className="text-xl font-semibold mb-2 line-clamp-2">{item.newsHeading}</h3>
-                      <p className="text-gray-600 text-sm">{formatTimestamp(item.timestamp)}</p>
+                      <h3 className="text-lg font-semibold text-gray-900">{item.newsHeading}</h3>
+                      <p className="text-gray-600 text-sm mt-2">{formatTimestamp(item.timestamp)}</p>
                     </div>
                   </div>
                 </Link>
