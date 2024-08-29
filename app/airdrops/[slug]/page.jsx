@@ -166,7 +166,7 @@ const AirdropGuide = () => {
           transition={{ delay: 0.6 }}
         >
           <a 
-            href={airdropData.website} 
+            href={airdropData.referralLink} 
             target="_blank" 
             rel="noopener noreferrer" 
             className="inline-flex items-center mt-6 bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition-colors duration-300 text-lg font-semibold"

@@ -39,8 +39,8 @@ const Banner = ({ bannerTexts }) => {
 
   return (
     <div className="banner bg-burgundy py-4 flex flex-col items-center justify-center relative overflow-hidden">
-      <div className="banner-content max-w-3xl mx-auto text-center px-4">
-        <h1 className="banner-text text-gray-200 text-2xl md:text-3xl lg:text-4xl font-serif leading-tight mb-6">
+      <div className="banner-content mx-auto text-center px-4">
+        <h1 className="banner-text text-gray-200 text-xl md:text-2xl lg:text-2xl font-serif leading-tight mb-6">
           {bannerTexts[currentIndex]}
         </h1>
         <motion.div
@@ -49,7 +49,7 @@ const Banner = ({ bannerTexts }) => {
           variants={buttonVariants}
           key={currentIndex}
         >
-          <Link href={getButtonLink(bannerTexts[currentIndex])} className="inline-block bg-blue-800 hover:bg-orange-800 text-gray-200 font-bold py-3 px-6 rounded-full transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+          <Link href={getButtonLink(bannerTexts[currentIndex])} className="inline-block bg-blue-800 hover:bg-orange-800 text-gray-200 font-bold py-2 px-4 rounded-full transition-colors duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
               Explore
           </Link>
         </motion.div>
