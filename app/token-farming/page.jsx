@@ -28,8 +28,8 @@ const TokenFarming = () => {
   const { data: tokens = [], isLoading, isError, error } = useQuery({
     queryKey: ['farmTokens'],
     queryFn: fetchTokens,
-    staleTime: 50 * 60 * 1000, // 50 minutes
-    cacheTime: 60 * 60 * 1000, // 60 minutes
+    staleTime: 43200 * 60 * 1000, // 30 days
+    cacheTime: 43200 * 60 * 1000, // 30 days
   });
 
   const blockchains = [...new Set(tokens.map(token => token.blockchain))];
@@ -192,9 +192,9 @@ const TokenFarming = () => {
                 <div className="flex justify-end items-center">
                   <Link
                     href={`/projects/${token._id}`}
-                    className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded-lg transition-colors duration-300"
+                    className="flex items-center w-fit float-right mb-4 bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition-colors duration-300"
                   >
-                    Learn More
+                    Guide
                   </Link>
                 </div>
               </div>

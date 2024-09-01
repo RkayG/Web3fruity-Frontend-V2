@@ -26,7 +26,7 @@ const Airdrops = () => {
     queryKey: ['airdrops', page],
     queryFn: fetchAirdrops,
     keepPreviousData: true,
-    staleTime: 30 * 60 * 1000, // 30 minutes
+    staleTime: 43200 * 60 * 1000, // 30 days
   });
   
 
@@ -117,7 +117,7 @@ const Airdrops = () => {
                         </p>
                         <p className="flex items-center justify-between">
                           <span className="flex items-center text-gray-600"><FaCalendarAlt className="mr-2 text-orange-800" /> End Date:</span>
-                          <span className="font-semibold text-blue-800">{new Date(airdrop.endDate).toLocaleDateString() || 'N/A'}</span>
+                          <span className="font-semibold text-blue-800">{airdropData.endDate && new Date(airdrop.endDate).toLocaleDateString() || 'N/A'}</span>
                         </p>
                       </div>
                     </div>

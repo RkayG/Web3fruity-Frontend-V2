@@ -17,7 +17,7 @@ const useFetchArticles = () => {
       const response = await axios.get(`${apiUrl}/academy`);
       return response.data;
     },
-    staleTime: 60 * 60 * 1000, // Cache the data for 60 minutes
+    staleTime: 43200 * 60 * 1000, // Cache the data for 30 days
   });
 };
 

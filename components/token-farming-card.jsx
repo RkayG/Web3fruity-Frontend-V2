@@ -122,7 +122,7 @@ const TokenFarming = () => {
                   href={`/token-farming/${token.slug}`} 
                   className="flex items-center w-fit float-right mb-4 bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition-colors duration-300"
                 >
-                  Guide <FaExternalLinkAlt className="ml-2" />
+                  Guide
                 </Link>
               </div>
             </motion.div>

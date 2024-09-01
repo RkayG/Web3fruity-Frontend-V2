@@ -6,7 +6,7 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { BLOCKS, INLINES } from '@contentful/rich-text-types';
 import Link from 'next/link';
 import axios from 'axios';
-import { FaTwitter, FaTelegram, FaDiscord, FaReddit, FaGlobe, FaFile, FaLink, FaCoins, FaPercentage, FaCalendarAlt, FaFileAlt, FaExternalLinkAlt, FaFacebookF } from 'react-icons/fa';
+import { FaTwitter, FaTelegram, FaDiscord, FaReddit, FaMedium, FaLinkedin, FaGlobe, FaFile, FaLink, FaCoins, FaPercentage, FaCalendarAlt, FaFileAlt, FaExternalLinkAlt, FaFacebookF } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import Disclaimer from 'components/disclaimer';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -213,6 +213,8 @@ const AirdropGuide = () => {
               else if (link.includes("discord.com") || link.includes("discord.gg")) icon = <FaDiscord size={24} title={link} />;
               else if (link.includes("telegram.com") || link.includes("t.me")) icon = <FaTelegram size={24} title={link} />;
               else if (link.includes("reddit.com")) icon = <FaReddit size={24} title={link} />;
+              else if (link.includes("medium.com")) icon = <FaMedium size={24} title={link} />
+              else if (link.includes('linkedin.com')) icon = <FaLinkedin size={24} title={link} />
               return (
                 <a key={index} href={link} className="flex items-center mx-3 justify-center w-10 h-10 rounded-full bg-gray-100 text-gray-600 hover:bg-blue-600 hover:text-white transition-all duration-300 transform hover:scale-110">
                   {icon}
