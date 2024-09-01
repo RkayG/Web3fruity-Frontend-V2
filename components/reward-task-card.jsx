@@ -16,7 +16,7 @@ const RewardTooltip = ({ reward }) => {
 
   //======= Calculate the expiry time for the cache
   const cacheExpiryTime = useMemo(() => {
-    return Date.now() + 43200 * 60 * 1000; // 30 days
+    return Date.now() + 30 * 24 * 60 * 60 * 1000; // 30 days
   }, []);
 
   useEffect(() => {

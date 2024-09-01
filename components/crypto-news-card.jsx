@@ -42,7 +42,7 @@ const CryptoNews = () => {
   const { data: news, isLoading, error } = useQuery({
     queryKey: ['cryptoNews'],
     queryFn: fetchCryptoNews,
-    staleTime: 43200 * 60 * 1000, // Cache data for 30 days
+    staleTime: 30 * 24 * 60 * 60 * 1000, // Cache data for 30 days
     select: (data) => data.slice(0, 3), // Limit to 3 articles
   });
 

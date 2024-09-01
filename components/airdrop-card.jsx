@@ -50,8 +50,8 @@ const Airdrops = () => {
   const { data: airdrops = [], isLoading, isError } = useQuery({
     queryKey: ['airdrops'],
     queryFn: fetchAirdrops,
-    staleTime: 43200 * 60 * 1000, // 30 days
-    cacheTime: 43200 * 60 * 1000, // 30 days
+    staleTime: 5 * 24 * 60 * 60 * 1000, // 5 days
+    cacheTime: 7 * 24 * 60 * 60 * 1000, // 7 days
   });
 
   if (isError) {

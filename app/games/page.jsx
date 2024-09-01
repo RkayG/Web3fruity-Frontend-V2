@@ -33,7 +33,7 @@ const Games = () => {
   const { data: games, isLoading, error } = useQuery({
     queryKey: ['games'],
     queryFn: fetchGames,
-    staleTime: 43200 * 60 * 1000, // 30 days
+    staleTime: 7 * 24 * 60 * 60 * 1000, // 7 days
   });
 
   useEffect(() => {

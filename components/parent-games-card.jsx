@@ -63,7 +63,7 @@ const Games = () => {
       }
       return response.json();
     },
-    cacheTime: 43200 * 60 * 1000, // Cache data for 30 days
+    cacheTime: 7 * 24 * 60 * 60 * 1000, // Cache data for 30 days
   });
 
   const handleNavigateToGames = () => {

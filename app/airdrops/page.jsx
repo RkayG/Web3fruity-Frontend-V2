@@ -26,7 +26,7 @@ const Airdrops = () => {
     queryKey: ['airdrops', page],
     queryFn: fetchAirdrops,
     keepPreviousData: true,
-    staleTime: 43200 * 60 * 1000, // 30 days
+    staleTime: 7 * 24 * 60 * 60 * 1000, // 30 days
   });
   
 
