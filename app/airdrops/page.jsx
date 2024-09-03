@@ -26,7 +26,7 @@ const Airdrops = () => {
     queryKey: ['airdrops', page],
     queryFn: fetchAirdrops,
     keepPreviousData: true,
-    staleTime: 7 * 24 * 60 * 60 * 1000, // 30 days
+    staleTime: 1 * 24 * 60 * 60 * 1000, // 1 day
   });
   
 
@@ -57,9 +57,6 @@ const Airdrops = () => {
       <section className="relative w-full h-[60vh] min-h-[400px] mb-12 flex items-center justify-center bg-cover bg-center bg-[url('/images/airdrops1.jpg')]">
         <div className="absolute inset-0 bg-gradient-to-r from-[rgba(0,0,0,0.7)] to-[rgba(0,0,0,0.4)]" />
         <motion.div
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2 }}
           className="relative z-10 text-center text-white max-w-3xl px-4 sm:px-6 lg:px-8"
         >
           <h1 className="text-5xl sm:text-6xl md:text-7xl font-bold mb-6 shadow-text">Discover Airdrop Pools</h1>
@@ -67,7 +64,7 @@ const Airdrops = () => {
             Earn free tokens by participating in our curated airdrop selections
           </p>
           <Link
-            href="#"
+            href="academy/cryptocurrency-airdrops-a-guide-to-maximizing-your-earnings"
             className="inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-yellow-400 to-yellow-600 text-gray-900 text-lg font-bold rounded-full hover:from-yellow-500 hover:to-yellow-700 focus:outline-none focus:ring-2 focus:ring-yellow-400 focus:ring-offset-2 transition-all duration-300"
             prefetch={false}
           >
@@ -83,9 +80,6 @@ const Airdrops = () => {
       ) : (
         <>
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.2 }}
             className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 px-4 sm:px-6 lg:px-8"
           >
              {data?.airdrops.map((airdrop) => (
@@ -117,7 +111,7 @@ const Airdrops = () => {
                         </p>
                         <p className="flex items-center justify-between">
                           <span className="flex items-center text-gray-600"><FaCalendarAlt className="mr-2 text-orange-800" /> End Date:</span>
-                          <span className="font-semibold text-blue-800">{airdropData.endDate && new Date(airdrop.endDate).toLocaleDateString() || 'N/A'}</span>
+                          <span className="font-semibold text-blue-800">{airdrop.endDate && new Date(airdrop.endDate).toLocaleDateString() || 'N/A'}</span>
                         </p>
                       </div>
                     </div>

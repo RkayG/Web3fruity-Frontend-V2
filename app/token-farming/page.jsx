@@ -148,9 +148,7 @@ const TokenFarming = () => {
         </motion.div>
 
         <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          animate="visible"
+          
           className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
         >
           {currentTokens.map((token, index) => (
@@ -191,7 +189,7 @@ const TokenFarming = () => {
                 </div>
                 <div className="flex justify-end items-center">
                   <Link
-                    href={`/projects/${token._id}`}
+                    href={`/token-farming/${token.slug}`}
                     className="flex items-center w-fit float-right mb-4 bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition-colors duration-300"
                   >
                     Guide

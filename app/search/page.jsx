@@ -1,40 +1,31 @@
 "use client";
 
-import React, { useEffect, useState, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
 import BottomSubscribe from 'components/bottom-subscribe';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
+const fetchSearchResults = async (query) => {
+  const response = await axios.get(`${apiUrl}/search`, { params: { query } });
+  return response.data;
+};
+
 const SearchResultsContent = () => {
-  const [results, setResults] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
   const searchParams = useSearchParams();
+  const searchQuery = searchParams.get('query');
 
-  useEffect(() => {
-    const searchQuery = searchParams.get('query');
-    if (searchQuery) {
-      const fetchResults = async () => {
-        try {
-          setLoading(true);
-          const response = await axios.get(`${apiUrl}/search`, { params: { query: searchQuery } });
-          setResults(response.data);
-          setError(null);
-        } catch (error) {
-          console.error('Error fetching search results:', error);
-          setError('An error occurred while fetching search results. Please try again.');
-        } finally {
-          setLoading(false);
-        }
-      };
+  const { data: results, isLoading, error } = useQuery({
+    queryKey: ['searchResults', searchQuery],
+    queryFn: () => fetchSearchResults(searchQuery),
+    enabled: !!searchQuery, // only run query if there's a search query
+    cacheTime: 7 * 24 * 60 * 60 * 1000, // cache results for 7 days
+    staleTime: 7 * 24 * 60 * 60 * 1000, // data is considered fresh for 7 days
+  });
 
-      fetchResults();
-    }
-  }, [searchParams]);
-  
   const categories = [
     { name: 'Airdrops', key: 'airdrops', itemKey: 'title', linkPrefix: '/airdrops/' },
     { name: 'Games', key: 'games', itemKey: 'title', linkPrefix: '/games/' },
@@ -58,7 +49,7 @@ const SearchResultsContent = () => {
     </div>
   );
 
-  if (loading) {
+  if (isLoading) {
     return (
       <div className="max-w-4xl mx-auto p-6">
         <div className="h-8 bg-gray-200 rounded w-3/4 mb-6"></div>
@@ -81,7 +72,7 @@ const SearchResultsContent = () => {
       <div className="max-w-4xl mx-auto p-6 my-32">
         <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded" role="alert">
           <p className="font-bold">Error</p>
-          <p>{error}</p>
+          <p>{error.message || 'An error occurred while fetching search results. Please try again.'}</p>
         </div>
       </div>
     );
@@ -94,7 +85,7 @@ const SearchResultsContent = () => {
   return (
     <section>
       <div className="max-w-4xl mx-auto p-6 mb-32">
-        <h1 className="text-3xl font-bold mb-8 text-gray-800">Search Results for &quot;{searchParams.get('query')}&quot;</h1>
+        <h1 className="text-3xl font-bold mb-8 text-gray-800">Search Results for &quot;{searchQuery}&quot;</h1>
         {categoriesWithResults.length > 0 ? (
           categoriesWithResults.map((category) => (
             <ResultCard
@@ -106,7 +97,7 @@ const SearchResultsContent = () => {
             />
           ))
         ) : (
-          <p className="text-xl text-gray-600">No results found for &quot;{searchParams.get('query')}&quot;</p>
+          <p className="text-xl text-gray-600">No results found for &quot;{searchQuery}&quot;</p>
         )}
       </div>
       <BottomSubscribe />
@@ -116,7 +107,7 @@ const SearchResultsContent = () => {
 
 const SearchResults = () => {
   return (
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div className='my-48'>Loading...</div>}>
       <SearchResultsContent />
     </Suspense>
   );

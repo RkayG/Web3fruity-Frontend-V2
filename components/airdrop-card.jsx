@@ -50,8 +50,8 @@ const Airdrops = () => {
   const { data: airdrops = [], isLoading, isError } = useQuery({
     queryKey: ['airdrops'],
     queryFn: fetchAirdrops,
-    staleTime: 5 * 24 * 60 * 60 * 1000, // 5 days
-    cacheTime: 7 * 24 * 60 * 60 * 1000, // 7 days
+    staleTime: 1 * 24 * 60 * 60 * 1000, // 1 day
+    cacheTime: 1 * 24 * 60 * 60 * 1000, // 1 day
   });
 
   if (isError) {
@@ -116,7 +116,7 @@ const Airdrops = () => {
                         <FaCalendarAlt className="mr-2 text-orange-800" /> End Date:
                       </span>
                       <span className="font-semibold text-blue-800">
-                        {airdropData.endDate && new Date(airdrop.endDate).toLocaleDateString() || 'N/A'}
+                        {airdrop.endDate && new Date(airdrop.endDate).toLocaleDateString() || 'N/A'}
                       </span>
                     </p>
                   </div>

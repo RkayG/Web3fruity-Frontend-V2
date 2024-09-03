@@ -66,7 +66,7 @@ const AirdropGuide = () => {
     }
   }, [slug, fetchAirdrop, fetchAdditionalAirdrops]);
 
-  if (error) return <div className="text-red-500 text-center mt-10">{error}</div>;
+  if (error) return <div className="text-red-500 text-center my-48">{error}</div>;
   if (!airdropData) return <div className="loading-dots m-auto my-44"><span className="dot"></span><span className="dot"></span><span className="dot"></span></div>;
 
   const { title, description, logo, guide, website, whitepaper, twitter, telegram, discord } = airdropData;
@@ -97,33 +97,22 @@ const AirdropGuide = () => {
 
   return (
     <motion.section
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
       className='max-w-[1580px] m-auto'
     >
       <Navigation title={title} />
     
       
       <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
+
         className="max-w-4xl mx-auto p-8 mt-12 bg-white "
       >
         <motion.h1 
           className="text-4xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-purple-600"
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2 }}
+         
         >
           {title} Guide
       </motion.h1>
       <motion.div
-  
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
             className="  transition-all duration-300 hover:-translate-y-2"
           >
           <div className="group bg-gradient-to-br from-blue-800 to-orange-800 p-1 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
@@ -161,9 +150,6 @@ const AirdropGuide = () => {
         {/* ============================ Participate Button ====================================================== */}
        <motion.div
           className="text-center"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.6 }}
         >
           <a 
             href={airdropData.referralLink} 
@@ -241,9 +227,7 @@ const AirdropGuide = () => {
 
       {/* ================== additional airdrops display ============== */}
       <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5, delay: 0.2 }}
+      
         className="py-8 px-5 mt-32 mb-20 border rounded-lg bg-gray-50 shadow-md"
       >
         <h2 className="text-2xl font-bold mb-6 px-6 text-blue-900">More Airdrops</h2>
@@ -277,11 +261,11 @@ const AirdropGuide = () => {
                   </p>
                   <p className="flex items-center justify-between">
                     <span className="flex items-center text-gray-600"><FaCalendarAlt className="mr-2 text-orange-800" /> End Date:</span>
-                    <span className="font-semibold text-blue-800">{new Date(airdrop.endDate).toLocaleDateString() || 'N/A'}</span>
+                    <span className="font-semibold text-blue-800">{airdrop.endDate && new Date(airdrop.endDate).toLocaleDateString() || 'N/A'}</span>
                   </p>
                 </div>
               </div>
-              <Link href={`/airdrops/${airdrop._id}`}>
+              <Link href={`/airdrops/${airdrop.slug}`}>
                 <div className="bg-gradient-to-r from-gray-900 to-orange-800 text-gray-200 p-4 rounded-b-2xl flex justify-between items-center cursor-pointer hover:from-orange-800 hover:to-blue-800 transition-all duration-300">
                   <span className="font-semibold">View Details</span>
                   <FaLink />

@@ -157,9 +157,6 @@ const TokenFarmingGuide = () => {
   return (
    /*  SECTION START */
     <motion.section
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
     >
       <Navigation title={tokenName} />
 
@@ -179,9 +176,6 @@ const TokenFarmingGuide = () => {
        {/*  ====================== Token Farming hero card =============================================================== */}
         <motion.div 
           className="bg-white rounded-lg shadow-lg overflow-hidden mb-8"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.3 }}
         >
           <div className="h-48 bg-gradient-to-bl from-blue-800 to-purple-800 flex items-center justify-center">
             <img src={tokenData.logo} className="w-32 h-32 rounded-full border-4 border-white shadow-md" alt={tokenData.tokenName} />
@@ -214,15 +208,12 @@ const TokenFarmingGuide = () => {
       {/* ============================ Participate Button ====================================================== */}
        <motion.div
           className="text-center"
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.6 }}
         >
           <a 
             href={tokenData.referralLink} 
             target="_blank" 
             rel="noopener noreferrer" 
-            className="inline-flex items-center bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition-colors duration-300 text-lg font-semibold"
+            className="inline-flex cursor-pointer items-center bg-blue-600 text-white px-6 py-3 rounded-full hover:bg-blue-700 transition-colors duration-300 text-lg font-semibold"
           > Participate <FaExternalLinkAlt className="ml-2" />
           </a>
         </motion.div>

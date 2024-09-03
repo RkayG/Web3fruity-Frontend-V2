@@ -62,7 +62,7 @@ const FeaturedEvent = () => {
   const { data: airdrops = [], isLoading } = useQuery({
     queryKey: ['featuredAirdrops'],
     queryFn: fetchAirdrops,
-    staleTime: 7 * 24 * 60 * 60 * 1000, // Cache data for 7 days
+    staleTime: 1 * 24 * 60 * 60 * 1000, // Cache data for 1 day
   });
 
   const breakpoints = {
