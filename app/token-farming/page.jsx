@@ -200,7 +200,7 @@ const TokenFarming = () => {
           ))}
         </motion.div>
 
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-center mt-8 my-24">
           <button
             onClick={() => paginate(currentPage - 1)}
             disabled={currentPage === 1}
@@ -228,9 +228,9 @@ const TokenFarming = () => {
           </button>
         </div>
       </div>
-
-      <BottomSubscribe />
+      
       <Disclaimer />
+      <BottomSubscribe />
     </section>
   );
 };

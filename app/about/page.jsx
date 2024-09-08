@@ -10,115 +10,14 @@ import { Inter, Roboto_Slab } from 'next/font/google'
  
 const roboto_slab = Roboto_Slab({ subsets: ['latin'] })
 
-// =========== Tooltip, to be removed ================
-export const TooltipLink = ({ href, className, children, tooltipText }) => {
-  const [showTooltip, setShowTooltip] = useState(false);
-
-  const handleClick = (e) => {
-    e.preventDefault();
-    setShowTooltip(true);
-    setTimeout(() => setShowTooltip(false), 2000); // Hide tooltip after 2 seconds
-  };
-
-
-  return (
-    <div className="relative inline-block">
-      <a
-        href={href}
-        className={className}
-        onClick={handleClick}
-        aria-label={tooltipText}
-      >
-        {children}
-      </a>
-      {showTooltip && (
-        <div className="absolute bottom-full ml-14 lg:ml-28 transform -translate-x-1/2 mb-2 px-3 py-1 bg-gray-800 text-white text-xs rounded shadow whitespace-nowrap">
-          {tooltipText}
-        </div>
-      )}
-    </div>
-  );
-};
-// ============ Tooltip end =============== 
-
 export default function Component() {
-  const [isSubscribeOpen, setIsSubscribeOpen] = useState(false);
-  const [isVisible, setIsVisible] = useState(true);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setIsVisible((v) => !v);
-    }, 5000); // Toggle visibility every 5 seconds
-
-    return () => clearInterval(timer);
-  }, []);
-
-  const textVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: { 
-      opacity: 1, 
-      y: 0,
-      transition: { 
-        type: "spring",
-        stiffness: 100,
-        damping: 10
-      }
-    }
-  };
-
-  const buttonVariants = {
-    hover: { 
-      scale: 1.05,
-      boxShadow: "0px 0px 8px rgb(255,255,255)",
-      transition: {
-        duration: 0.3,
-        yoyo: Infinity
-      }
-    }
-  };
+  //const [isSubscribeOpen, setIsSubscribeOpen] = useState(false);
 
 
   return (
     <div className="flex flex-col min-h-[100dvh] ">
-      <div className="banner bg-burgundy h-36 sm:h-28 flex flex-col items-center justify-center px-4 text-center overflow-hidden relative">
-        <motion.div 
-          className="absolute inset-0"
-          initial={{ backgroundPosition: '0% 50%' }}
-          animate={{ backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'] }}
-          transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
-          style={{
-            backgroundImage: 'url("data:image/svg+xml,%3Csvg width="80" height="80" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="none" fill-rule="evenodd"%3E%3Cg fill="%239C92AC" fill-opacity="0.1"%3E%3Cpath d="M50 50c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10s-10-4.477-10-10 4.477-10 10-10zM10 10c0-5.523 4.477-10 10-10s10 4.477 10 10-4.477 10-10 10c0 5.523-4.477 10-10 10S0 25.523 0 20s4.477-10 10-10zm10 8c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8zm40 40c4.418 0 8-3.582 8-8s-3.582-8-8-8-8 3.582-8 8 3.582 8 8 8z" /%3E%3C/g%3E%3C/g%3E%3C/svg%3E")',
-            backgroundSize: '400px 400px',
-          }}
-        />
-        <div className="banner-content flex flex-wrap mx-auto justify-center items-center relative z-10">
-          <AnimatePresence>
-            {isVisible && (
-              <motion.h1 
-                className="banner-text text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold mb-4 sm:mb-0 sm:mr-6"
-                variants={textVariants}
-                initial="hidden"
-                animate="visible"
-                exit="hidden"
-              >
-                Be the first to know when we launch
-              </motion.h1>
-            )}
-          </AnimatePresence>
-          <motion.button 
-            onClick={() => setIsSubscribeOpen(true)} 
-            className="bg-white text-burgundy font-semibold py-3 px-6 rounded-full text-lg shadow-lg hover:bg-black hover:text-white transition-colors duration-300"
-            variants={buttonVariants}
-            whileHover="hover"
-            whileTap={{ scale: 0.95 }}
-          >
-            Notify Me
-          </motion.button>
-        </div>
-        {isSubscribeOpen && <Subscribe onClose={() => setIsSubscribeOpen(false)} />}
-      </div>
       <main className="flex-1">
-        <section className="about-section w-full py-12 md:py-24 lg:py-32 animate-slideUp">
+        <section className="about-section w-[90%] mx-auto py-12 md:py-24 lg:py-32 animate-slideUp">
           <div className="container m-auto px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-[1fr_500px] lg:gap-12 xl:grid-cols-[1fr_550px]">
               <div className="flex flex-col justify-center space-y-4">

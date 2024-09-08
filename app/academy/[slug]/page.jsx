@@ -68,27 +68,26 @@ const AcademyArticleContent = () => {
     if (academyArticleData && academyArticleData.content) {
       const extractedHeadings = [];
 
-     const options = {
-  renderNode: {
-    [BLOCKS.HEADING_1]: (node, children) => {
-      const text = children.reduce((acc, child) => acc + (typeof child === 'string' ? child : ''), '');
-      const id = text.replace(/\s+/g, '-').toLowerCase();
-      extractedHeadings.push({ id, text, level: 1 });
-      return <h1 id={id} className="text-3xl font-bold mb-4">{children}</h1>;
-    },
-    [BLOCKS.HEADING_2]: (node, children) => {
-      const text = children.reduce((acc, child) => acc + (typeof child === 'string' ? child : ''), '');
-      const id = text.replace(/\s+/g, '-').toLowerCase();
-      extractedHeadings.push({ id, text, level: 2 });
-      return <h2 id={id} className="text-2xl font-bold mb-4">{children}</h2>;
-    },
-  },
-};
+      const traverseRichText = (node) => {
+        if (node.nodeType === 'heading-1' || node.nodeType === 'heading-2') {
+          const text = node.content
+            .map((item) => (item.value ? item.value : ''))
+            .join('');
+          const id = text.replace(/\s+/g, '-').toLowerCase();
+          const level = node.nodeType === 'heading-1' ? 1 : 2;
+          extractedHeadings.push({ id, text, level });
+        }
 
-      documentToReactComponents(academyArticleData.content, options);
+        if (node.content) {
+          node.content.forEach(traverseRichText);
+        }
+      };
+
+      traverseRichText(academyArticleData.content);
       setHeadings(extractedHeadings);
     }
   }, [academyArticleData]);
+
  //===================== Extract headings end ===============
 
   if (error) {
@@ -192,54 +191,49 @@ const AcademyArticleContent = () => {
                 <ul className="list-disc ml-6 text-orange-900">
                   {headings.map((heading, index) => (
                     <li key={index} className=' pb-1 my-2'>
-                      <a href={`#${heading.id}`} className="text-blue-600 font-semibold hover:underline w-full ">
-                        {heading.text}
-                      </a>
+                      <a href={`#${heading.id}`} className="hover:text-blue-700 font-semibold">{heading.text}</a>
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className='border-t-2 p-6 lg:px-12 bg-gray-100'>{documentToReactComponents(content, renderOptions)}</div>
+              <div className="mt-12">{documentToReactComponents(content, renderOptions)}</div>
             </div>
-          ) : (
-            <p className="text-center text-gray-500">Content unavailable</p>
-          )}
+          ) : <p className="text-gray-500">Content is not available.</p>}
+        </div>
+  
+      </div>
+       {/* Display additional articles */}
+       <div className="py-8 px-3 mt-12 border rounded-md bg-gray-50 mb-32">
+        <h2 className="text-2xl font-bold mb-6 px-6">More Articles</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {additionalArticles.map((article) => (
+             <Link href={`/academy/${article.slug}`} key={article._id}>
+             <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
+               <div className="relative h-48">
+                 <img src={article.imageLink} alt={article.postHeading} className="h-full w-full object-cover" />
+                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+                 <div className="absolute bottom-0 left-0 right-0 p-4">
+                   <h3 className="text-xl font-bold text-white">{article.postHeading}</h3>
+                 </div>
+               </div>
+               <div className="p-6">
+                 <p className='text-sm text-gray-500 mb-2'>{formatTimestamp(article.timestamp)}</p>
+                 <p className="text-gray-600 mb-4">{article.description}</p>
+                 <div className='flex justify-between items-center'>
+                   <span className='flex items-center bg-blue-100 text-blue-800 px-3 py-1 rounded-lg'>
+                     <FaBookReader className='mr-2'/>
+                     {article.track}
+                   </span>
+                   {/* <FaShare className='text-orange-600 hover:text-orange-700 cursor-pointer'/> */}
+                 </div>
+               </div>
+             </div>
+           </Link>
+          ))}
         </div>
       </div>
-
-      {/* Display additional articles */}
-      {additionalArticles.length > 0 && (
-        <div className="py-8 px-3 mt-12 border rounded-md bg-gray-50 mb-32">
-          <h2 className="text-2xl font-bold mb-6 px-6">More Articles in {academyArticleData.track}</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {additionalArticles.map((article) => (
-              <Link href={`/academy/${article.slug}`} key={article._id}>
-               <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1">
-                  <div className="relative h-48">
-                    <img src={article.imageLink} alt={article.postHeading} className="h-full w-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                    <div className="absolute bottom-0 left-0 right-0 p-4">
-                      <h3 className="text-xl font-bold text-white">{article.postHeading}</h3>
-                    </div>
-                  </div>
-                  <div className="p-6">
-                    <p className='text-sm text-gray-500 mb-2'>{formatTimestamp(article.timestamp)}</p>
-                    <p className="text-gray-600 mb-4">{article.description}</p>
-                    <div className='flex justify-between items-center'>
-                      <span className='flex items-center bg-blue-100 text-blue-800 px-3 py-1 rounded-lg'>
-                        <FaBookReader className='mr-2'/>
-                        {article.track}
-                      </span>
-                      {/* <FaShare className='text-orange-600 hover:text-orange-700 cursor-pointer'/> */}
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      )}
       <BottomSubscribe />
+
     </section>
   );
 };

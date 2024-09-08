@@ -6,8 +6,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { FaArrowUp } from 'react-icons/fa';
 import Link from 'next/link';
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 const fetchNews = async ({ pageParam = 1 }) => {
-  const response = await fetch(`http://localhost:1225/crypto-news?page=${pageParam}&limit=2`);
+  const response = await fetch(`${apiUrl}/crypto-news?page=${pageParam}&limit=2`);
   if (!response.ok) {
     throw new Error('Failed to fetch news');
   }

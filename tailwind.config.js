@@ -16,12 +16,17 @@ module.exports = {
                 sans: ['Inter', ...defaultTheme.fontFamily.sans]
             },
             keyframes: {
+                marquee: {
+                    '0%': { transform: 'translateX(100%)' },
+                    '100%': { transform: 'translateX(-100%)' },
+                  },
                 slideUp: {
                   '0%': { transform: 'translateY(100%)', opacity: '0' },
                   '100%': { transform: 'translateY(0)', opacity: '1' },
                 },
               },
               animation: {
+                marquee: 'marquee 25s linear infinite',
                 slideUp: 'slideUp 0.5s ease-out',
               },
         }
