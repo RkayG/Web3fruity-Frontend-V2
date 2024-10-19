@@ -20,11 +20,11 @@ export function Header() {
     { name: "Discover", path: "/" },
     { name: "Airdrops", path: "/airdrops" },
     { name: "Farming", path: "/token-farming" },
-    { name: "Games", path: "/games" },
+   /*  { name: "Games", path: "/games" },
     { name: "Platforms", path: "/platforms" },
     { name: "Academy", path: "/academy" },
-    { name: "Crypto News", path: "/crypto-news" },
-    { name: "About", path: "/about" },
+    { name: "Crypto News", path: "/crypto-news" },*/
+    { name: "About", path: "/about" }, 
   ], []);
 
   const socialLinks = [

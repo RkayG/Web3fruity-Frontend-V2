@@ -6,15 +6,15 @@ export function Footer() {
     const productList = [
         {name: "Airdrops", path: "/airdrops"},
         {name: "Token Farming", path: "/token-farming"},
-        {name: "Games", path: "/games"},
-        {name: "Reward For Tasks", path: "/platforms"}
+       /*  {name: "Games", path: "/games"},
+        {name: "Reward For Tasks", path: "/platforms"} */
       ];
       const contactList = ["Contact Us", "Advertise"];
       const usefulLink = [
         {name:"Discover", path:"/discover"},
         {name: "About Us", path: "/about"},
-        {name: "Academy", path: "/academy"},
-        {name: "News", path: "/crypto-news"}
+        /* {name: "Academy", path: "/academy"},
+        {name: "News", path: "/crypto-news"} */
       ];
 
     return (

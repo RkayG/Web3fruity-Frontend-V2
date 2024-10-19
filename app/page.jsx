@@ -17,10 +17,10 @@ export default function Page() {
             <FeaturedEvent />
             <Airdrops />
             <TokenFarming />
-            <Games />
+            {/* <Games />
             <RewardForTask />
             <CryptoNews />
-            <AcademySection />
+            <AcademySection /> */}
             <Disclaimer />
             <BottomSubscribe />
         </main>

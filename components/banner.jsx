@@ -28,10 +28,10 @@ const Banner = ({ bannerTexts }) => {
     switch (text.toLowerCase()) {
       case 'claim free crypto: the ultimate guide to airdrops':
         return '/airdrops';
-      case 'play, earn, repeat: discover top play-to-earn games':
-        return '/games';
+      /* case 'play, earn, repeat: discover top play-to-earn games':
+        return '/games'; */
       case 'from apps to assets: earn crypto on the go':
-        return '/platforms';
+        return '/airdrops'; 
       default:
         return '#';
     }

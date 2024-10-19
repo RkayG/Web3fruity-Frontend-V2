@@ -15,9 +15,9 @@ const Navigation = ({ title }) => {
   return (
     <nav className="flex items-center space-x-2 text-pink-900 ml-6 mt-6">
       <p>
-        <Link href="/academy" className="hover:text-blue-600">
+        {/* <Link href="/academy" className="hover:text-blue-600">
           Academy <span className='mr-1'>&gt;</span>
-        </Link>
+        </Link> */}
         <p className="font-semibold text-blue-800 inline">{title}</p>
       </p>
     </nav>
@@ -202,7 +202,7 @@ const AcademyArticleContent = () => {
         </div>
   
       </div>
-       {/* Display additional articles */}
+       {/*  Display additional articles
        <div className="py-8 px-3 mt-12 border rounded-md bg-gray-50 mb-32">
         <h2 className="text-2xl font-bold mb-6 px-6">More Articles</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -224,14 +224,14 @@ const AcademyArticleContent = () => {
                      <FaBookReader className='mr-2'/>
                      {article.track}
                    </span>
-                   {/* <FaShare className='text-orange-600 hover:text-orange-700 cursor-pointer'/> */}
+                    <FaShare className='text-orange-600 hover:text-orange-700 cursor-pointer'/> 
                  </div>
                </div>
              </div>
            </Link>
           ))}
         </div>
-      </div>
+      </div> */}
       <BottomSubscribe />
 
     </section>

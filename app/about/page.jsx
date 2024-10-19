@@ -186,260 +186,260 @@ export default function Component() {
             </div>
           </div>
         </section>
-        <section id="play-to-earn" className="w-full py-12 md:py-24 lg:py-32 bg-gray-100">
-          <div className="container m-auto px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-              <div className="space-y-2">
-                <div className="inline-block rounded-lg text-white px-3 py-1 text-sm bg-gradient-to-r from-red-400 to-[rgba(0,0,0,0.62)]">
-                  Play-to-Earn
+       {/*    <section id="play-to-earn" className="w-full py-12 md:py-24 lg:py-32 bg-gray-100">
+            <div className="container m-auto px-4 md:px-6">
+              <div className="flex flex-col items-center justify-center space-y-4 text-center">
+                <div className="space-y-2">
+                  <div className="inline-block rounded-lg text-white px-3 py-1 text-sm bg-gradient-to-r from-red-400 to-[rgba(0,0,0,0.62)]">
+                    Play-to-Earn
+                  </div>
+                  <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Earn While You Play</h2>
+                  <p className="max-w-[600px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  Unlock a new realm of crypto earnings with captivating, blockchain-driven games.
+                  </p>
                 </div>
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Earn While You Play</h2>
+              </div>
+              <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
+                <div className="flex flex-col justify-center space-y-4">
+                  <ul className="grid gap-4">
+                    <li className="flex items-center gap-4">
+                      <GamepadIcon className="h-10 w-10 text-gray-500" />
+                      <div>
+                        <h3 className="text-xl font-bold">Engaging Games</h3>
+                        <p className="text-gray-600">
+                          Explore a variety of fun and rewarding play-to-earn games.
+                        </p>
+                      </div>
+                    </li>
+                    <li className="flex items-center gap-4">
+                      <BadgeIcon className="h-10 w-10 text-gray-500" />
+                      <div>
+                        <h3 className="text-xl font-bold">Earn Crypto</h3>
+                        <p className="text-gray-600">
+                          Earn real cryptocurrency by playing and completing in-game tasks.
+                        </p>
+                      </div>
+                    </li>
+                    <li className="flex items-center gap-4">
+                      <CopyrightIcon className="h-10 w-10 text-gray-500 " />
+                      <div>
+                        <h3 className="text-xl font-bold">Ownership</h3>
+                        <p className="text-gray-600 ">
+                          Own in-game assets and items that can be traded or sold.
+                        </p>
+                      </div>
+                    </li>
+                    <li className="flex items-center gap-4">
+                      <TrophyIcon  className="h-10 w-10 text-gray-500 " />
+                      <div>
+                        <h3 className="text-xl font-bold">Compete and Win</h3>
+                        <p className="text-gray-600 ">
+                          Compete in tournaments and challenges to earn even more rewards.
+                        </p>
+                      </div>
+                    </li>
+                  </ul>
+                    <Link
+                        href="/games"
+                        className="inline-flex h-9 lg/md:w-fit lg/md:ml-14 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
+                        prefetch={false}
+                      >
+                        Start Playing
+                    </Link>
+                </div>
+                <img
+                  src="/images/gameworld.jpg"
+                  width="550"
+                  height="310"
+                  alt="Play-to-Earn"
+                  className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
+                />
+              </div>
+            </div>
+          </section>
+          <section id="task-based-rewards" className="w-full py-12 md:py-24 lg:py-32">
+            <div className="container m-auto px-4 md:px-6">
+              <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <div className="inline-block rounded-lg text-white bg-gradient-to-r from-red-400 to-[rgba(0,0,0,0.62)] px-3 py-1 text-sm">
+                  Task-Based Rewards
+                </div>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Earn Crypto for Completing Tasks</h2>
                 <p className="max-w-[600px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Unlock a new realm of crypto earnings with captivating, blockchain-driven games.
+                  Earn cryptocurrency by completing simple online tasks, such as watching videos, participating in
+                  surveys, or engaging with social media.
                 </p>
               </div>
-            </div>
-            <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
-              <div className="flex flex-col justify-center space-y-4">
-                <ul className="grid gap-4">
-                  <li className="flex items-center gap-4">
-                    <GamepadIcon className="h-10 w-10 text-gray-500" />
-                    <div>
-                      <h3 className="text-xl font-bold">Engaging Games</h3>
-                      <p className="text-gray-600">
-                        Explore a variety of fun and rewarding play-to-earn games.
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex items-center gap-4">
-                    <BadgeIcon className="h-10 w-10 text-gray-500" />
-                    <div>
-                      <h3 className="text-xl font-bold">Earn Crypto</h3>
-                      <p className="text-gray-600">
-                        Earn real cryptocurrency by playing and completing in-game tasks.
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex items-center gap-4">
-                    <CopyrightIcon className="h-10 w-10 text-gray-500 " />
-                    <div>
-                      <h3 className="text-xl font-bold">Ownership</h3>
-                      <p className="text-gray-600 ">
-                        Own in-game assets and items that can be traded or sold.
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex items-center gap-4">
-                    <TrophyIcon  className="h-10 w-10 text-gray-500 " />
-                    <div>
-                      <h3 className="text-xl font-bold">Compete and Win</h3>
-                      <p className="text-gray-600 ">
-                         Compete in tournaments and challenges to earn even more rewards.
-                      </p>
-                    </div>
-                  </li>
-                </ul>
-                  <Link
-                      href="/games"
-                      className="inline-flex h-9 lg/md:w-fit lg/md:ml-14 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
-                      prefetch={false}
-                    >
-                      Start Playing
-                  </Link>
               </div>
-              <img
-                src="/images/gameworld.jpg"
-                width="550"
-                height="310"
-                alt="Play-to-Earn"
-                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
-              />
-            </div>
-          </div>
-        </section>
-        <section id="task-based-rewards" className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container m-auto px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2">
-              <div className="inline-block rounded-lg text-white bg-gradient-to-r from-red-400 to-[rgba(0,0,0,0.62)] px-3 py-1 text-sm">
-                Task-Based Rewards
+              <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
+                <img
+                    src="/images/reward-tasks.jpg"
+                    width="550"
+                    height="310"
+                    alt="Task-Based-Rewards"
+                    className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
+                  />
+                <div className="flex flex-col justify-center space-y-4">
+                  <ul className="grid gap-4">
+                    <li className="flex items-center gap-4">
+                      <VideoIcon className="h-10 w-10 text-gray-500 " />
+                      <div>
+                        <h3 className="text-xl font-bold">Explore Platforms</h3>
+                        <p className="text-gray-600 ">
+                          Select and visit task-based platforms.
+                        </p>
+                      </div>
+                    </li>
+                    <li className="flex items-center gap-4">
+                      <BadgeIcon className="h-10 w-10 text-gray-500 dark:text-gray-400" />
+                      <div>
+                        <h3 className="text-xl font-bold">Micro Tasks</h3>
+                        <p className="text-gray-600">
+                            Complete quick and easy tasks to boost your earnings
+                        </p>
+                      </div>
+                    </li>
+                  
+                  </ul>
+                    <Link
+                        href="/platforms"
+                        className="inline-flex h-9 lg/md:w-fit lg/md:ml-14 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
+                        prefetch={false}
+                      >
+                        Start Earning
+                    </Link>
+                </div>
+              
               </div>
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Earn Crypto for Completing Tasks</h2>
-              <p className="max-w-[600px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Earn cryptocurrency by completing simple online tasks, such as watching videos, participating in
-                surveys, or engaging with social media.
-              </p>
-             </div>
             </div>
-            <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
-              <img
-                  src="/images/reward-tasks.jpg"
+          </section>
+          <section id="crypto-education" className="w-full py-12 md:py-24 lg:py-32 bg-gray-100">
+            <div className="container m-auto px-4 md:px-6">
+              <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <div className="inline-block rounded-lg text-white bg-gradient-to-r from-red-400 to-[rgba(0,0,0,0.62)] px-3 py-1 text-sm">
+                  Academy
+                </div>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Crypto Education</h2>
+                <p className="max-w-[600px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                    Expand your crypto knowledge with our comprehensive educational resources, covering everything from blockchain basics to advanced topics
+                </p>
+              </div>
+              </div>
+              <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
+                <div className="flex flex-col justify-center space-y-4">
+                  <ul className="grid gap-4">
+                    <li className="flex items-center gap-4">
+                      <BookIcon className="h-10 w-10 text-gray-500 " />
+                      <div>
+                        <h3 className="text-xl font-bold">Crypto Basics</h3>
+                        <p className="text-gray-600 ">
+                          Learn the fundamentals of cryptocurrencies and blockchain technology.
+                        </p>
+                      </div>
+                    </li>
+                    <li className="flex items-center gap-4">
+                      <BadgeIcon className="h-10 w-10 text-gray-500 dark:text-gray-400" />
+                      <div>
+                        <h3 className="text-xl font-bold">Industry Insights</h3>
+                        <p className="text-gray-600">
+                            Stay informed about the latest developments in the crypto space.
+                        </p>
+                      </div>
+                    </li>
+                    <li className="flex items-center gap-4">
+                      <WalletIcon className="h-10 w-10 text-gray-500 dark:text-gray-400" />
+                      <div>
+                        <h3 className="text-xl font-bold">Wallet Management</h3>
+                        <p className="text-gray-600">
+                          Learn how to securely store, manage, and protect your crypto assets.
+                        </p>
+                      </div>
+                    </li>
+                  
+                  </ul>
+                    <Link
+                        href="/academy"
+                        className="inline-flex h-9 lg/md:w-fit lg/md:ml-14 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
+                        prefetch={false}
+                      >
+                        Start Learning
+                    </Link>
+                </div>
+                <img
+                  src="/images/crypto-education2.jpg"
                   width="550"
                   height="310"
-                  alt="Task-Based-Rewards"
+                  alt="Crypto-Education"
                   className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
                 />
-              <div className="flex flex-col justify-center space-y-4">
-                <ul className="grid gap-4">
-                  <li className="flex items-center gap-4">
-                    <VideoIcon className="h-10 w-10 text-gray-500 " />
-                    <div>
-                      <h3 className="text-xl font-bold">Explore Platforms</h3>
-                      <p className="text-gray-600 ">
-                         Select and visit task-based platforms.
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex items-center gap-4">
-                    <BadgeIcon className="h-10 w-10 text-gray-500 dark:text-gray-400" />
-                    <div>
-                      <h3 className="text-xl font-bold">Micro Tasks</h3>
-                      <p className="text-gray-600">
-                          Complete quick and easy tasks to boost your earnings
-                      </p>
-                    </div>
-                  </li>
-                 
-                </ul>
-                  <Link
-                      href="/platforms"
-                      className="inline-flex h-9 lg/md:w-fit lg/md:ml-14 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
-                      prefetch={false}
-                    >
-                      Start Earning
-                  </Link>
               </div>
-             
             </div>
-          </div>
-        </section>
-        <section id="crypto-education" className="w-full py-12 md:py-24 lg:py-32 bg-gray-100">
-          <div className="container m-auto px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2">
-              <div className="inline-block rounded-lg text-white bg-gradient-to-r from-red-400 to-[rgba(0,0,0,0.62)] px-3 py-1 text-sm">
-                Academy
+          </section>
+          <section id="crypto-news" className="w-full py-12 md:py-24 lg:py-32">
+            <div className="container m-auto px-4 md:px-6">
+              <div className="flex flex-col items-center justify-center space-y-4 text-center">
+              <div className="space-y-2">
+                <div className="inline-block rounded-lg text-white bg-gradient-to-r from-red-400 to-[rgba(0,0,0,0.62)] px-3 py-1 text-sm">
+                  Cryto News
+                </div>
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Crypto News</h2>
+                <p className="max-w-[600px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                  Stay up-to-date with the latest news, trends, and developments in the crypto world.
+                </p>
               </div>
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Crypto Education</h2>
-              <p className="max-w-[600px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                  Expand your crypto knowledge with our comprehensive educational resources, covering everything from blockchain basics to advanced topics
-              </p>
-             </div>
-            </div>
-            <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
-              <div className="flex flex-col justify-center space-y-4">
-                <ul className="grid gap-4">
-                  <li className="flex items-center gap-4">
-                    <BookIcon className="h-10 w-10 text-gray-500 " />
-                    <div>
-                      <h3 className="text-xl font-bold">Crypto Basics</h3>
-                      <p className="text-gray-600 ">
-                        Learn the fundamentals of cryptocurrencies and blockchain technology.
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex items-center gap-4">
-                    <BadgeIcon className="h-10 w-10 text-gray-500 dark:text-gray-400" />
-                    <div>
-                      <h3 className="text-xl font-bold">Industry Insights</h3>
-                      <p className="text-gray-600">
-                          Stay informed about the latest developments in the crypto space.
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex items-center gap-4">
-                    <WalletIcon className="h-10 w-10 text-gray-500 dark:text-gray-400" />
-                    <div>
-                      <h3 className="text-xl font-bold">Wallet Management</h3>
-                      <p className="text-gray-600">
-                         Learn how to securely store, manage, and protect your crypto assets.
-                      </p>
-                    </div>
-                  </li>
-                 
-                </ul>
-                  <Link
-                      href="/academy"
-                      className="inline-flex h-9 lg/md:w-fit lg/md:ml-14 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"
-                      prefetch={false}
-                    >
-                      Start Learning
-                  </Link>
               </div>
-              <img
-                src="/images/crypto-education2.jpg"
-                width="550"
-                height="310"
-                alt="Crypto-Education"
-                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
-              />
-            </div>
-          </div>
-        </section>
-        <section id="crypto-news" className="w-full py-12 md:py-24 lg:py-32">
-          <div className="container m-auto px-4 md:px-6">
-            <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2">
-              <div className="inline-block rounded-lg text-white bg-gradient-to-r from-red-400 to-[rgba(0,0,0,0.62)] px-3 py-1 text-sm">
-                Cryto News
+              <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
+                <img
+                    src="/images/crypto-news.jpg"
+                    width="550"
+                    height="310"
+                    alt="Cryto-News"
+                    className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
+                  />
+                <div className="flex flex-col justify-center space-y-4">
+                  <ul className="grid gap-4">
+                    <li className="flex items-center gap-4">
+                      <NewspaperIcon className="h-10 w-10 text-gray-500 " />
+                      <div>
+                        <h3 className="text-xl font-bold">Industry updates</h3>
+                        <p className="text-gray-600 ">
+                          Stay informed about the latest developments in the crypto industry.
+                        </p>
+                      </div>
+                    </li>
+                    <li className="flex items-center gap-4">
+                      <TimerIcon className="h-10 w-10 text-gray-500 dark:text-gray-400" />
+                      <div>
+                        <h3 className="text-xl font-bold">Market Trends</h3>
+                        <p className="text-gray-600">
+                          Analyze the latest market trends and their impact on crypto investments.
+                        </p>
+                      </div>
+                    </li>
+                    <li className="flex items-center gap-4">
+                      <RulerIcon className="h-10 w-10 text-gray-500 dark:text-gray-400" />
+                      <div>
+                        <h3 className="text-xl font-bold">Regulatory Updates</h3>
+                        <p className="text-gray-600">
+                            Stay informed about the evolving regulatory landscape in the crypto space.
+                        </p>
+                      </div>
+                    </li>
+                  
+                  </ul>
+                    <Link
+                        href="/crypto-news"
+                        className="inline-flex h-9 lg/md:w-fit lg/md:ml-14 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"        
+                        prefetch={false}
+                      >
+                        Start Reading
+                    </Link>
+                </div>
+              
               </div>
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Crypto News</h2>
-              <p className="max-w-[600px] text-gray-600 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                 Stay up-to-date with the latest news, trends, and developments in the crypto world.
-              </p>
-             </div>
             </div>
-            <div className="mx-auto grid max-w-5xl items-center gap-6 py-12 lg:grid-cols-2 lg:gap-12">
-              <img
-                  src="/images/crypto-news.jpg"
-                  width="550"
-                  height="310"
-                  alt="Cryto-News"
-                  className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
-                />
-              <div className="flex flex-col justify-center space-y-4">
-                <ul className="grid gap-4">
-                  <li className="flex items-center gap-4">
-                    <NewspaperIcon className="h-10 w-10 text-gray-500 " />
-                    <div>
-                      <h3 className="text-xl font-bold">Industry updates</h3>
-                      <p className="text-gray-600 ">
-                        Stay informed about the latest developments in the crypto industry.
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex items-center gap-4">
-                    <TimerIcon className="h-10 w-10 text-gray-500 dark:text-gray-400" />
-                    <div>
-                      <h3 className="text-xl font-bold">Market Trends</h3>
-                      <p className="text-gray-600">
-                        Analyze the latest market trends and their impact on crypto investments.
-                      </p>
-                    </div>
-                  </li>
-                  <li className="flex items-center gap-4">
-                    <RulerIcon className="h-10 w-10 text-gray-500 dark:text-gray-400" />
-                    <div>
-                      <h3 className="text-xl font-bold">Regulatory Updates</h3>
-                      <p className="text-gray-600">
-                          Stay informed about the evolving regulatory landscape in the crypto space.
-                      </p>
-                    </div>
-                  </li>
-                 
-                </ul>
-                  <Link
-                      href="/crypto-news"
-                      className="inline-flex h-9 lg/md:w-fit lg/md:ml-14 items-center justify-center rounded-md bg-gray-900 px-4 py-2 text-sm font-medium text-gray-50 shadow transition-colors hover:bg-gray-900/90 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50"        
-                      prefetch={false}
-                    >
-                      Start Reading
-                  </Link>
-              </div>
-             
-            </div>
-          </div>
-        </section>
+          </section> */}
 
         <div className="join-our-community text-center text-3xl">
           <p className="text-blue-900 text-2xl font-bold tracking-tighter sm:text-3xl md:text-4xl">Join our community</p>

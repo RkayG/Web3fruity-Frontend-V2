@@ -7,13 +7,24 @@ import { FaArrowUp } from 'react-icons/fa';
 import Link from 'next/link';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+const newsPerPage = 2;
 
 const fetchNews = async ({ pageParam = 1 }) => {
-  const response = await fetch(`${apiUrl}/crypto-news?page=${pageParam}&limit=2`);
-  if (!response.ok) {
-    throw new Error('Failed to fetch news');
+  try {
+    const response = await fetch(`${apiUrl}/crypto-news?page=${pageParam}&limit=${newsPerPage}`);
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error('News not found (404).');
+      } else if (response.status === 500) {
+        throw new Error('Internal server error (500).');
+      } else {
+        throw new Error('Failed to fetch news.');
+      }
+    }
+    return await response.json();
+  } catch (error) {
+    throw new Error(`Error fetching data: ${error.message}`);
   }
-  return response.json();
 };
 
 const CryptoNews = () => {
@@ -27,15 +38,16 @@ const CryptoNews = () => {
     hasNextPage,
     isFetchingNextPage,
     status,
+    isLoading,
+    refetch, // Adding refetch for retry logic
   } = useInfiniteQuery({
     queryKey: ['cryptoNews'],
     queryFn: fetchNews,
     getNextPageParam: (lastPage, pages) => {
-      return lastPage.length === 2 ? pages.length + 1 : undefined;
+      return lastPage.length === newsPerPage ? pages.length + 1 : undefined;
     },
   });
 
-  
   const lastNewsElementRef = useCallback(node => {
     if (isFetchingNextPage) return;
     if (observer.current) observer.current.disconnect();
@@ -59,6 +71,19 @@ const CryptoNews = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  if (isLoading) {
+    return (
+      <div className="max-w-4xl mx-auto p-6 my-32 text-center">
+        <div className="loading-dots m-auto my-10">
+          <span className="dot"></span>
+          <span className="dot"></span>
+          <span className="dot"></span>
+        </div>
+        <p>Loading crypto news...</p>
+      </div>
+    );
+  }
+
   if (status === 'error') {
     return (
       <div className="max-w-4xl mx-auto p-6 my-32">
@@ -66,8 +91,8 @@ const CryptoNews = () => {
           <p className="font-bold">Error</p>
           <p>{error.message}</p>
         </div>
-        <button 
-          onClick={() => fetchNextPage()}
+        <button
+          onClick={() => refetch()} // Retrying fetch on button click
           className="bg-blue-500 flex justify-center mx-auto mt-3 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         >
           Retry
@@ -76,9 +101,7 @@ const CryptoNews = () => {
     );
   }
 
-  
-
-  const renderNewsItem = (item, index,isLastElement) => {
+  const renderNewsItem = (item, index, isLastElement) => {
     const isLargeCard = index === 0 || index % 4 === 0;
     const cardClass = isLargeCard
       ? "rounded-lg bg-[#1a1a1a] p-6 md:col-span-2 lg:col-span-1 hover:bg-black/70 cursor-pointer"
@@ -125,8 +148,7 @@ const CryptoNews = () => {
                 </div>
                 <div className="mt-4 space-y-2">
                   <h3 className="text-lg font-medium">{item.newsHeading}</h3>
-                  <p className="text-gray-500">{item.description}The meme-inspired cryptocurrency continues its meteoric rise, fueled by celebrity endorsements and
-                  growing retail investor interest.</p>
+                  <p className="text-gray-500">{item.description}</p>
                 </div>
               </>
             )}
@@ -159,7 +181,9 @@ const CryptoNews = () => {
             <span className="dot"></span>
           </div>
         )}
-        {!hasNextPage && <p className="text-center mt-8">No more news to load.</p>}
+        {!hasNextPage && !isFetchingNextPage && data?.pages.length > 0 && (
+          <p className="text-center mt-8">No more news to load.</p>
+        )}
       </div>
       {showBackToTop && (
         <button
