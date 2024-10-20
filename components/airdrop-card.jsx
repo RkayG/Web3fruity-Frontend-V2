@@ -75,7 +75,8 @@ const Airdrops = () => {
         <section>
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3 px-4 sm:px-6 lg:px-8">
             {airdrops.map((airdrop) => (
-              <div key={airdrop._id} className="group bg-gradient-to-br from-blue-800 to-orange-800 p-1 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
+              <Link href={`/airdrops/${airdrop.slug}`}>
+              <div key={airdrop._id} className="group bg-gradient-to-br cursor-pointer from-blue-800 to-orange-800 p-1 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2">
               <div className="bg-white h-full rounded-2xl p-6 transition-all duration-300 group-hover:bg-gray-100">
                 <div className="relative mb-6">
                   <img src={airdrop.logo} className="w-20 h-20 rounded-full mx-auto shadow-md" alt={airdrop.title} />
@@ -107,6 +108,7 @@ const Airdrops = () => {
                 </div>
               </Link>
            </div>
+           </Link>
             ))}
           </div>
           <Link href="/airdrops" className="flex justify-center mx-auto mt-12">

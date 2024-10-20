@@ -6,6 +6,7 @@ import { EffectCoverflow, Autoplay, Navigation, Pagination, A11y } from 'swiper/
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { FaArrowLeft, FaArrowRight, FaFire, FaChevronRight } from 'react-icons/fa';
 import { GiWaterDrop } from 'react-icons/gi';
+import Link from 'next/link';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -62,7 +63,7 @@ const FeaturedEvent = () => {
   const { data: airdrops = [], isLoading } = useQuery({
     queryKey: ['featuredAirdrops'],
     queryFn: fetchAirdrops,
-    staleTime: 1 * 24 * 60 * 60 * 1000, // Cache data for 1 day
+    staleTime: 1 * 60 * 60 * 1000, // Cache data for 1 hour
   });
 
   const breakpoints = {
@@ -102,7 +103,8 @@ const FeaturedEvent = () => {
           >
             {airdrops.map((airdrop, index) => (
               <SwiperSlide key={index} className="swiper-slide">
-                <div className="bg-gradient-to-br from-blue-800 to-orange-800 p-1 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 group">
+                <Link href={airdrop.link}>
+                <div className="bg-gradient-to-br cursor-pointer from-blue-800 to-orange-800 p-1 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 group">
                   <div className="bg-gray-200 h-full rounded-2xl overflow-hidden">
                     <div className="relative">
                       <img src={airdrop.bannerImageUrl} alt={airdrop.bannerHeading} className="w-full h-48 object-cover" />
@@ -117,13 +119,17 @@ const FeaturedEvent = () => {
                             Juicy
                           </p>
                         </span>
-                        <button className="flex items-center text-blue-800 hover:text-orange-800 transition-colors duration-300">
-                          Learn More <FaChevronRight className="ml-1" />
-                        </button>
+                         <Link href={airdrop.link}>
+                          <button className="flex items-center text-blue-800 hover:text-orange-800 transition-colors duration-300">
+                            Learn More <FaChevronRight className="ml-1" />
+                          </button>
+                        </Link>
+      
                       </div>
                     </div>
                   </div>
                 </div>
+                </Link>
               </SwiperSlide>
             ))}
           </Swiper>
