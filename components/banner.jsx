@@ -40,7 +40,7 @@ const Banner = ({ bannerTexts }) => {
   return (
     <div className="banner bg-burgundy py-4 flex flex-col items-center justify-center relative overflow-hidden">
       <div className="banner-content mx-auto text-center px-4">
-        <h1 className="banner-text text-gray-200 text-xl md:text-2xl lg:text-2xl font-serif leading-tight mb-6">
+        <h1 className="banner-text text-gray-200 text-xl md:text-2xl lg:text-2xl font-serif leading-tight mb-4">
           {bannerTexts[currentIndex]}
         </h1>
         <motion.div
@@ -54,7 +54,7 @@ const Banner = ({ bannerTexts }) => {
           </Link>
         </motion.div>
       </div>
-      {bannerTexts.length > 1 && (
+      {/* {bannerTexts.length > 1 && (
         <div className="banner-navigation mt-8 flex justify-center">
           {bannerTexts.map((text, index) => (
             <button
@@ -67,7 +67,7 @@ const Banner = ({ bannerTexts }) => {
             />
           ))}
         </div>
-      )}
+      )} */}
     </div>
   );
 };

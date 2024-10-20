@@ -90,6 +90,8 @@ const AirdropGuide = () => {
           {children}
         </a>
       ),
+      [BLOCKS.UL_LIST]: (node, children) => <ul className="list-disc list-inside mb-4 text-gray-700">{children}</ul>,
+     /*  [BLOCKS.LIST_ITEM]: (node, children) => <li className="mb-2">{children}</li>, */
     },
   };
 
