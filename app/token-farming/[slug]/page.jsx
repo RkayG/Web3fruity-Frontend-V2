@@ -119,22 +119,85 @@ const TokenFarmingGuide = () => {
  const { tokenName, platform, requirements, blockchain, guide, linkToFarmingPlatform, website, whitepaper, twitter, telegram, discord } = tokenData;
  const renderOptions = {
     renderNode: {
+      // Embedded Asset Node
       [BLOCKS.EMBEDDED_ASSET]: (node) => {
-        const { file, tokenName } = node.data.target.fields;
+        const { file, title } = node.data.target.fields;
         return (
-          <div className="my-4 rounded-md">
-            <img src={file.url} alt={tokenName} className="mx-auto rounded-lg shadow-md" />
-            {tokenName && <p className="text-center text-sm text-gray-600 mt-2">{tokenName}</p>}
+          <div className="my-8">
+            <img src={file.url} alt={title} className="w-full rounded-lg shadow-md" />
+            {title && <p className="text-center text-sm text-gray-600 mt-2">{title}</p>}
           </div>
         );
       },
-      [BLOCKS.PARAGRAPH]: (node, children) => <p className="mb-4 text-gray-700">{children}</p>,
-      [BLOCKS.HEADING_1]: (node, children) => <h1 className="text-3xl font-bold mb-4 text-blue-900">{children}</h1>,
-      [BLOCKS.HEADING_2]: (node, children) => <h2 className="text-2xl font-bold mb-4 text-blue-800">{children}</h2>,
+      // Paragraph Node
+      [BLOCKS.PARAGRAPH]: (node, children) => (
+        <p className="mb-6 leading-relaxed">
+          {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
+        </p>
+      ),
+      // Heading 1 Node
+      [BLOCKS.HEADING_1]: (node, children) => {
+        const text = children.reduce((acc, child) => acc + (typeof child === 'string' ? child : ''), '');
+        const id = text.replace(/\s+/g, '-').toLowerCase();
+        return (
+          <h1 id={id} className="text-3xl font-bold mb-6">
+            {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
+          </h1>
+        );
+      },
+      // Heading 2 Node
+      [BLOCKS.HEADING_2]: (node, children) => {
+        const text = children.reduce((acc, child) => acc + (typeof child === 'string' ? child : ''), '');
+        const id = text.replace(/\s+/g, '-').toLowerCase();
+        return (
+          <h2 id={id} className="text-2xl font-bold mb-4">
+            {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
+          </h2>
+        );
+      },
+      // Heading 3 Node
+      [BLOCKS.HEADING_3]: (node, children) => {
+        const text = children.reduce((acc, child) => acc + (typeof child === 'string' ? child : ''), '');
+        const id = text.replace(/\s+/g, '-').toLowerCase();
+        return (
+            <h3 id={id} className="text-xl font-bold mb-3">
+                {children.map((child, index) => (
+                    typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>
+                ))}
+            </h3>
+        );
+    },
+    // Heading 4 Node
+    [BLOCKS.HEADING_4]: (node, children) => {
+      const text = children.reduce((acc, child) => acc + (typeof child === 'string' ? child : ''), '');
+      const id = text.replace(/\s+/g, '-').toLowerCase();
+      return (
+          <h4 id={id} className="text-lg font-bold mb-2">
+              {children.map((child, index) => (
+                  typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>
+              ))}
+          </h4>
+      );
+    },
+    // Hyperling Node
       [INLINES.HYPERLINK]: (node, children) => (
-        <a href={node.data.uri} className="text-blue-700 font-bold hover:underline" target="_blank" rel="noopener noreferrer">
-          {children}
+        <a href={node.data.uri} className="text-blue-600 font-bold hover:underline transition-colors duration-300">
+          {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
         </a>
+      ),
+      // Unordered List Node
+      [BLOCKS.UL_LIST]: (node, children) => (
+        <ul className="list-disc list-outside pl-5 mb-2 text-gray-700">{children}</ul>
+      ),
+      
+      // Ordered List Node
+      [BLOCKS.OL_LIST]: (node, children) => (
+        <ol className="list-decimal list-outside pl-4 mb-4 text-gray-700">{children}</ol>
+      ),
+      
+      // List Item Node
+      [BLOCKS.LIST_ITEM]: (node, children) => (
+        <li className="mb-2 pl-1">{children}</li>
       ),
     },
   };
@@ -230,7 +293,7 @@ const TokenFarmingGuide = () => {
            {guide ? (
                 <div>
                     <h2 className="text-2xl font-bold text-center mb-4 mt-8 text-blue-800">{tokenName} Farming Guide</h2>
-                    <div className='border-t-2 border-t-orange-800 p-6 lg:px-12 rounded-lg bg-gray-50 shadow-inner'>
+                    <div className='border-t-2 border-t-orange-800 p-6 l rounded-lg bg-gray-50 shadow-inner'>
                     {documentToReactComponents(guide, renderOptions)}
                     </div>
                 

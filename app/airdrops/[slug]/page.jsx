@@ -85,13 +85,49 @@ const AirdropGuide = () => {
       [BLOCKS.PARAGRAPH]: (node, children) => <p className="mb-4 text-gray-700">{children}</p>,
       [BLOCKS.HEADING_1]: (node, children) => <h1 className="text-3xl font-bold mb-4 text-blue-900">{children}</h1>,
       [BLOCKS.HEADING_2]: (node, children) => <h2 className="text-2xl font-bold mb-4 text-blue-800">{children}</h2>,
+      // Heading 3 Node
+      [BLOCKS.HEADING_3]: (node, children) => {
+        const text = children.reduce((acc, child) => acc + (typeof child === 'string' ? child : ''), '');
+        const id = text.replace(/\s+/g, '-').toLowerCase();
+        return (
+            <h3 id={id} className="text-xl font-bold mb-3 text-blue-800">
+                {children.map((child, index) => (
+                    typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>
+                ))}
+            </h3>
+        );
+      },
+      // Heading 4 Node
+    [BLOCKS.HEADING_4]: (node, children) => {
+      const text = children.reduce((acc, child) => acc + (typeof child === 'string' ? child : ''), '');
+      const id = text.replace(/\s+/g, '-').toLowerCase();
+      return (
+          <h4 id={id} className="text-lg font-bold mb-2 text-blue-800">
+              {children.map((child, index) => (
+                  typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>
+              ))}
+          </h4>
+      );
+    },
       [INLINES.HYPERLINK]: (node, children) => (
         <a href={node.data.uri} className="text-blue-700 font-bold hover:underline" target="_blank" rel="noopener noreferrer">
           {children}
         </a>
       ),
-      [BLOCKS.UL_LIST]: (node, children) => <ul className="list-disc list-inside mb-4 text-gray-700">{children}</ul>,
-     /*  [BLOCKS.LIST_ITEM]: (node, children) => <li className="mb-2">{children}</li>, */
+      // Unordered List Node
+      [BLOCKS.UL_LIST]: (node, children) => (
+        <ul className="list-disc list-outside pl-5 mb-2 text-gray-700">{children}</ul>
+      ),
+      
+      // Ordered List Node
+      [BLOCKS.OL_LIST]: (node, children) => (
+        <ol className="list-decimal list-outside pl-4 mb-4 text-gray-700">{children}</ol>
+      ),
+      
+      // List Item Node
+      [BLOCKS.LIST_ITEM]: (node, children) => (
+        <li className="mb-2 pl-1">{children}</li>
+      ),
     },
   };
 

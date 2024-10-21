@@ -63,7 +63,7 @@ const AcademyArticleContent = () => {
   }, [slug]);
 
 
-  //======= Extract Headings to have a table of contents ===================================
+  //======= Extract Headings for table of contents ===================================
   useEffect(() => {
     if (academyArticleData && academyArticleData.content) {
       const extractedHeadings = [];
@@ -90,10 +90,12 @@ const AcademyArticleContent = () => {
 
  //===================== Extract headings end ===============
 
+ // error fetching articles
   if (error) {
     return <div className="text-red-500">{error}</div>;
   }
 
+  // loading state 
   if (!academyArticleData) {
     return (
       <div className="loading-dots m-auto my-44">
@@ -104,9 +106,12 @@ const AcademyArticleContent = () => {
     );
   }
 
+  // extract article data
   const { postHeading, imageLink, timestamp, content, author, tags } = academyArticleData;
+  // get window url
   const articleUrl = typeof window !== 'undefined' ? window.location.href : '';
 
+  // copy link functionality =========
   const handleCopyLink = () => {
     navigator.clipboard.writeText(articleUrl).then(() => {
       alert('Link copied to clipboard!');
@@ -114,7 +119,9 @@ const AcademyArticleContent = () => {
       console.error('Failed to copy the link:', error);
     });
   };
+//==========================================
 
+// share article functionality ========================
   const handleShareToFacebook = () => {
     const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(articleUrl)}`;
     window.open(facebookShareUrl, '_blank');
@@ -124,7 +131,9 @@ const AcademyArticleContent = () => {
     const twitterShareUrl = `https://x.com/intent/tweet?url=${encodeURIComponent(articleUrl)}&text=${encodeURIComponent(postHeading)}`;
     window.open(twitterShareUrl, '_blank');
   };
+//========================================================
 
+//format article content page ===========================
   const renderOptions = {
     renderNode: {
       [BLOCKS.EMBEDDED_ASSET]: (node) => {
@@ -166,6 +175,7 @@ const AcademyArticleContent = () => {
       ),
     },
   };
+  //=============================== format end ===========================================
 
   return (
     <section>
@@ -202,7 +212,7 @@ const AcademyArticleContent = () => {
         </div>
   
       </div>
-       {/*  Display additional articles
+       {/* =========== Display additional articles =============================================
        <div className="py-8 px-3 mt-12 border rounded-md bg-gray-50 mb-32">
         <h2 className="text-2xl font-bold mb-6 px-6">More Articles</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -231,7 +241,9 @@ const AcademyArticleContent = () => {
            </Link>
           ))}
         </div>
-      </div> */}
+      </div> 
+      ========================= additional articles end =================================*/}
+      
       <BottomSubscribe />
 
     </section>
