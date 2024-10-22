@@ -140,7 +140,7 @@ const TokenFarmingGuide = () => {
         const text = children.reduce((acc, child) => acc + (typeof child === 'string' ? child : ''), '');
         const id = text.replace(/\s+/g, '-').toLowerCase();
         return (
-          <h1 id={id} className="text-3xl font-bold mb-6">
+          <h1 id={id} className="text-3xl font-bold mb-6 text-blue-800">
             {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
           </h1>
         );
@@ -150,7 +150,7 @@ const TokenFarmingGuide = () => {
         const text = children.reduce((acc, child) => acc + (typeof child === 'string' ? child : ''), '');
         const id = text.replace(/\s+/g, '-').toLowerCase();
         return (
-          <h2 id={id} className="text-2xl font-bold mb-4">
+          <h2 id={id} className="text-2xl font-bold mb-4 text-blue-800">
             {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
           </h2>
         );
@@ -160,7 +160,7 @@ const TokenFarmingGuide = () => {
         const text = children.reduce((acc, child) => acc + (typeof child === 'string' ? child : ''), '');
         const id = text.replace(/\s+/g, '-').toLowerCase();
         return (
-            <h3 id={id} className="text-xl font-bold mb-3">
+            <h3 id={id} className="text-xl font-bold mb-3 text-blue-800">
                 {children.map((child, index) => (
                     typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>
                 ))}
@@ -172,7 +172,7 @@ const TokenFarmingGuide = () => {
       const text = children.reduce((acc, child) => acc + (typeof child === 'string' ? child : ''), '');
       const id = text.replace(/\s+/g, '-').toLowerCase();
       return (
-          <h4 id={id} className="text-lg font-bold mb-2">
+          <h4 id={id} className="text-lg font-bold mb-2 text-blue-800">
               {children.map((child, index) => (
                   typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>
               ))}
