@@ -40,10 +40,11 @@ export default function Page() {
             <Suspense fallback={<LoadingFallback />}>
                 <CryptoNews />
             </Suspense>
+             */}
             <Suspense fallback={<LoadingFallback />}>
                 <AcademySection />
             </Suspense>
-            */}
+           
             <Disclaimer />
             <BottomSubscribe />
         </main>

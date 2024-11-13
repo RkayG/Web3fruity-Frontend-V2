@@ -28,11 +28,11 @@ const SearchResultsContent = () => {
 
   const categories = [
     { name: 'Airdrops', key: 'airdrops', itemKey: 'title', linkPrefix: '/airdrops/' },
-    { name: 'Games', key: 'games', itemKey: 'title', linkPrefix: '/games/' },
+   /*  { name: 'Games', key: 'games', itemKey: 'title', linkPrefix: '/games/' }, */
     { name: 'Farming', key: 'tokenFarming', itemKey: 'tokenName', linkPrefix: '/token-farming/' },
-    { name: 'Platforms', key: 'platforms', itemKey: 'title', linkPrefix: '/platforms/' },
+    /* { name: 'Platforms', key: 'platforms', itemKey: 'title', linkPrefix: '/platforms/' },
     { name: 'News', key: 'cryptoNews', itemKey: 'newsHeading', linkPrefix: '/crypto-news/' },
-    { name: 'Academy', key: 'academyArticles', itemKey: 'postHeading', linkPrefix: '/academy/' },
+    { name: 'Academy', key: 'academyArticles', itemKey: 'postHeading', linkPrefix: '/academy/' }, */
   ];
 
   const ResultCard = ({ title, items, itemKey, linkPrefix }) => (
