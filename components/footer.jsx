@@ -13,7 +13,8 @@ export function Footer() {
       const usefulLink = [
         {name:"Discover", path:"/discover"},
         {name: "About Us", path: "/about"},
-        /* {name: "Academy", path: "/academy"},
+        {name: "Academy", path: "/academy"},
+        /* 
         {name: "News", path: "/crypto-news"} */
       ];
 
