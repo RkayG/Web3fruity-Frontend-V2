@@ -53,14 +53,18 @@ export function BottomNavigationPanel() {
           <FaCoins className={`m-auto ${isActiveLink('/token-farming') ? 'text-orange-600' : 'text-red-800'} transition-colors duration-300 hover:text-blue-700`} />
           <span className={`${isActiveLink('/token-farming') ? 'text-orange-600' : 'text-blue-700'} font-semibold text-xs transition-colors duration-300 hover:text-red-800`}>Farming</span>
         </Link>
-        <Link href="/academy" className="block text-center">
+        <Link href="/games" className="block text-center">
+          <FaGamepad className={`m-auto ${isActiveLink('/games') ? 'text-orange-600' : 'text-red-800'} transition-colors duration-300 hover:text-blue-700`} />
+          <span className={`${isActiveLink('/games') ? 'text-orange-600' : 'text-blue-700'} font-semibold text-xs transition-colors duration-300 hover:text-red-800`}>Games</span>
+        </Link>
+       {/*  <Link href="/academy" className="block text-center">
           <FaBookOpen className={`m-auto ${isActiveLink('/academy') ? 'text-orange-600' : 'text-red-800'} transition-colors duration-300 hover:text-blue-700`} />
           <span className={`${isActiveLink('/academy') ? 'text-orange-600' : 'text-blue-700'} font-semibold text-xs transition-colors duration-300 hover:text-red-800`}>Academy</span>
         </Link>
         <Link href="/about" className="block text-center">
           <FaBookReader className={`m-auto ${isActiveLink('/about') ? 'text-orange-600' : 'text-red-800'} transition-colors duration-300 hover:text-blue-700`} />
           <span className={`${isActiveLink('/about') ? 'text-orange-600' : 'text-blue-700'} font-semibold text-xs transition-colors duration-300 hover:text-red-800`}>About</span>
-        </Link>
+        </Link> */}
 
        
 
@@ -97,7 +101,7 @@ export function BottomNavigationPanel() {
           <span className={`${isActiveLink('/platforms') ? 'text-orange-600' : 'text-blue-700'} font-semibold text-sm transition-colors duration-300 hover:text-red-800`}>Platforms</span>
         </Link> */}
 
-       {/*  <Menu as="div" className="relative inline-block text-left">
+        <Menu as="div" className="relative inline-block text-left">
           <MenuButton className={`block text-center transition-all duration-300 ${isActiveParentLink(['/academy', '/crypto-news', '/about']) ? 'text-orange-600' : ''} hover:text-blue-700 active:scale-95`}>
             <FaBookReader className={`m-auto ${isActiveParentLink(['/academy', '/crypto-news', '/about']) ? 'text-orange-600' : 'text-red-800'} transition-colors duration-300 hover:text-blue-700`} />
             <span className={`${isActiveParentLink(['/academy', '/crypto-news', '/about']) ? 'text-orange-600' : 'text-blue-700'} font-semibold text-sm transition-colors duration-300 hover:text-red-800`}>Learn</span>
@@ -125,7 +129,7 @@ export function BottomNavigationPanel() {
               )}
             </MenuItem>
           </MenuItems>
-        </Menu> */}
+        </Menu>
       </div>
     </nav>
   );

@@ -30,10 +30,11 @@ export default function Page() {
             <Suspense fallback={<LoadingFallback />}>
                 <TokenFarming />
             </Suspense>
-            {/* Uncomment these when you're ready to use them
             <Suspense fallback={<LoadingFallback />}>
                 <Games />
             </Suspense>
+            
+            {/* Uncomment these when you're ready to use them
             <Suspense fallback={<LoadingFallback />}>
                 <RewardForTask />
             </Suspense>

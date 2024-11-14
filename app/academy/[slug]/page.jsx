@@ -8,16 +8,16 @@ import Link from 'next/link';
 import axios from 'axios';
 import { formatTimestamp } from 'utils';
 import BottomSubscribe from 'components/bottom-subscribe';
-import { FaCopy, FaFacebookF, FaTwitter, FaBookReader } from 'react-icons/fa';
+import { FaCopy, FaFacebookF, FaTwitter, FaBookReader, FaShare } from 'react-icons/fa';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const Navigation = ({ title }) => {
   return (
     <nav className="flex items-center space-x-2 text-pink-900 ml-6 mt-6">
       <p>
-        {/* <Link href="/academy" className="hover:text-blue-600">
+        <Link href="/academy" className="hover:text-blue-600">
           Academy <span className='mr-1'>&gt;</span>
-        </Link> */}
+        </Link>
         <p className="font-semibold text-blue-800 inline">{title}</p>
       </p>
     </nav>
@@ -107,7 +107,7 @@ const AcademyArticleContent = () => {
   }
 
   // extract article data
-  const { postHeading, imageLink, timestamp, content, author, tags } = academyArticleData;
+  const { postHeading, imageLink, timestamp, content, track, author, tags } = academyArticleData;
   // get window url
   const articleUrl = typeof window !== 'undefined' ? window.location.href : '';
 
@@ -212,9 +212,9 @@ const AcademyArticleContent = () => {
         </div>
   
       </div>
-       {/* =========== Display additional articles =============================================
+       {/* =========== Display additional articles ============================================= */}
        <div className="py-8 px-3 mt-12 border rounded-md bg-gray-50 mb-32">
-        <h2 className="text-2xl font-bold mb-6 px-6">More Articles</h2>
+        <h2 className="text-2xl font-bold mb-6 px-6">More Articles in {track} </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {additionalArticles.map((article) => (
              <Link href={`/academy/${article.slug}`} key={article._id}>
@@ -242,7 +242,7 @@ const AcademyArticleContent = () => {
           ))}
         </div>
       </div> 
-      ========================= additional articles end =================================*/}
+     {/* ========================= additional articles end =================================*/}
       
       <BottomSubscribe />
 

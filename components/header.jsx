@@ -20,8 +20,10 @@ export function Header() {
     { name: "Discover", path: "/" },
     { name: "Airdrops", path: "/airdrops" },
     { name: "Farming", path: "/token-farming" },
+    { name: "Games", path: "/games" },
     { name: "Academy", path: "/academy" },
-   /*  { name: "Games", path: "/games" },
+   
+   /*  
     { name: "Platforms", path: "/platforms" },
     
     { name: "Crypto News", path: "/crypto-news" },*/

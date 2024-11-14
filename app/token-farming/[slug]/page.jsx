@@ -397,8 +397,22 @@ const TokenFarmingGuide = () => {
                 </div>
                 <div className="p-4">
                   <h3 className="font-bold text-lg mb-2 text-blue-900">{token.tokenName}</h3>
-                  <p className="text-sm text-gray-600">{token.platform}</p>
+                  <div className=' '>
+                  <p className="text-sm text-gray-900 mb-2">{token.stakeToFarm ? 'Stake to Farm' : 'Free Farming'}</p>
+                  <p className="text-sm font-bold text-gray-900">{token.blockchain}</p>
+                <div className="mb-3">
+                  {/* <p className="text-sm text-gray-600">{token.platform}</p> */}
                 </div>
+                
+                    {/* <p className="text-gray-600">Farming Type:</p> */}
+                     </div>
+                  <div className="mb-3">
+                    {/* <p className="text-gray-600">Blockchain:</p> */}
+                    
+                  </div>
+                 
+                </div>
+                
               </div>
             </Link>
           ))}
