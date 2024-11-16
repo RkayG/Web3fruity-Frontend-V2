@@ -3,12 +3,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Link from 'next/link';
-import GameCard from "components/game-card";
+import GameCard from "@/components/game-card";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { Inter, Roboto_Slab, Sevillana, Pacifico } from 'next/font/google'
-import BottomSubscribe from "components/bottom-subscribe";
+import BottomSubscribe from "@/components/bottom-subscribe";
+import ScrollBackTop from "@/components/scroll-back-top";
 import { motion } from "framer-motion";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
  
@@ -228,6 +229,7 @@ const Games = () => {
           {currentGames.map((game, index) => (
             <GameCard key={index} game={game} />
           ))}
+          <ScrollBackTop />
           <Pagination
             gamesPerPage={gamesPerPage}
             totalGames={filteredGames.length}

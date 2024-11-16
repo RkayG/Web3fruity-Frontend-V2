@@ -1,5 +1,16 @@
-{ 
-    "compilerOptions": {
-        "baseUrl": "."
-      }    
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "es5",
+   // "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@/*": ["./*"],
+    },
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx"],
+  "exclude": ["node_modules"]
 }

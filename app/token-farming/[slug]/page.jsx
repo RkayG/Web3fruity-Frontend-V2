@@ -9,7 +9,7 @@ import { BLOCKS, INLINES } from '@contentful/rich-text-types';
 import { FaChevronLeft, FaExternalLinkAlt, FaTwitter,
      FaReddit, FaDiscord, FaTelegram, FaFacebookF, FaGlobe, FaFileAlt
 } from 'react-icons/fa';
-import Disclaimer from 'components/disclaimer';
+import Disclaimer from '@/components/disclaimer';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
  

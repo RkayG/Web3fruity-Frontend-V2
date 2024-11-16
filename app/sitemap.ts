@@ -57,7 +57,7 @@ async function fetchCategoryData(category: Category): Promise<Item[]> {
 }
 
 export default async function sitemap(): Promise<SitemapEntry[]> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://yourdomain.com';
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.web3fruity.com';
 
   const categories: Category[] = [
     { name: 'Airdrops', key: 'airdrops', itemKey: 'title', linkPrefix: '/airdrops/' },

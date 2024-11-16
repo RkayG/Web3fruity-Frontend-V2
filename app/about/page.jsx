@@ -1,11 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+//import { useState, useEffect } from "react";
 import Link from "next/link";
-import BottomSubscribe from "components/bottom-subscribe";
+import BottomSubscribe from "@/components/bottom-subscribe.jsx";
 import { FaTwitter, FaTelegram } from "react-icons/fa";
-import Subscribe from "components/subscribe";
-import { motion, AnimatePresence } from 'framer-motion';
+//import Subscribe from "components/subscribe";
+//import { motion, AnimatePresence } from 'framer-motion';
 import { Inter, Roboto_Slab } from 'next/font/google'
  
 const roboto_slab = Roboto_Slab({ subsets: ['latin'] })

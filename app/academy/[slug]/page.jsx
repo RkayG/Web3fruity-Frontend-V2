@@ -6,8 +6,8 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { BLOCKS, INLINES } from '@contentful/rich-text-types';
 import Link from 'next/link';
 import axios from 'axios';
-import { formatTimestamp } from 'utils';
-import BottomSubscribe from 'components/bottom-subscribe';
+import { formatTimestamp } from '@/utils';
+import BottomSubscribe from '@/components/bottom-subscribe';
 import { FaCopy, FaFacebookF, FaTwitter, FaBookReader, FaShare } from 'react-icons/fa';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 

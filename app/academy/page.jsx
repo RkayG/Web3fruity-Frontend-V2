@@ -1,12 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
-import { FaShip, FaBookReader, FaSearch, FaCaretDown } from 'react-icons/fa';
+import { FaShip, FaBookReader, FaSearch, FaCaretDown, FaArrowUp } from 'react-icons/fa';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import Close from 'components/close';
-import { formatTimestamp } from 'utils';
+import Close from '@/components/close';
+import ScrollBackTop from '@/components/scroll-back-top';
+import { formatTimestamp } from '@/utils.js';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 // Custom hook to fetch articles using React Query
@@ -30,6 +31,7 @@ const Academy = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
 
   const tracks = ['Any', 'Beginner', 'Intermediate', 'Advanced'];
   const topics = ['All', 'Blockchain', 'DeFi', 'NFTs', 'TON', 'Cryptocurrency', 'Trading', 'Altcoin', 'Bitcoin', 'Staking'];
@@ -62,16 +64,33 @@ const Academy = () => {
     setSearchResults(filtered);
   };
 
+  // clear search bar
   const clearSearchResults = () => {
     setSearchResults([]);
     setSearchQuery('');
   };
 
+  // dropdown toggle for topics
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
 
   const filteredArticles = filterArticles();
+
+  // ====== scroll back up button functionality =============
+  React.useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 300);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  // ============== scroll back up end =========================
+
 
   return (
     <section className="w-full pb-32 bg-gradient-to-b from-gray-50 to-white">
@@ -213,6 +232,7 @@ const Academy = () => {
           </div>
         )}
       </div>
+      <ScrollBackTop />
     </section>
   );
 };

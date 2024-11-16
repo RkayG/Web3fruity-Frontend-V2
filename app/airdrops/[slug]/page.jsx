@@ -8,7 +8,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { FaTwitter, FaTelegram, FaDiscord, FaReddit, FaMedium, FaLinkedin, FaGlobe, FaFile, FaLink, FaCoins, FaPercentage, FaCalendarAlt, FaFileAlt, FaExternalLinkAlt, FaFacebookF } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import Disclaimer from 'components/disclaimer';
+import Disclaimer from '@/components/disclaimer';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const Navigation = ({ title }) => {

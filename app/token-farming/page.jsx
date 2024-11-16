@@ -4,9 +4,10 @@ import { useState, useCallback } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { motion } from 'framer-motion';
 import { FaFilter, FaCoins, FaExternalLinkAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import BottomSubscribe from 'components/bottom-subscribe';
-import Disclaimer from 'components/disclaimer';
+import BottomSubscribe from '@/components/bottom-subscribe';
+import Disclaimer from '@/components/disclaimer';
 import Link from 'next/link';
+import ScrollBackTop from '@/components/scroll-back-top';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -78,6 +79,7 @@ const TokenFarming = () => {
 
   return (
     <section>
+     {/* ===================== Page body ========================================================== */}
       <div className="pt-12 md:pt-24 lg:pt-24 max-w-[1580px] m-auto mx-2">
         <motion.h2
           initial={{ opacity: 0, y: -20 }}
@@ -147,9 +149,9 @@ const TokenFarming = () => {
           )}
         </motion.div>
 
-        <motion.div
-          
-          className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
+         {/*  ====================== Token Farming hero card ==================================== */}
+        <motion.div  
+            className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
         >
           {currentTokens.map((token, index) => (
             <motion.div
@@ -199,7 +201,10 @@ const TokenFarming = () => {
             </motion.div>
           ))}
         </motion.div>
+        {/* =============================== Token Farming Hero card end ================================== */}
 
+        <ScrollBackTop />
+        {/*  ============== Page navigate buttons ========================== */}
         <div className="flex justify-center mt-8 my-24">
           <button
             onClick={() => paginate(currentPage - 1)}
@@ -227,9 +232,13 @@ const TokenFarming = () => {
             <FaChevronRight />
           </button>
         </div>
+       {/*  ============= Page navigate buttons end ===================== */}
       </div>
-      
+      {/* ======================= Page body end ==========================================*/}
+
+      {/* Disclaimer banner */}
       <Disclaimer />
+      {/* Bottom subscription banner */} 
       <BottomSubscribe />
     </section>
   );

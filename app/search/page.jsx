@@ -5,7 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import axios from 'axios';
 import { useQuery } from '@tanstack/react-query';
-import BottomSubscribe from 'components/bottom-subscribe';
+import BottomSubscribe from '@/components/bottom-subscribe';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -28,11 +28,11 @@ const SearchResultsContent = () => {
 
   const categories = [
     { name: 'Airdrops', key: 'airdrops', itemKey: 'title', linkPrefix: '/airdrops/' },
-   /*  { name: 'Games', key: 'games', itemKey: 'title', linkPrefix: '/games/' }, */
+    { name: 'Games', key: 'games', itemKey: 'title', linkPrefix: '/games/' },
     { name: 'Farming', key: 'tokenFarming', itemKey: 'tokenName', linkPrefix: '/token-farming/' },
     /* { name: 'Platforms', key: 'platforms', itemKey: 'title', linkPrefix: '/platforms/' },
-    { name: 'News', key: 'cryptoNews', itemKey: 'newsHeading', linkPrefix: '/crypto-news/' },
-    { name: 'Academy', key: 'academyArticles', itemKey: 'postHeading', linkPrefix: '/academy/' }, */
+    { name: 'News', key: 'cryptoNews', itemKey: 'newsHeading', linkPrefix: '/crypto-news/' },*/
+    { name: 'Academy', key: 'academyArticles', itemKey: 'postHeading', linkPrefix: '/academy/' }, 
   ];
 
   const ResultCard = ({ title, items, itemKey, linkPrefix }) => (

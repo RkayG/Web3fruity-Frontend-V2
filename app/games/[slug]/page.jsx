@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, INLINES } from '@contentful/rich-text-types';
 import Link from 'next/link';
-import GalleryAndTrailer from 'components/game-gallery-and-trailer';
+import GalleryAndTrailer from '@/components/game-gallery-and-trailer';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 

@@ -7,8 +7,8 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { BLOCKS, INLINES } from '@contentful/rich-text-types';
 import Link from 'next/link';
 import axios from 'axios';
-import { formatTimestamp } from 'utils';
-import BottomSubscribe from 'components/bottom-subscribe';
+import { formatTimestamp } from '@/utils';
+import BottomSubscribe from '@/components/bottom-subscribe';
 import { motion } from 'framer-motion';
 import { FaCalendarAlt, FaUser } from 'react-icons/fa';
 

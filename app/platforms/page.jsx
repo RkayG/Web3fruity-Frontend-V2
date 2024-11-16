@@ -6,7 +6,7 @@ import axios from "axios";
 import { FaAngleUp, FaAngleDown } from 'react-icons/fa';
 import Link from 'next/link';
 import { motion } from "framer-motion";
-import BottomSubscribe from "components/bottom-subscribe";
+import BottomSubscribe from "@/components/bottom-subscribe";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const fetchRewardData = async (api_id) => {

@@ -6,8 +6,9 @@ import axios from 'axios';
 import Link from 'next/link';
 import { FaLink, FaCoins, FaPercentage, FaCalendarAlt, FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { motion } from 'framer-motion';
-import Disclaimer from 'components/disclaimer';
-import BottomSubscribe from 'components/bottom-subscribe';
+import Disclaimer from '@/components/disclaimer';
+import ScrollBackTop from '@/components/scroll-back-top';
+import BottomSubscribe from '@/components/bottom-subscribe';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -127,12 +128,13 @@ const Airdrops = () => {
                </motion.div>
             ))}
           </motion.div>
+          <ScrollBackTop />
           <div className="flex justify-center mt-12 mb-32">
           <Pagination currentPage={page} totalPages={data?.totalPages || 1} onPageChange={handlePageChange} />
           </div>
         </>
       )}
-
+      
       <Disclaimer />
       <BottomSubscribe />
     </motion.div>
