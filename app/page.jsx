@@ -20,7 +20,7 @@ const LoadingFallback = () => <div className="text-center py-4">Loading...</div>
 
 export default function Page() {
     return (
-        <main className="">
+        <main className="relative">
             <ParentComponent />
             <Suspense fallback={<LoadingFallback />}>
                 <FeaturedEvent />
@@ -48,11 +48,10 @@ export default function Page() {
             <Suspense fallback={<LoadingFallback />}>
                 <AcademySection />
             </Suspense>
-
-            <ScrollBackTop />
            
             <Disclaimer />
             <BottomSubscribe />
+            <ScrollBackTop />
         </main>
     );
 }

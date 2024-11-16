@@ -284,19 +284,21 @@ const InfoTag = ({ label, value, color }) => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {additionalGames.map((game) => (
-            <motion.div
-              key={game._id}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
-            >
-              <img className="w-full h-48 object-cover" src={game.image} alt={game.title} />
-              <div className="p-4">
-                <h3 className="text-xl font-semibold text-blue-900 mb-2">{game.title}</h3>
-                <p className='text-gray-600 mb-2'>{game.genre}</p>
-                <p className='text-sm font-medium text-orange-800'>{game?.platform.length > 1 ? game?.platform.join(', ') : game?.platform}</p>
-              </div>
-            </motion.div>
+            <Link href={`/games/${game.slug}`} key={game._id}>
+              <motion.div
+                key={game._id}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                <img className="w-full h-48 object-cover" src={game.image} alt={game.title} />
+                <div className="p-4">
+                  <h3 className="text-xl font-semibold text-blue-900 mb-2">{game.title}</h3>
+                  <p className='text-gray-600 mb-2'>{game.genre}</p>
+                  <p className='text-sm font-medium text-orange-800'>{game?.platform.length > 1 ? game?.platform.join(', ') : game?.platform}</p>
+                </div>
+              </motion.div>
+            </Link>
           ))}
         </div>
       </motion.div>
