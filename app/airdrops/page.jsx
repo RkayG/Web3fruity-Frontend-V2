@@ -9,6 +9,7 @@ import { motion } from 'framer-motion';
 import Disclaimer from '@/components/disclaimer';
 import ScrollBackTop from '@/components/scroll-back-top';
 import BottomSubscribe from '@/components/bottom-subscribe';
+import { isActive } from '@/utils';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -113,7 +114,7 @@ const Airdrops = () => {
                         </p>
                         <p className="flex items-center justify-between">
                           <span className="flex items-center text-gray-600"><FaCalendarAlt className="mr-2 text-orange-800" /> End Date:</span>
-                          <span className="font-semibold text-blue-800">{airdrop.endDate && new Date(airdrop.endDate).toLocaleDateString() || 'N/A'}</span>
+                          <span className="font-semibold text-blue-800">{airdrop.endDate && isActive(airdrop.endDate) || 'N/A'}</span>
                         </p>
                       </div>
                     </div>

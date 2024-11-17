@@ -1,0 +1,6 @@
+// public/robots.txt
+User-agent: *
+Allow: /
+Allow: /logo.png
+Allow: /favicon.ico
+Allow: /apple-touch-icon.png

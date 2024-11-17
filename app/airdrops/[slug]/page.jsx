@@ -9,6 +9,7 @@ import axios from 'axios';
 import { FaTwitter, FaTelegram, FaDiscord, FaReddit, FaMedium, FaLinkedin, FaGlobe, FaFile, FaLink, FaCoins, FaPercentage, FaCalendarAlt, FaFileAlt, FaExternalLinkAlt, FaFacebookF } from 'react-icons/fa';
 import { motion } from 'framer-motion';
 import Disclaimer from '@/components/disclaimer';
+import { isActive } from '@/utils';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const Navigation = ({ title }) => {
@@ -174,7 +175,7 @@ const AirdropGuide = () => {
                 </p>
                 <p className="flex items-center justify-between">
                   <span className="flex items-center text-gray-600"><FaCalendarAlt className="mr-2 text-orange-800" /> End Date:</span>
-                  <span className="font-semibold text-blue-800">{airdropData.endDate && new Date(airdropData.endDate).toLocaleDateString() || 'N/A'}</span>
+                  <span className="font-semibold text-blue-800">{airdropData.endDate && isActive(airdrop.endDate) || 'N/A'}</span>
                 </p>
               </div>
             </div>

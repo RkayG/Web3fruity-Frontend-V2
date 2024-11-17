@@ -54,6 +54,7 @@ export const getTimeDifference = (timestamp) => {
   //========= HANDLE SHARE LINKS ================
   const url = typeof window !== 'undefined' ? window.location.href : '';
   
+  //copy link
   export const handleCopyLink = (url) => {
       navigator.clipboard.writeText(url).then(() => {
         alert('Link copied to clipboard!');
@@ -62,13 +63,33 @@ export const getTimeDifference = (timestamp) => {
       });
     };
   
+    //share to facebook
    export const handleShareToFacebook = (url) => {
       const facebookShareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`;
       window.open(facebookShareUrl, '_blank');
     };
   
+  //share to twitter
    export const handleShareToTwitter = (url, heading) => {
       const twitterShareUrl = `https://twitter.com/intent/tweet?url=${encodeURIComponent(url)}&text=${encodeURIComponent(heading)}`;
       window.open(twitterShareUrl, '_blank');
     };
   
+ /**
+ * Checks if the provided airdrop end date has passed
+ * @param {string} timestamp - ISO 8601 timestamp string (e.g. '2024-11-17T23:00:00')
+ * @returns {string} Returns 'ended' if the timestamp is in the past, 'active' otherwise
+ * @throws {Error} If timestamp is invalid
+ */
+export const isActive = (timestamp) => {
+  // Validate timestamp
+  if (!timestamp || !(new Date(timestamp)).getTime()) {
+    throw new Error('Invalid timestamp provided');
+  }
+
+  const endDate = new Date(timestamp);
+  const currentDate = new Date();
+
+  return currentDate > endDate ? 'Ended' : new Date(timestamp).toLocaleDateString();
+};
+
