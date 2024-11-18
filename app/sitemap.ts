@@ -191,6 +191,7 @@ function escapeXml(unsafe: string): string {
   return unsafe.replace(/[<>&'"]/g, (c) => replacements[c] || c);
 }
 
+//generate sitemap.xml
 function generateSitemapXml(entries: SitemapEntry[]): string {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
