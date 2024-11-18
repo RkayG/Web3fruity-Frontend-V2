@@ -7,7 +7,7 @@ import { BottomNavigationPanel } from '../components/bottom-navigation';
 import React from "react";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import CryptoPriceTicker from '@/components/crypto-prices';
-import SEO from '@/components/seo';
+import SEO from '@/components/SEO';
 
 // Move this inside the RootLayout component
 // const queryClient = new QueryClient();
