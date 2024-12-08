@@ -36,15 +36,13 @@ export default function Page() {
                 <Games />
             </Suspense>
             
-            
-            {/* Uncomment these when you're ready to use them
             <Suspense fallback={<LoadingFallback />}>
                 <RewardForTask />
             </Suspense>
-            <Suspense fallback={<LoadingFallback />}>
+            {/* <Suspense fallback={<LoadingFallback />}>
                 <CryptoNews />
-            </Suspense>
-             */}
+            </Suspense> */}
+             
             <Suspense fallback={<LoadingFallback />}>
                 <AcademySection />
             </Suspense>
