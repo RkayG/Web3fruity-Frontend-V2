@@ -27,9 +27,6 @@ const Contact = () => {
         setIsSubmitting(true);
         setSubmitMessage('');
 
-        //const apiKey = '205beb6c-d872-4b87-876f-5ab9dc3e6429'; // Replace with your actual Web3Forms API key
-        alert(apiKey);
-
         try {
             const response = await fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
