@@ -7,8 +7,7 @@ export function Footer() {
         {name: "Airdrops", path: "/airdrops"},
         {name: "Token Farming", path: "/token-farming"},
         {name: "Games", path: "/games"},
-        /*
-        {name: "Reward For Tasks", path: "/platforms"} */
+        {name: "Reward For Tasks", path: "/platforms"}
       ];
       const contactList = ["Contact Us", "Advertise"];
       const usefulLink = [
