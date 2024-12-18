@@ -8,7 +8,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { formatTimestamp } from '@/utils';
 import BottomSubscribe from '@/components/bottom-subscribe';
-import { FaCopy, FaFacebookF, FaTwitter, FaBookReader, FaShare } from 'react-icons/fa';
+import { FaCopy, FaFacebookF, FaTwitter, FaBookReader, FaUser, FaShare, FaLinkedin } from 'react-icons/fa';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const Navigation = ({ title }) => {
@@ -107,7 +107,7 @@ const AcademyArticleContent = () => {
   }
 
   // extract article data
-  const { postHeading, imageLink, timestamp, content, track, author, tags } = academyArticleData;
+  const { postHeading, imageLink, timestamp, content, track, author, tags, authorSocials } = academyArticleData;
   // get window url
   const articleUrl = typeof window !== 'undefined' ? window.location.href : '';
 
@@ -231,7 +231,26 @@ const AcademyArticleContent = () => {
             </div>
           </span>
           {imageLink && <img src={imageLink} alt='Article thumbnail' className="w-[785px] rounded-lg" />}
-
+          {/* author details */}
+          <div className='flex'>
+          <p className="flex items-center mt-8 font-semibold text-gray-500">
+                <FaUser className="mr-2" />
+                 Written by: {author}
+            </p>
+            {authorSocials && authorSocials.map((link, index) => {
+              let icon;
+              if (link.includes("twitter.com") || link.includes("x.com")) icon = <FaTwitter title={link} />;
+              else if (link.includes("linkedin.com")) icon = <FaLinkedin title={link} />;
+              else if (link.includes("facebook.com")) icon = <FaFacebookF title={link} />;
+              else if (link.includes("reddit.com")) icon = <FaReddit title={link} />;
+              return (
+                <a key={index} href={link} className="ml-3 mt-9 text-gray-600 hover:text-blue-600 transition-colors duration-300">
+                  {icon}
+                </a>
+              );                   
+            })}
+          </div>
+          
           {content ? (
             <div>
               <div className="my-6">
@@ -245,9 +264,16 @@ const AcademyArticleContent = () => {
                 </ul>
               </div>
               <div className="mt-12">{documentToReactComponents(content, renderOptions)}</div>
+              <div className='mt-8'>
+                {tags.map((tag) => (
+                  <div className='inline-flex px-4 py-2 m-2 border-2 border-blue-600 rounded-full
+                  text-blue-600'>{tag}</div>
+                ))}
+              </div>
             </div>
           ) : <p className="text-gray-500">Content is not available.</p>}
         </div>
+        
       </div>
 
        {/* =========== Display additional articles ============================================= */}
