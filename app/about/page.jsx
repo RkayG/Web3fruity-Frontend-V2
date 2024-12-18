@@ -257,7 +257,7 @@ export default function Component() {
               </div>
             </div>
           </section>
-          {/*  
+          
           <section id="task-based-rewards" className="w-full py-12 md:py-24 lg:py-32">
             <div className="container m-auto px-4 md:px-6">
               <div className="flex flex-col items-center justify-center space-y-4 text-center">
@@ -314,7 +314,7 @@ export default function Component() {
               </div>
             </div>
           </section>
-          */}
+          
           <section id="crypto-education" className="w-full py-12 md:py-24 lg:py-32 bg-gray-100">
             <div className="container m-auto px-4 md:px-6">
               <div className="flex flex-col items-center justify-center space-y-4 text-center">

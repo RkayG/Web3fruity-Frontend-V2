@@ -21,8 +21,8 @@ export function Header() {
     { name: "Airdrops", path: "/airdrops" },
     { name: "Farming", path: "/token-farming" },
     { name: "Games", path: "/games" },
-    { name: "Academy", path: "/academy" },
     { name: "Platforms", path: "/platforms" },
+    { name: "Academy", path: "/academy" },
     /* { name: "Crypto News", path: "/crypto-news" }, */
     { name: "About", path: "/about" }, 
   ], []);
