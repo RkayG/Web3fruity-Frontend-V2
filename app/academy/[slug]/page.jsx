@@ -146,7 +146,7 @@ const AcademyArticleContent = () => {
         );
       },
       [BLOCKS.PARAGRAPH]: (node, children) => (
-        <p className="mb-6 leading-relaxed">
+        <p className="mb-2 leading-relaxed">
           {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
         </p>
       ),
@@ -163,15 +163,53 @@ const AcademyArticleContent = () => {
         const text = children.reduce((acc, child) => acc + (typeof child === 'string' ? child : ''), '');
         const id = text.replace(/\s+/g, '-').toLowerCase();
         return (
-          <h2 id={id} className="text-2xl font-bold mb-4">
+          <h2 id={id} className="text-2xl font-bold mb-4 mt-6">
             {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
           </h2>
+        );
+      },
+      // Heading 3 Node
+      [BLOCKS.HEADING_3]: (node, children) => {
+        const text = children.reduce((acc, child) => acc + (typeof child === 'string' ? child : ''), '');
+        const id = text.replace(/\s+/g, '-').toLowerCase();
+        return (
+            <h3 id={id} className="text-xl font-bold mb-2 mt-4">
+                {children.map((child, index) => (
+                    typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>
+                ))}
+            </h3>
+        );
+      },
+      // Heading 4 Node
+      [BLOCKS.HEADING_4]: (node, children) => {
+        const text = children.reduce((acc, child) => acc + (typeof child === 'string' ? child : ''), '');
+        const id = text.replace(/\s+/g, '-').toLowerCase();
+        return (
+            <h4 id={id} className="text-lg font-bold mb-2">
+                {children.map((child, index) => (
+                    typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>
+                ))}
+            </h4>
         );
       },
       [INLINES.HYPERLINK]: (node, children) => (
         <a href={node.data.uri} className="text-blue-600 font-bold hover:underline transition-colors duration-300">
           {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
         </a>
+      ),
+      // Unordered List Node
+      [BLOCKS.UL_LIST]: (node, children) => (
+        <ul className="list-disc list-outside pl-5 mb-1 text-gray-700">{children}</ul>
+      ),
+      
+      // Ordered List Node
+      [BLOCKS.OL_LIST]: (node, children) => (
+        <ol className="list-decimal list-outside pl-4 mb-4 text-gray-700">{children}</ol>
+      ),
+      
+      // List Item Node
+      [BLOCKS.LIST_ITEM]: (node, children) => (
+        <li className="mb-2 pl-1">{children}</li>
       ),
     },
   };
@@ -210,8 +248,8 @@ const AcademyArticleContent = () => {
             </div>
           ) : <p className="text-gray-500">Content is not available.</p>}
         </div>
-  
       </div>
+
        {/* =========== Display additional articles ============================================= */}
        <div className="py-8 px-3 mt-12 border rounded-md bg-gray-50 mb-32">
         <h2 className="text-2xl font-bold mb-6 px-6">More Articles in {track} </h2>
