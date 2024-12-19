@@ -59,7 +59,7 @@ const GameDetails = () => {
       }
     };
 
-    const fetchAdditionalGames = async () => {
+    const fetchAdditionalGames = async (slug) => {
       try {
         const response = await axios.get(`${apiUrl}/games`, {
           params: {
@@ -67,7 +67,8 @@ const GameDetails = () => {
           },
         });
         const games = await response.data;
-        setAdditionalGames(games);
+        const moreGames = games.filter((game) => game.slug !== slug);
+        setAdditionalGames(moreGames);
       } catch (error) {
         console.error('Failed to load additional games:', error);
       }
@@ -75,7 +76,7 @@ const GameDetails = () => {
 
     if (slug) {
       fetchGame();
-      fetchAdditionalGames();
+      fetchAdditionalGames(slug);
     }
   }, [slug]);
 
