@@ -8,7 +8,7 @@ import Link from 'next/link';
 import axios from 'axios';
 import { formatTimestamp } from '@/utils';
 import BottomSubscribe from '@/components/bottom-subscribe';
-import { FaCopy, FaFacebookF, FaTwitter, FaBookReader, FaUser, FaShare, FaLinkedin } from 'react-icons/fa';
+import { FaCopy, FaFacebookF, FaTwitter, FaBookReader, FaUser, FaShare, FaReddit, FaLinkedin } from 'react-icons/fa';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const Navigation = ({ title }) => {
@@ -265,8 +265,8 @@ const AcademyArticleContent = () => {
               </div>
               <div className="mt-12">{documentToReactComponents(content, renderOptions)}</div>
               <div className='mt-8'>
-                {tags.map((tag) => (
-                  <div className='inline-flex px-4 py-2 m-2 border-2 border-blue-600 rounded-full
+                {tags.map((tag, index) => (
+                  <div key={index} className='inline-flex px-4 py-2 m-2 border-2 border-blue-600 rounded-full
                   text-blue-600'>{tag}</div>
                 ))}
               </div>
