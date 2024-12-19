@@ -88,6 +88,7 @@ const CATEGORIES: Category[] = [
   { name: 'Airdrops', key: 'airdrops', itemKey: 'title', linkPrefix: '/airdrops/' },
   { name: 'Games', key: 'games', itemKey: 'title', linkPrefix: '/games/' },
   { name: 'Farming', key: 'farm-tokens', itemKey: 'tokenName', linkPrefix: '/farm-tokens/' },
+  {name: 'Platforms', key: 'platforms', itemKey: 'title', linkPrefix: '/platforms/'},
   { name: 'Academy', key: 'academy', itemKey: 'postHeading', linkPrefix: '/academy/' },
 ];
 
