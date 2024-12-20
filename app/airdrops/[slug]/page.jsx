@@ -10,6 +10,7 @@ import { FaTwitter, FaTelegram, FaDiscord, FaReddit, FaMedium, FaLinkedin, FaGlo
 import { motion } from 'framer-motion';
 import Disclaimer from '@/components/disclaimer';
 import { isActive } from '@/utils';
+import SEO from '@/components/SEO';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const Navigation = ({ title }) => {
@@ -70,7 +71,7 @@ const AirdropGuide = () => {
   if (error) return <div className="text-red-500 text-center my-48">{error}</div>;
   if (!airdropData) return <div className="loading-dots m-auto my-44"><span className="dot"></span><span className="dot"></span><span className="dot"></span></div>;
 
-  const { title, description, logo, guide, website, whitepaper, twitter, telegram, discord } = airdropData;
+  const { title, description, excerpt, keywords, logo, guide, website, whitepaper, twitter, telegram, discord } = airdropData;
 
   const renderOptions = {
     renderNode: {
@@ -138,6 +139,13 @@ const AirdropGuide = () => {
     <motion.section
       className='max-w-[1580px] m-auto'
     >
+      <SEO 
+        title={title}
+        description={excerpt ? excerpt : truncatedDescription}
+        keywords={keywords && keywords.join(', ')}
+        logoUrl={logo}
+        siteUrl={`https://www.web3fruity.com/airdrops/${slug}`}
+      />
       <Navigation title={title} />
     
       
@@ -175,7 +183,7 @@ const AirdropGuide = () => {
                 </p>
                 <p className="flex items-center justify-between">
                   <span className="flex items-center text-gray-600"><FaCalendarAlt className="mr-2 text-orange-800" /> End Date:</span>
-                  <span className="font-semibold text-blue-800">{airdropData.endDate && isActive(airdrop.endDate) || 'N/A'}</span>
+                  <span className="font-semibold text-blue-800">{airdropData.endDate && isActive(airdropData.endDate) || 'N/A'}</span>
                 </p>
               </div>
             </div>

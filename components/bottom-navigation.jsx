@@ -114,13 +114,13 @@ export function BottomNavigationPanel() {
                 </Link>
               )}
             </MenuItem>
-            <MenuItem>
+            {/* <MenuItem>
               {({ active }) => (
                 <Link href="/crypto-news" className={`block px-4 py-2 ${isActiveLink('/crypto-news') ? 'text-orange-600' : 'text-blue-700'} transition-colors duration-300 hover:bg-gray-100`}>
                   News
                 </Link>
               )}
-            </MenuItem>
+            </MenuItem> */}
             <MenuItem>
               {({ active }) => (
                 <Link href="/about" className={`block px-4 py-2 ${isActiveLink('/about') ? 'text-orange-600' : 'text-blue-700'} transition-colors duration-300 hover:bg-gray-100`}>

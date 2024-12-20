@@ -9,6 +9,7 @@ import { documentToReactComponents } from '@contentful/rich-text-react-renderer'
 import { BLOCKS, INLINES } from '@contentful/rich-text-types';
 import Link from 'next/link';
 import GalleryAndTrailer from '@/components/game-gallery-and-trailer';
+import SEO from '@/components/SEO';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -93,7 +94,7 @@ const GameDetails = () => {
         return <div>Game not found</div>;
       }
 
-  const { title, description, logo, guide, gallery } = game
+  const { title, description, excerpt, keywords, logo, guide, gallery } = game
   
 const GameCard = ({ game }) => {
   return (
@@ -167,6 +168,13 @@ const InfoTag = ({ label, value, color }) => {
     
   return (
     <main className='max-w-[1928px] m-auto px-4 sm:px-6 lg:px-8'>
+      <SEO 
+        title={title}
+        description={excerpt ? excerpt : description}
+        keywords={keywords && keywords.join(', ')}
+        logoUrl={logo}
+        siteUrl={`https://www.web3fruity.com/games/${slug}`}
+      />
       <Navigation title={title} />
       <GameCard game={game} className='mt-12' />
 

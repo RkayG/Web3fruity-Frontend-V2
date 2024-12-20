@@ -10,6 +10,7 @@ import axios from 'axios';
 import { formatTimestamp } from '@/utils';
 import BottomSubscribe from '@/components/bottom-subscribe';
 import { FaCopy, FaFacebookF, FaTwitter, FaBookReader, FaUser, FaShare, FaReddit, FaLinkedin } from 'react-icons/fa';
+import SEO from '@/components/SEO';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const Navigation = ({ title }) => {
@@ -218,12 +219,13 @@ const AcademyArticleContent = () => {
 
   return (
     <section>
-      <Head>
-        <title>{postHeading}</title>
-        <meta name="description" content={excerpt} />
-        <meta name="keywords" content={keywords.join(', ')} />
-        <meta name="robots" content="index, follow" /> 
-      </Head>
+      <SEO 
+        title={postHeading}
+        description={excerpt}
+        keywords={keywords.join(', ')}
+        author={author}
+        siteUrl={`https://www.web3fruity.com/academy/${slug}`}
+      />
 
       <Navigation title={postHeading} />
 

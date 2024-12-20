@@ -5,6 +5,7 @@ import ParentComponent from '@/components/parent-banner';
 import Disclaimer from '@/components/disclaimer';
 import BottomSubscribe from '@/components/bottom-subscribe';
 import ScrollBackTop from '@/components/scroll-back-top';
+import SEO from '@/components/SEO';
 
 // Lazily loaded components
 const FeaturedEvent = lazy(() => import('@/components/featured'));
@@ -21,6 +22,14 @@ const LoadingFallback = () => <div className="text-center py-4">Loading...</div>
 export default function Page() {
     return (
         <main className="relative">
+            <SEO 
+                title="Web3Fruity - Your Web3 Resource"
+                description="Discover the latest in Web3, Airdrops, Games, and more"
+                keywords='web3, airdrops, blockchain games, crypto, cryptocurrency, crypto rewards, 
+                crypto education, free crypto, staking, crypto farming, telegram airdrops'
+                logoUrl="https://www.web3fruity.com/logo.png"
+                siteUrl="https://www.web3fruity.com"
+            />
             <ParentComponent />
             <Suspense fallback={<LoadingFallback />}>
                 <FeaturedEvent />

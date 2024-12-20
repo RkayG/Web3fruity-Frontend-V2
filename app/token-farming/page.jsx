@@ -8,6 +8,7 @@ import BottomSubscribe from '@/components/bottom-subscribe';
 import Disclaimer from '@/components/disclaimer';
 import Link from 'next/link';
 import ScrollBackTop from '@/components/scroll-back-top';
+import SEO from '@/components/SEO';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -79,6 +80,12 @@ const TokenFarming = () => {
 
   return (
     <section>
+      <SEO 
+          title="Token Farming / Potential Airdrops"
+          description="Farm crypto tokens for yields and multiple rewards."
+          keywords='crypto staking, airdrop farming , crypto, free crypto'
+          siteUrl="https://www.web3fruity.com/token-farming"
+      />
      {/* ===================== Page body ========================================================== */}
       <div className="pt-12 md:pt-24 lg:pt-24 max-w-[1580px] m-auto mx-2">
         <motion.h2

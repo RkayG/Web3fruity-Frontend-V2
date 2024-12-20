@@ -7,6 +7,7 @@ import { FaAngleUp, FaAngleDown } from 'react-icons/fa';
 import Link from 'next/link';
 import { motion } from "framer-motion";
 import BottomSubscribe from "@/components/bottom-subscribe";
+import SEO from "@/components/SEO";
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const fetchRewardData = async (api_id) => {
@@ -101,6 +102,12 @@ const RewardForTask = () => {
         </div>
       ) : (
         <div>
+          <SEO 
+            title="Complete Tasks, Earn Rewards"
+            description="Find and join multiple task-based rewards platforms."
+            keywords='web3 reward platforms, web3 marketing'
+            siteUrl="https://www.web3fruity.com/platforms"
+        />
           <motion.section 
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}

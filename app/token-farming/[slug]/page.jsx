@@ -10,6 +10,7 @@ import { FaChevronLeft, FaExternalLinkAlt, FaTwitter,
      FaReddit, FaDiscord, FaTelegram, FaFacebookF, FaGlobe, FaFileAlt
 } from 'react-icons/fa';
 import Disclaimer from '@/components/disclaimer';
+import SEO from '@/components/SEO';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
  
@@ -17,7 +18,7 @@ const Navigation = ({ title }) => {
   return (
     <nav className="flex items-center space-x-2 text-pink-900 ml-6 mt-6">
       <p>
-        <Link href="/academy" className="hover:text-blue-600">
+        <Link href="/token-farming" className="hover:text-blue-600">
           Token Farming <span className='mr-1'>&gt;</span>
         </Link>
         <p className="font-semibold text-blue-800 inline">{title}</p>
@@ -116,7 +117,7 @@ const TokenFarmingGuide = () => {
   }
 
   /*----------- Guide content formatter - page formatting for texts, links, and images ----------------------------- */
- const { tokenName, platform, requirements, blockchain, guide, linkToFarmingPlatform, website, whitepaper, twitter, telegram, discord } = tokenData;
+ const { tokenName, logo, platform, requirements, excerpt, keywords, blockchain, guide, linkToFarmingPlatform, website, whitepaper, twitter, telegram, discord } = tokenData;
  const renderOptions = {
     renderNode: {
       // Embedded Asset Node
@@ -221,6 +222,14 @@ const TokenFarmingGuide = () => {
    /*  SECTION START */
     <motion.section
     >
+      <SEO 
+        title={`${tokenName} Farming`}
+        description={excerpt && excerpt }
+        keywords={keywords && keywords.join(', ')}
+        logoUrl={logo}
+        siteUrl={`https://www.web3fruity.com/token-farming/${slug}`}
+      />
+
       <Navigation title={tokenName} />
 
     {/* =========== Section heading =========================== */}

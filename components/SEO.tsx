@@ -6,11 +6,13 @@ import Head from 'next/head';
 interface SEOProps {
   title: string;
   description: string;
+  keywords: string;
   logoUrl: string;
   siteUrl: string;
+  author: string;
 }
 
-const SEO = ({ title, description, logoUrl, siteUrl }: SEOProps) => {
+const SEO = ({ title, description, keywords, logoUrl, author, siteUrl }: SEOProps) => {
   useEffect(() => {
     // Inject JSON-LD
     const jsonLd = {
@@ -19,6 +21,7 @@ const SEO = ({ title, description, logoUrl, siteUrl }: SEOProps) => {
       "name": "Web3Fruity",
       "url": siteUrl,
       "logo": logoUrl,
+      "author": author,
       "sameAs": [
         // Add your social media URLs
         "https://twitter.com/web3fruity",
@@ -39,29 +42,36 @@ const SEO = ({ title, description, logoUrl, siteUrl }: SEOProps) => {
   }, [logoUrl, siteUrl]);
 
   return (
-    <Head>
+    <head>
       {/* Basic Meta Tags */}
       <title>{title}</title>
       <meta name="description" content={description} />
+      <meta name="keywords" content={keywords} />
+      <meta name="robots" content="index, follow" />
+      {author && <meta data-n-head="ssr" data-hid="author" name="author" content={author}></meta>}
       
       {/* OpenGraph Meta Tags */}
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:type" content="website" />
       <meta property="og:url" content={siteUrl} />
-      <meta property="og:image" content={logoUrl} />
+      {logoUrl && <meta property="og:image" content={logoUrl} />}
       <meta property="og:site_name" content="Web3Fruity" />
       
       {/* Twitter Meta Tags */}
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={logoUrl} />
+      {logoUrl && <meta name="twitter:image" content={logoUrl} />}
       
       {/* Favicon */}
       <link rel="icon" href="/favicon.ico" />
       <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    </Head>
+
+      {/* Manifest */}
+      <link rel="manifest" href="/manifest.json" />
+              
+    </head>
   );
 };
 
