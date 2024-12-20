@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 import { BLOCKS, INLINES } from '@contentful/rich-text-types';
 import Link from 'next/link';
+import Head from 'next/head';
 import axios from 'axios';
 import { formatTimestamp } from '@/utils';
 import BottomSubscribe from '@/components/bottom-subscribe';
@@ -107,7 +108,7 @@ const AcademyArticleContent = () => {
   }
 
   // extract article data
-  const { postHeading, imageLink, timestamp, content, track, author, tags, authorSocials } = academyArticleData;
+  const { postHeading, imageLink, timestamp, content, track, author, tags, authorSocials, keywords, excerpt } = academyArticleData;
   // get window url
   const articleUrl = typeof window !== 'undefined' ? window.location.href : '';
 
@@ -217,6 +218,13 @@ const AcademyArticleContent = () => {
 
   return (
     <section>
+      <Head>
+        <title>{postHeading}</title>
+        <meta name="description" content={excerpt} />
+        <meta name="keywords" content={keywords.join(', ')} />
+        <meta name="robots" content="index, follow" /> 
+      </Head>
+
       <Navigation title={postHeading} />
 
       <div className='max-w-[785px] m-auto'>
