@@ -154,7 +154,7 @@ const AcademyArticleContent = () => {
         const text = children.reduce((acc, child) => acc + (typeof child === 'string' ? child : ''), '');
         const id = text.replace(/\s+/g, '-').toLowerCase();
         return (
-          <h1 id={id} className="text-3xl font-bold mb-6">
+          <h1 id={id} className="text-3xl font-bold my-6">
             {children.map((child, index) => (typeof child === 'string' ? child : <React.Fragment key={index}>{child}</React.Fragment>))}
           </h1>
         );
