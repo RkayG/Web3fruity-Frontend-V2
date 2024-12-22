@@ -223,6 +223,7 @@ const AcademyArticleContent = () => {
         title={postHeading}
         description={excerpt}
         keywords={keywords.join(', ')}
+        logoUrl={imageLink}
         author={author}
         siteUrl={`https://www.web3fruity.com/academy/${slug}`}
       />
