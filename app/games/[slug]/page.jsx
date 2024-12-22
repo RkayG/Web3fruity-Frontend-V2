@@ -82,19 +82,19 @@ const GameDetails = () => {
   }, [slug]);
 
   
-    if (error) {
-      return <div className="text-red-500">{error}</div>;
-    }
-  
-    if (loading) {
-      return <div className='flex justify-center my-32'> Loading game info </div>
+  if (error) {
+    return <div className="text-red-500">{error}</div>;
+  }
+
+  if (loading) {
+    return <div className='flex justify-center my-32'> Loading game info </div>
+  }
+
+  if (!game) {
+      return <div>Game not found</div>;
     }
 
-    if (!game) {
-        return <div>Game not found</div>;
-      }
-
-  const { title, description, excerpt, keywords, logo, guide, gallery } = game
+  const { title, description, excerpt, keywords, image, guide, gallery } = game
   
 const GameCard = ({ game }) => {
   return (
@@ -172,7 +172,7 @@ const InfoTag = ({ label, value, color }) => {
         title={title}
         description={excerpt ? excerpt : description}
         keywords={keywords && keywords.join(', ')}
-        logoUrl={logo}
+        logoUrl={image}
         siteUrl={`https://www.web3fruity.com/games/${slug}`}
       />
       <Navigation title={title} />
