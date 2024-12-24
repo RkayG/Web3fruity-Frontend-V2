@@ -105,6 +105,9 @@ const AcademyArticleContent = () => {
     if (slug && !academyArticleData) {
       fetchAcademyArticles(slug);
     }
+    else {
+      console.log('served academy article from cache');
+    }
   }, [slug]);
 
 
