@@ -265,7 +265,14 @@ const AcademyArticleContent = () => {
 
   return (
     <section>
-      <ArticleMetadata metadata={metadataCache} />
+      <SEO 
+        title={postHeading}
+        description={excerpt}
+        keywords={keywords.join(', ')}
+        logoUrl={imageLink}
+        author={author}
+        siteUrl={`https://www.web3fruity.com/academy/${slug}`}
+      />
       <Navigation title={postHeading} />
 
       <div className='max-w-[785px] m-auto'>
