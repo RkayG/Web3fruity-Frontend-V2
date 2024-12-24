@@ -44,7 +44,7 @@ const CryptoPriceTicker = ({ tokens = defaultTokens }) => {
     };
 
     fetchData();
-    const interval = setInterval(fetchData, 60000); // Update every minute
+    const interval = setInterval(fetchData, 600000); // Update every 10 minutes
 
     return () => clearInterval(interval);
   }, [tokens]);
