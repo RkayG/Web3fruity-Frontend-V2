@@ -32,41 +32,29 @@ const SocialLink = ({ href, icon: Icon, label }) => (
   </a>
 );
 
-const AirdropGuide = () => {
-  const [airdropData, setAirdropData] = useState(null);
+const AirdropGuide = (initialData, slug) => {
+  const [airdropData, setAirdropData] = useState(initialData.initialData);
   const [additionalAirdrops, setAdditionalAirdrops] = useState([]);
   const [error, setError] = useState(null);
   const [showFullDescription, setShowFullDescription] = useState(false);
-  const { slug } = useParams();
-
-  const fetchAirdrop = useCallback(async (slug) => {
-    try {
-      const response = await axios.get(`${apiUrl}/airdrops/${slug}`);
-      setAirdropData(response.data);
-    } catch (error) {
-      console.error('Failed to load airdrop guide:', error);
-      setError('Failed to load airdrop guide');
-    }
-  }, []);
-
-  const fetchAdditionalAirdrops = useCallback(async (slug) => {
-    try {
-      const response = await axios.get(`${apiUrl}/airdrops`, {
-        params: { limit: 7, page: 1 },
-      });
-      const moreAirdrops = response.data.airdrops.filter((airdrop) => airdrop.slug !== slug);
-      setAdditionalAirdrops(moreAirdrops);
-    } catch (error) {
-      console.error('Failed to load additional airdrops:', error);
-    }
-  }, []);
 
   useEffect(() => {
-    if (slug && !airdropData) {
-        fetchAirdrop(slug);
-        fetchAdditionalAirdrops(slug);
+    const fetchAdditionalAirdrops = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/airdrops`, {
+          params: { limit: 7, page: 1 },
+        });
+        const moreAirdrops = response.data.airdrops.filter((airdrop) => airdrop.slug !== slug);
+        setAdditionalAirdrops(moreAirdrops);
+      } catch (error) {
+        console.error('Failed to load additional airdrops:', error);
+      }
+    };
+
+    if (slug) {
+      fetchAdditionalAirdrops(slug);
     }
-  }, [slug, airdropData, fetchAirdrop, fetchAdditionalAirdrops]);
+  }, [slug]);
 
   if (error) return <div className="text-red-500 text-center my-48">{error}</div>;
   if (!airdropData) return <div className="loading-dots m-auto my-44"><span className="dot"></span><span className="dot"></span><span className="dot"></span></div>;
@@ -137,14 +125,6 @@ const AirdropGuide = () => {
 
   return (
     <>
-    <SEO 
-        title={title}
-        description={excerpt ? excerpt : truncatedDescription}
-        keywords={keywords && keywords.join(', ')}
-        logoUrl={logo}
-        siteUrl={`https://www.web3fruity.com/airdrops/${slug}`}
-      />
-    
     <motion.section
       className='max-w-[1580px] m-auto'
     >
