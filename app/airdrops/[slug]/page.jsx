@@ -62,7 +62,7 @@ const AirdropGuide = () => {
   }, []);
 
   useEffect(() => {
-    if (slug) {
+    if (slug && !airdropData) {
         fetchAirdrop(slug);
         fetchAdditionalAirdrops(slug);
     }
