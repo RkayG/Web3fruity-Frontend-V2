@@ -25,13 +25,56 @@ const Navigation = ({ title }) => {
     </nav>
   );
 };
+// Static metadata component that can be pre-rendered
+const ArticleMetadata = ({ metadata }) => {
+  if (!metadata) return null;
+
+  const {
+    postHeading,
+    excerpt,
+    keywords,
+    imageLink,
+    author,
+    slug
+  } = metadata;
+
+  return (
+    <>
+      <SEO 
+        title={postHeading}
+        description={excerpt}
+        keywords={keywords.join(', ')}
+        logoUrl={imageLink}
+        author={author}
+        siteUrl={`https://www.web3fruity.com/academy/${slug}`}
+      />
+    </>
+  );
+};
 
 const AcademyArticleContent = () => {
   const [academyArticleData, setAcademyArticleData] = useState(null);
+  const [metadataCache, setMetadataCache] = useState(null);
   const [additionalArticles, setAdditionalArticles] = useState([]);
   const [error, setError] = useState(null);
   const [headings, setHeadings] = useState([]);
   const { slug } = useParams();
+
+  // Fetch and cache metadata separately
+  useEffect(() => {
+    const fetchMetadata = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/academy/${slug}/metadata`);
+        setMetadataCache(response.data);
+      } catch (error) {
+        console.error('Failed to load metadata:', error);
+      }
+    };
+    
+    if (slug && !metadataCache) {
+      fetchMetadata();
+    }
+  }, [slug]);
 
   const fetchAdditionalArticles = async (slug, track) => {
     try {
@@ -59,7 +102,7 @@ const AcademyArticleContent = () => {
       }
     };
 
-    if (slug) {
+    if (slug && !academyArticleData) {
       fetchAcademyArticles(slug);
     }
   }, [slug]);
@@ -219,15 +262,7 @@ const AcademyArticleContent = () => {
 
   return (
     <section>
-      <SEO 
-        title={postHeading}
-        description={excerpt}
-        keywords={keywords.join(', ')}
-        logoUrl={imageLink}
-        author={author}
-        siteUrl={`https://www.web3fruity.com/academy/${slug}`}
-      />
-
+      <ArticleMetadata metadata={metadataCache} />
       <Navigation title={postHeading} />
 
       <div className='max-w-[785px] m-auto'>

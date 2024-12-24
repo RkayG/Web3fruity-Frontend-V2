@@ -7,6 +7,7 @@ import { FaTwitter, FaTelegram } from "react-icons/fa";
 //import Subscribe from "components/subscribe";
 //import { motion, AnimatePresence } from 'framer-motion';
 import { Inter, Roboto_Slab } from 'next/font/google'
+import SEO from "@/components/SEO";
  
 const roboto_slab = Roboto_Slab({ subsets: ['latin'] })
 
