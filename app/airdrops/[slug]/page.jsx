@@ -66,7 +66,7 @@ const AirdropGuide = () => {
         fetchAirdrop(slug);
         fetchAdditionalAirdrops(slug);
     }
-  }, [slug, fetchAirdrop, fetchAdditionalAirdrops]);
+  }, [slug, airdropData, fetchAirdrop, fetchAdditionalAirdrops]);
 
   if (error) return <div className="text-red-500 text-center my-48">{error}</div>;
   if (!airdropData) return <div className="loading-dots m-auto my-44"><span className="dot"></span><span className="dot"></span><span className="dot"></span></div>;

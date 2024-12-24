@@ -434,7 +434,6 @@ const TokenFarmingGuide = () => {
       <Disclaimer />
 
     </motion.section>
-    /* SECTION END */
     </>
   );
 };

@@ -46,7 +46,7 @@ const AcademySection = () => {
           <div className="grid gap-8 md:grid-cols-3">
             {articles.map((article, index) => (
               <motion.div
-                key={article.id}
+                key={article.slug}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 whileHover={{ scale: 1.05 }}

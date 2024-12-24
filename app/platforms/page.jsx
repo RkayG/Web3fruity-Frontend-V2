@@ -37,10 +37,10 @@ const RewardTooltip = ({ reward }) => {
           {tokenData && (
             <>
               <div className="flex flex-wrap text-black">
-                <p className="pr-16">Price:</p>
+                <p className="pr-16 ">Price:</p>
                 <p className="text-left">${tokenData.market_data.current_price.usd}</p>
               </div>
-              <div className="flex flex-wrap text-black">
+              <div className="flex flex-wrap  text-black">
                 <p className="pr-4">Market Cap:</p>
                 <p className="text-right">${tokenData.market_data.market_cap.usd.toLocaleString()}</p>
               </div>

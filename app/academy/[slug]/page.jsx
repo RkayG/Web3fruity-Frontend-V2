@@ -66,7 +66,7 @@ const AcademyArticleContent = () => {
     else {
       console.log('served academy article from cache');
     }
-  }, [slug]);
+  }, [slug, academyArticleData]);
 
 
   //======= Extract Headings for table of contents ===================================
@@ -222,7 +222,7 @@ const AcademyArticleContent = () => {
   //=============================== format end ===========================================
 
   return (
-      <>
+    <>
       <SEO 
         title={postHeading}
         description={excerpt}
