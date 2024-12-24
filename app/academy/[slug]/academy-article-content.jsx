@@ -11,7 +11,9 @@ import { formatTimestamp } from '@/utils';
 import BottomSubscribe from '@/components/bottom-subscribe';
 import { FaCopy, FaFacebookF, FaTwitter, FaBookReader, FaUser, FaShare, FaReddit, FaLinkedin } from 'react-icons/fa';
 import SEO from '@/components/SEO';
+import { Metadata, ResolvingMetadata } from 'next';
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 
 const Navigation = ({ title }) => {
   return (
@@ -26,52 +28,41 @@ const Navigation = ({ title }) => {
   );
 };
 
-const AcademyArticleContent = () => {
-  const [academyArticleData, setAcademyArticleData] = useState(null);
+const AcademyArticleContent = (initialData, slug) => {
+  const [academyArticleData, setAcademyArticleData] = useState(initialData);
+  console.log('academy data', academyArticleData)
   const [metadataCache, setMetadataCache] = useState(null);
   const [additionalArticles, setAdditionalArticles] = useState([]);
   const [error, setError] = useState(null);
   const [headings, setHeadings] = useState([]);
-  const { slug } = useParams();
 
-  const fetchAdditionalArticles = async (slug, track) => {
-    try {
-      const response = await axios.get(`${apiUrl}/academy`);
-      const allArticles = response.data;
-      const filteredArticles = allArticles.filter(article => 
-        article.slug !== slug && article.track === track
-      );
-      setAdditionalArticles(filteredArticles.slice(0, 6)); // Limit to 6 articles
-    } catch (error) {
-      console.error('Failed to load additional articles:', error);
-    }
-  };
 
+  // Fetch additional articles
   useEffect(() => {
-    const fetchAcademyArticles = async (slug) => {
+    const fetchAdditionalArticles = async (track) => {
       try {
-        const response = await fetch(`${apiUrl}/academy/${slug}`);
-        const article = await response.json();
-        setAcademyArticleData(article);
-        fetchAdditionalArticles(slug, article.track);
+        const response = await axios.get(`${apiUrl}/academy`);
+        const allArticles = response.data;
+        
+        const filteredArticles = allArticles.filter(article => 
+          article.slug !== slug && article.track === track
+        );
+        setAdditionalArticles(filteredArticles.slice(0, 6));
       } catch (error) {
-        console.error('Failed to load article:', error);
-        setError('Failed to load article');
+        console.error('Failed to load additional articles:', error);
       }
     };
 
-    if (slug && !academyArticleData) {
-      fetchAcademyArticles(slug);
-    }
-    else {
-      console.log('served academy article from cache');
+    if (academyArticleData.initialData?.track) {
+      fetchAdditionalArticles(academyArticleData.track);
     }
   }, [slug, academyArticleData]);
 
 
+
   //======= Extract Headings for table of contents ===================================
   useEffect(() => {
-    if (academyArticleData && academyArticleData.content) {
+    if (academyArticleData.initialData?.content) {
       const extractedHeadings = [];
 
       const traverseRichText = (node) => {
@@ -89,7 +80,7 @@ const AcademyArticleContent = () => {
         }
       };
 
-      traverseRichText(academyArticleData.content);
+      traverseRichText(academyArticleData.initialData.content);
       setHeadings(extractedHeadings);
     }
   }, [academyArticleData]);
@@ -113,7 +104,8 @@ const AcademyArticleContent = () => {
   }
 
   // extract article data
-  const { postHeading, imageLink, timestamp, content, track, author, tags, authorSocials, keywords, excerpt } = academyArticleData;
+  const { postHeading, imageLink, timestamp, content, track, author, tags, authorSocials, keywords, excerpt } = academyArticleData.initialData;
+  console.log(postHeading)
   // get window url
   const articleUrl = typeof window !== 'undefined' ? window.location.href : '';
 
@@ -223,14 +215,6 @@ const AcademyArticleContent = () => {
 
   return (
     <>
-      <SEO 
-        title={postHeading}
-        description={excerpt}
-        keywords={keywords.join(', ')}
-        logoUrl={imageLink}
-        author={author}
-        siteUrl={`https://www.web3fruity.com/academy/${slug}`}
-      />
       <Navigation title={postHeading} />
 
       <div className='max-w-[785px] m-auto'>
