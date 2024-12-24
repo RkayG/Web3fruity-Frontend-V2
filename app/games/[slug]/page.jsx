@@ -167,14 +167,16 @@ const InfoTag = ({ label, value, color }) => {
 };
     
   return (
-    <main className='max-w-[1928px] m-auto px-4 sm:px-6 lg:px-8'>
-      <SEO 
+    <>
+    <SEO 
         title={title}
         description={excerpt ? excerpt : description}
         keywords={keywords && keywords.join(', ')}
         logoUrl={image}
         siteUrl={`https://www.web3fruity.com/games/${slug}`}
       />
+    
+    <main className='max-w-[1928px] m-auto px-4 sm:px-6 lg:px-8'>
       <Navigation title={title} />
       <GameCard game={game} className='mt-12' />
 
@@ -312,6 +314,7 @@ const InfoTag = ({ label, value, color }) => {
         </div>
       </motion.div>
     </main>
+    </>
   );
 };
 

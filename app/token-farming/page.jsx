@@ -79,13 +79,15 @@ const TokenFarming = () => {
   };
 
   return (
-    <section>
-      <SEO 
+    <>
+    <SEO 
           title="Token Farming / Potential Airdrops"
           description="Farm crypto tokens for yields and multiple rewards."
           keywords='crypto staking, airdrop farming , crypto, free crypto'
           siteUrl="https://www.web3fruity.com/token-farming"
       />
+    
+    <section>
      {/* ===================== Page body ========================================================== */}
       <div className="pt-12 md:pt-24 lg:pt-24 max-w-[1580px] m-auto mx-2">
         <motion.h2
@@ -248,6 +250,7 @@ const TokenFarming = () => {
       {/* Bottom subscription banner */} 
       <BottomSubscribe />
     </section>
+    </>
   );
 };
 

@@ -94,14 +94,16 @@ const Academy = () => {
 
 
   return (
-    <section className="w-full pb-32 bg-gradient-to-b from-gray-50 to-white">
-      <SEO 
+    <>
+    <SEO 
         title="A beginner's guide to cryptocurrency."
-        description='A beginner&amp;s guide to cryptocurrency.'
+        description='Dive into topics that spark your interest, from Blockchain to DeFi, NFTs to Cryptocurrency, and beyond.'
         keywords='crypto education, blockchain, deFi, cryptocurrency, trading, altcoin, bitcoin, staking'
         author='Rufus Gladness'
         siteUrl={`https://www.web3fruity.com/academy`}
       />
+    
+    <section className="w-full pb-32 bg-gradient-to-b from-gray-50 to-white">
       <div className="container mx-auto px-4">
         <div className="py-24 text-center">
           <h1 className="text-5xl lg:text-7xl font-extrabold mb-6 bg-gradient-to-r from-orange-600 to-blue-800 bg-clip-text text-transparent">
@@ -242,6 +244,7 @@ const Academy = () => {
       </div>
       <ScrollBackTop />
     </section>
+    </>
   );
 };
 

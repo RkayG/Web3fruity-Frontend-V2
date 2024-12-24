@@ -21,8 +21,8 @@ const LoadingFallback = () => <div className="text-center py-4">Loading...</div>
 
 export default function Page() {
     return (
-        <main className="relative">
-            <SEO 
+        <>
+        <SEO 
                 title="Web3Fruity - Your Web3 Resource"
                 description="Discover the latest in Web3, Airdrops, Games, and more"
                 keywords='web3, airdrops, blockchain games, crypto, cryptocurrency, crypto rewards, 
@@ -30,6 +30,8 @@ export default function Page() {
                 logoUrl="https://www.web3fruity.com/logo.png"
                 siteUrl="https://www.web3fruity.com"
             />
+      
+        <main className="relative">
             <ParentComponent />
             <Suspense fallback={<LoadingFallback />}>
                 <FeaturedEvent />
@@ -60,5 +62,6 @@ export default function Page() {
             <BottomSubscribe />
             <ScrollBackTop />
         </main>
+        </>
     );
 }

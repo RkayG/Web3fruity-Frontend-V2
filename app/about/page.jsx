@@ -16,14 +16,15 @@ export default function Component() {
 
 
   return (
-    <div className="flex flex-col min-h-[100dvh] ">
-      <SEO 
+    <>
+    <SEO 
           title="Web3Fruity: Largest Crypto Rewards Curator"
           description="Dive into the vibrant orchard of DeFi with Web3Fruity and discover how to maximize your crypto earnings"
           keywords='airdrops, free crypto, cryptocurrency, crypto rewards, telegram airdrops'
           logoUrl="/images/logo.png"
           siteUrl="https://www.web3fruity.com/about"
       />
+    <div className="flex flex-col min-h-[100dvh] ">
       <main className="flex-1">
         <section className="about-section w-[90%] mx-auto py-12 md:py-24 lg:py-32 animate-slideUp">
           <div className="container m-auto px-4 md:px-6">
@@ -461,6 +462,7 @@ export default function Component() {
       </main>
       <BottomSubscribe />
     </div>
+    </>
   )
 }
 

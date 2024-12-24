@@ -150,14 +150,16 @@ const Games = () => {
   }
 
   return (
-    <section>
+    <>
       <SEO 
           title="Earn While Playing Games"
           description="Discover top play-to-earn games and start earning rewards for your gameplay."
           keywords='blockchain games, play to earn, crypto games'
-          logoUrl="/images/games1.jpg"
+          logoUrl="/images/games1-og-image.jpg"
           siteUrl="https://www.web3fruity.com/games"
       />
+   
+    <section>
       <div className="mb-56 max-w-[1920px] m-auto">
         <div className="relative w-full max-h-[50vh] min-h-[300px] mb-6 flex items-center justify-center bg-cover bg-center bg-[url('/images/games1.jpg')]">
           <div className="absolute inset-0 bg-gradient-to-r from-[rgba(210,143,143,0.5)] to-[rgba(0,0,0,0.5)]" />
@@ -250,6 +252,7 @@ const Games = () => {
       </div>
       <BottomSubscribe />
     </section>
+    </>
   );
 };
 
@@ -274,6 +277,7 @@ const Pagination = ({ gamesPerPage, totalGames, paginate, currentPage }) => {
         ))}
       </ul>
     </nav>
+    
   );
 };
 

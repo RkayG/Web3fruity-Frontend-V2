@@ -136,16 +136,18 @@ const AirdropGuide = () => {
   const truncatedDescription = description?.length > 200 ? description?.substring(0, 200) + '...' : description;
 
   return (
-    <motion.section
-      className='max-w-[1580px] m-auto'
-    >
-      <SEO 
+    <>
+    <SEO 
         title={title}
         description={excerpt ? excerpt : truncatedDescription}
         keywords={keywords && keywords.join(', ')}
         logoUrl={logo}
         siteUrl={`https://www.web3fruity.com/airdrops/${slug}`}
       />
+    
+    <motion.section
+      className='max-w-[1580px] m-auto'
+    >
       <Navigation title={title} />
     
       
@@ -340,6 +342,7 @@ const AirdropGuide = () => {
       <Disclaimer />
 
     </motion.section>
+    </>
   );
 };
 

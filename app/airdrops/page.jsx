@@ -51,19 +51,21 @@ const Airdrops = () => {
   }
 
   return (
+    <>
+    <SEO 
+          title="Discover Latest Airdrops"
+          description="Earn free tokens by participating in our curated airdrop selections"
+          keywords='airdrops, free crypto, cryptocurrency, crypto rewards, telegram airdrops'
+          logoUrl="/images/airdrops1.jpg"
+          siteUrl="https://www.web3fruity.com/airdrops"
+      />    
+   
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
       className=' m-auto max-w-[1580px]'
     >
-      <SEO 
-          title="Discover Latest Airdrops"
-          description="Earn free tokens by participating in our curated airdrop selections"
-          keywords='airdrops, free crypto, cryptocurrency, crypto rewards, telegram airdrops'
-          logoUrl="/images/airdrops1.jpg"
-          siteUrl="https://www.web3fruity.com/airdrops"
-      />
       <section className="relative w-full h-[60vh] min-h-[400px] mb-12 flex items-center justify-center bg-cover bg-center bg-[url('/images/airdrops1.jpg')]">
         <div className="absolute inset-0 bg-gradient-to-r from-[rgba(0,0,0,0.7)] to-[rgba(0,0,0,0.4)]" />
         <motion.div
@@ -147,6 +149,7 @@ const Airdrops = () => {
       <Disclaimer />
       <BottomSubscribe />
     </motion.div>
+    </>
   );
 };
 

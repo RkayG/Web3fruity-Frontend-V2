@@ -88,6 +88,14 @@ const RewardForTask = () => {
   }
 
   return (
+    <>
+       <SEO 
+            title="Complete Tasks, Earn Rewards"
+            description="Find and join multiple task-based rewards platforms."
+            keywords='web3 reward platforms, web3 marketing'
+            siteUrl="https://www.web3fruity.com/platforms"
+        />
+   
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -102,12 +110,7 @@ const RewardForTask = () => {
         </div>
       ) : (
         <div>
-          <SEO 
-            title="Complete Tasks, Earn Rewards"
-            description="Find and join multiple task-based rewards platforms."
-            keywords='web3 reward platforms, web3 marketing'
-            siteUrl="https://www.web3fruity.com/platforms"
-        />
+         
           <motion.section 
             initial={{ y: -50, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
@@ -240,6 +243,7 @@ const RewardForTask = () => {
         </div>
       )}
     </motion.div>
+    </>
   );
 };
 
