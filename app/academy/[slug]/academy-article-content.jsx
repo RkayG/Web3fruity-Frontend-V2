@@ -28,13 +28,14 @@ const Navigation = ({ title }) => {
   );
 };
 
-const AcademyArticleContent = (initialData, slug) => {
-  const [academyArticleData, setAcademyArticleData] = useState(initialData);
-  console.log('academy data', academyArticleData)
+const AcademyArticleContent = (initialData) => {
+  const [academyArticleData, setAcademyArticleData] = useState(initialData.initialData);
   const [metadataCache, setMetadataCache] = useState(null);
   const [additionalArticles, setAdditionalArticles] = useState([]);
   const [error, setError] = useState(null);
   const [headings, setHeadings] = useState([]);
+  const slug = academyArticleData.slug;
+
 
 
   // Fetch additional articles
@@ -53,7 +54,7 @@ const AcademyArticleContent = (initialData, slug) => {
       }
     };
 
-    if (academyArticleData.initialData?.track) {
+    if (academyArticleData?.track) {
       fetchAdditionalArticles(academyArticleData.track);
     }
   }, [slug, academyArticleData]);
@@ -62,7 +63,7 @@ const AcademyArticleContent = (initialData, slug) => {
 
   //======= Extract Headings for table of contents ===================================
   useEffect(() => {
-    if (academyArticleData.initialData?.content) {
+    if (academyArticleData?.content) {
       const extractedHeadings = [];
 
       const traverseRichText = (node) => {
@@ -80,7 +81,7 @@ const AcademyArticleContent = (initialData, slug) => {
         }
       };
 
-      traverseRichText(academyArticleData.initialData.content);
+      traverseRichText(academyArticleData.content);
       setHeadings(extractedHeadings);
     }
   }, [academyArticleData]);
@@ -104,7 +105,7 @@ const AcademyArticleContent = (initialData, slug) => {
   }
 
   // extract article data
-  const { postHeading, imageLink, timestamp, content, track, author, tags, authorSocials, keywords, excerpt } = academyArticleData.initialData;
+  const { postHeading, imageLink, timestamp, content, track, author, tags, authorSocials, keywords, excerpt } = academyArticleData;
   console.log(postHeading)
   // get window url
   const articleUrl = typeof window !== 'undefined' ? window.location.href : '';

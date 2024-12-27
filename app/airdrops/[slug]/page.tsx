@@ -41,5 +41,5 @@ export default async function AcademyairdropPage({ params }) {
   // Fetch the initial data server-side
   const initialData = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/airdrops/${params.slug}`).then(res => res.json())
   //console.log('initial data', initialData);
-  return <AirdropGuide initialData={initialData} slug={params.slug} />
+  return <AirdropGuide initialData={initialData} />
 }

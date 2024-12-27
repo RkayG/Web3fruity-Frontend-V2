@@ -32,14 +32,15 @@ const SocialLink = ({ href, icon: Icon, label }) => (
   </a>
 );
 
-const AirdropGuide = (initialData, slug) => {
+const AirdropGuide = (initialData) => {
   const [airdropData, setAirdropData] = useState(initialData.initialData);
   const [additionalAirdrops, setAdditionalAirdrops] = useState([]);
   const [error, setError] = useState(null);
   const [showFullDescription, setShowFullDescription] = useState(false);
+  const slug = airdropData.slug;
 
   useEffect(() => {
-    const fetchAdditionalAirdrops = async () => {
+    const fetchAdditionalAirdrops = async (slug) => {
       try {
         const response = await axios.get(`${apiUrl}/airdrops`, {
           params: { limit: 7, page: 1 },
@@ -52,6 +53,7 @@ const AirdropGuide = (initialData, slug) => {
     };
 
     if (slug) {
+      alert(slug);
       fetchAdditionalAirdrops(slug);
     }
   }, [slug]);

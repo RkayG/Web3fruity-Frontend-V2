@@ -40,6 +40,5 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 export default async function AcademyArticlePage({ params }) {
   // Fetch the initial data server-side
   const initialData = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/academy/${params.slug}`).then(res => res.json())
-  //console.log('initial data', initialData);
-  return <AcademyArticleContent initialData={initialData} slug={params.slug} />
+  return <AcademyArticleContent initialData={initialData}/>
 }
