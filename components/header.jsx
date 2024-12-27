@@ -28,10 +28,10 @@ export function Header() {
   ], []);
 
   const socialLinks = [
-    { icon: <FaTwitter />, url: "#" },
-    { icon: <FaFacebookF />, url: "#" },
-    { icon: <FaInstagram />, url: "#" },
-    { icon: <FaLinkedin />, url: "#" },
+    { icon: <FaTwitter />, url: "https://x.com/web3fruity" },
+    { icon: <FaFacebookF />, url: "" },
+    { icon: <FaInstagram />, url: "" },
+    { icon: <FaLinkedin />, url: "https://linkedin.com/company/web3fruity" },
   ];
 
   useEffect(() => {
