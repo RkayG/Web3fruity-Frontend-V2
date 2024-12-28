@@ -25,7 +25,7 @@ export function Footer() {
           <div className='space-y-4'>
             <h6 className='text-2xl font-bold'>Web3Fruity</h6>
             <p className='text-gray-300'> 
-              Dive confidently into Crypto: Web3Fruity curates legitimate, lucrative opportunities and empowers you with knowledge.
+            Welcome to your go-to hub for everything Web3! Whether you're diving into the world of airdrops, exploring blockchain games, or seeking educational resources, we've got you covered
             </p>
             <div className='flex space-x-4'>
               <a href="#" className='text-gray-300 hover:text-white transition-colors'><FaTwitter size={24} /></a>
