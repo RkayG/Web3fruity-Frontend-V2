@@ -18,14 +18,14 @@ export default function Component() {
   return (
     <>
     <SEO 
-          title="Web3Fruity: Largest Crypto Rewards Curator"
-          description="Dive into the vibrant orchard of DeFi with Web3Fruity and discover how to maximize your crypto earnings"
-          keywords='airdrops, free crypto, cryptocurrency, crypto rewards, telegram airdrops'
-          logoUrl="/images/logo.png"
-          siteUrl="https://www.web3fruity.com/about"
+        title="Web3Fruity: Largest Crypto Rewards Curator"
+        description="Dive into the vibrant orchard of DeFi with Web3Fruity and discover how to maximize your crypto earnings"
+        keywords='airdrops, free crypto, cryptocurrency, crypto rewards, telegram airdrops'
+        logoUrl="/images/logo.png"
+        siteUrl="https://www.web3fruity.com/about"
       />
     <div className="flex flex-col min-h-[100dvh] ">
-      <main className="flex-1">
+      <div className="flex-1">
         <section className="about-section w-[90%] mx-auto py-12 md:py-24 lg:py-32 animate-slideUp">
           <div className="container m-auto px-4 md:px-6">
             <div className="grid gap-6 lg:grid-cols-[1fr_500px] lg:gap-12 xl:grid-cols-[1fr_550px]">
@@ -459,7 +459,7 @@ export default function Component() {
             <a href="https://www.t.me/web3fruity"><FaTelegram className=""/></a>
           </div>
         </div>
-      </main>
+      </div>
       <BottomSubscribe />
     </div>
     </>

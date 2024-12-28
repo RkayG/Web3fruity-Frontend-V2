@@ -72,12 +72,13 @@ const Games = () => {
 
   return (
     <div className="mb-20 max-w-[1580px] pt-12 m-auto">
-        <h2 className="text-3xl md:text-4xl  font-extrabold flex items-center mb-12 px-4 md:px-8">
+        <h2 className="text-3xl md:text-4xl  font-extrabold flex items-center  px-4 md:px-8">
             <FaGamepad className="text-orange-800 mr-4 text-4xl md:text-5xl" />
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-800 to-orange-800">
               Play to Earn
             </span>
         </h2>
+        <p className='text-gray-500 mb-12 text-xl mt-3 px-4 md:px-8'>Discover top play-to-earn games and start earning rewards for your gameplay</p>
         {isLoading 
           ? [...Array(5)].map((_, index) => <GameCardSkeleton key={index} />)
           : games.map(game => <GameCard key={game.id} game={game} />)

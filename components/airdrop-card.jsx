@@ -61,13 +61,14 @@ const Airdrops = () => {
 
   return (
     <div className="my-20 max-w-[1580px] mx-auto">
-      <div className="flex items-center justify-between mb-12 px-4 md:px-8">
+      <div className=" items-center justify-between mb-12 px-4 md:px-8">
         <h2 className="text-3xl md:text-4xl font-extrabold flex items-center">
           <FaParachuteBox className="text-orange-800 mr-4 text-4xl md:text-5xl" />
           <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-800 to-orange-800">
             Hot Airdrops
           </span>
         </h2>
+        <p className='text-gray-500 px-2  text-xl mt-3'>Explore latest airdrops and never miss an opportunity to earn free tokens</p>
       </div>
 
       {isLoading ? (

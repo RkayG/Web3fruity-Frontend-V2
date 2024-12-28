@@ -196,12 +196,13 @@ const RewardForTask = () => {
       transition={{ duration: 0.5 }}
       className="py-8 my-20 w-full h-auto max-w-[1580px] m-auto bg-gray-200"
     >
-      <h2 className="text-3xl md:text-4xl font-extrabold flex items-center mb-12 px-4 md:px-8">
+      <h2 className="text-3xl md:text-4xl font-extrabold flex items-center  px-4 md:px-8">
         <FaVideo className="text-orange-800 mr-4 text-4xl md:text-5xl" />
         <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-800 to-orange-800">
           Reward for Tasks
         </span>
       </h2>
+      <p className='text-gray-500 mb-12 text-xl mt-3 px-4 md:px-8'>Find and join platforms that offer rewards for completing various tasks</p>
       <div className="mx-3 text-center relative mb-12 rounded-md  m-auto">
         <div className="mr-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-full">
           {loading

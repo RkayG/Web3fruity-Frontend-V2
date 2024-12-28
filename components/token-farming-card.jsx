@@ -72,13 +72,14 @@ const TokenFarming = () => {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
-        className="text-3xl md:text-4xl font-extrabold flex items-center mb-10 px-4 md:px-8"
+        className="text-3xl md:text-4xl font-extrabold flex items-center px-4 md:px-8"
       >
         <FaCoins className="text-orange-800 mr-4 text-4xl md:text-5xl" />
         <span className="bg-clip-text text-transparent bg-gradient-to-r from-blue-800 to-orange-800">
           Token Farming
         </span>
       </motion.h2>
+      <p className='text-gray-500  mb-10 text-xl mt-3 px-4 md:px-8'>Farm, mine, and accumulate tokens for free or through staking</p>
 
       {isLoading ? (
         <TokenFarmingSkeleton />
