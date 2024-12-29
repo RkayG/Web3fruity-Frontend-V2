@@ -37,38 +37,34 @@ const ShareButton = ({ icon, color, onClick, label }) => (
   </button>
 );
 
-const TokenFarmingGuide = () => {
-  const [tokenData, setTokenData] = useState(null);
+const TokenFarmingGuide = (initialData) => {
+  const [tokenData, setTokenData] = useState(initialData.initialData);
   const [additionalTokens, setAdditionalTokens] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [copied, setCopied] = useState(false);
-  const { slug } = useParams();
-
-  const fetchTokenData = useCallback(async (slug) => {
-    try {
-      const response = await fetch(`${apiUrl}/farm-tokens/${slug}`);
-      const data = await response.json();
-      setTokenData(data);
-      setLoading(false);
-
-      // Fetch additional tokens
-      const additionalTokensResponse = await fetch(`${apiUrl}/farm-tokens`);
-      const allTokens = await additionalTokensResponse.json();
-      const filteredTokens = allTokens.filter(token => token.slug !== slug).slice(0, 3);
-      setAdditionalTokens(filteredTokens);
-    } catch (error) {
-      console.error('Failed to load token data:', error);
-      setError('Failed to load token data');
-      setLoading(false);
-    }
-  }, []);
+  const slug = tokenData.slug;
 
   useEffect(() => {
+    const fetchAdditionalTokens = async (slug) => {
+      try {
+        // Fetch additional tokens
+        const additionalTokensResponse = await fetch(`${apiUrl}/farm-tokens`);
+        const allTokens = await additionalTokensResponse.json();
+        setLoading(false);
+        const filteredTokens = allTokens.filter(token => token.slug !== slug).slice(0, 3);
+        setAdditionalTokens(filteredTokens);
+      } catch (error) {
+        console.error('Failed to load token data:', error);
+        setError('Failed to load token data');
+        setLoading(false);
+      }
+    };
+
     if (slug) {
-      fetchTokenData(slug);
+      fetchAdditionalTokens(slug);
     }
-  }, [slug, fetchTokenData]);
+  }, [slug]);
 
   /*------------- Share links setting -----------------------------------------------
   const shareOnFacebook = () => {
@@ -272,7 +268,7 @@ const TokenFarmingGuide = () => {
             </div>
             <div className="mb-4">
               <p className="text-gray-600">Farming Type:</p>
-              <p className="font-semibold">{tokenData.stakeToFarm ? 'Stake to Farm' : 'Free Farming'}</p>
+              <p className="font-semibold">{tokenData.stakeToFarm == 'stake' ? 'Stake to Farm' : 'Free Farming'}</p>
             </div>
           </div>
         </motion.div>
@@ -408,7 +404,7 @@ const TokenFarmingGuide = () => {
                 <div className="p-4">
                   <h3 className="font-bold text-lg mb-2 text-blue-900">{token.tokenName}</h3>
                   <div className=' '>
-                  <p className="text-sm text-gray-900 mb-2">{token.stakeToFarm ? 'Stake to Farm' : 'Free Farming'}</p>
+                  <p className="text-sm text-gray-900 mb-2">{token.stakeToFarm == 'stake' ? 'Stake to Farm' : 'Free Farming'}</p>
                   <p className="text-sm font-bold text-gray-900">{token.blockchain}</p>
                 <div className="mb-3">
                   {/* <p className="text-sm text-gray-600">{token.platform}</p> */}

@@ -196,7 +196,7 @@ const TokenFarming = () => {
                 </div>
                 <div className="mb-3">
                   <p className="text-gray-600">Farming Type:</p>
-                  <p className="font-semibold">{token.stakeToFarm ? 'Stake to Farm' : 'Free Farming'}</p>
+                  <p className="font-semibold">{token.stakeToFarm == 'stake' ? 'Stake to Farm' : 'Free Farming'}</p>
                 </div>
                 <div className="flex justify-end items-center">
                   <Link

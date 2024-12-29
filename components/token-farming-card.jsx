@@ -113,15 +113,15 @@ const TokenFarming = () => {
                 </div>
                 <div className="mb-4">
                   <p className="text-gray-600">Requirements:</p>
-                  <p className="font-semibold ">{token.requirements || 'Telegram, Ton wallet'}</p>
+                  <p className="font-semibold ">{token.requirements ? token.requirements : ''}</p>
                 </div>
                 <div className="mb-4">
                   <p className="text-gray-600">Farming Type:</p>
-                  <p className="font-semibold ">{token.stakeToFarm ? 'Stake to Farm' : 'Free Farming'}</p>
+                  <p className="font-semibold ">{token.stakeToFarm == 'stake' ? 'Stake to Farm' : 'Free Farming'}</p>
                 </div>
                 <Link
                   href={`/token-farming/${token.slug}`} 
-                  className="flex items-center w-fit float-right mb-4 bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition-colors duration-300"
+                  className="flex right-4 items-center w-fit float-right mb-4 bg-blue-600 text-white px-4 py-2 rounded-full hover:bg-blue-700 transition-colors duration-300"
                 >
                   Guide
                 </Link>
