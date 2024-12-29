@@ -142,16 +142,16 @@ const TokenFarming = () => {
                   All
                 </button>
                 <button
-                  className={`px-4 py-2 rounded-full ${stakeFilter === 'free' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-black'}`}
+                  className={`px-4 py-2 w-fit rounded-full ${stakeFilter === 'free' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-black'}`}
                   onClick={() => setStakeFilter('free')}
                 >
-                  Free Farming
+                  Free
                 </button>
                 <button
                   className={`px-4 py-2 rounded-full ${stakeFilter === 'stake' ? 'bg-blue-600 text-white' : 'bg-gray-200 text-black'}`}
                   onClick={() => setStakeFilter('stake')}
                 >
-                  Stake to Farm
+                  Stake
                 </button>
               </div>
             </div>
