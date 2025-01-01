@@ -2,7 +2,7 @@
 
 import { useParams } from 'next/navigation';
 import React, { useState, useEffect, useCallback } from 'react';
-import { FaTwitter, FaFacebookF, FaDiscord, FaTelegram, FaReddit, FaGlobe, FaDollarSign, FaChartLine, FaCoins, FaSackDollar } from 'react-icons/fa';
+import { FaTwitter, FaFacebookF, FaDiscord, FaTelegram, FaReddit, FaGlobe, FaDollarSign, FaChartLine, FaCoins, FaFileInvoiceDollar } from 'react-icons/fa';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
@@ -190,7 +190,7 @@ const InfoTag = ({ label, value, color }) => {
           { Icon: FaDollarSign, label: `${game?.token} Price`, value: price },
           { Icon: FaChartLine, label: "Marketcap", value: marketCap },
           { Icon: FaCoins, label: "Required Investment", value: `${game?.initialInvestment || 'N/A'}` },
-          { Icon: FaFacebookF, label: "Avg Income / Week", value: `${game?.avgEarnPerWeek || 'N/A'}` },
+          { Icon: FaFileInvoiceDollar, label: "Avg Income / Week", value: `${game?.avgEarnPerWeek || 'N/A'}` },
         ].map((stat, index) => (
           <div key={index} className="bg-gradient-to-br from-blue-500 to-purple-600 text-white p-4 rounded-lg shadow-md">
             <div className='flex flex-wrap'>

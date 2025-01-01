@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { FaTwitter, FaTelegram, FaDiscord, FaGithub } from 'react-icons/fa';
+import { FaTwitter, FaTelegram, FaDiscord, FaGithub, FaLinkedin } from 'react-icons/fa';
   
 export function Footer() {
     const productList = [
@@ -28,10 +28,10 @@ export function Footer() {
               Welcome to your ultimate Web3 resource! Discover airdrops, explore blockchain games, and access educational materials—all in one place.
             </p>
             <div className='flex space-x-4'>
-              <a href="#" className='text-gray-300 hover:text-white transition-colors'><FaTwitter size={24} /></a>
-              <a href="#" className='text-gray-300 hover:text-white transition-colors'><FaTelegram size={24} /></a>
-              <a href="#" className='text-gray-300 hover:text-white transition-colors'><FaDiscord size={24} /></a>
-              <a href="#" className='text-gray-300 hover:text-white transition-colors'><FaGithub size={24} /></a>
+              <a href="https://x.com/web3fruity" className='text-gray-300 hover:text-white transition-colors'><FaTwitter size={24} /></a>
+              <a href="https://t.me/web3fruity" className='text-gray-300 hover:text-white transition-colors'><FaTelegram size={24} /></a>
+              {/* <a href="#" className='text-gray-300 hover:text-white transition-colors'><FaDiscord size={24} /></a> */}
+              <a href="https://linkedin.com/company/web3fruity" className='text-gray-300 hover:text-white transition-colors'><FaLinkedin size={24} /></a>
             </div>
           </div>
 
