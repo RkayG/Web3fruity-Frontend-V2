@@ -13,7 +13,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
     openGraph: {
       title: game.title,
       description: game.description,
-      images: [game.logo],
+      images: [game.image],
       type: 'article',
       publishedTime: game.timestamp,
       /* authors: [game.author], */
