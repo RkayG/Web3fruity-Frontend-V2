@@ -40,7 +40,7 @@ const Games = () => {
 
   useEffect(() => {
     if (games) {
-      setFilteredGames(games.slice(1));
+      setFilteredGames(games.slice(3));
     }
   }, [games]);
 
@@ -88,7 +88,7 @@ const Games = () => {
 
   const featuredSliderSettings = {
     dots: true,
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 3,
     slidesToScroll: 1,
@@ -179,13 +179,13 @@ const Games = () => {
         </div>
 
         <div className="mb-16 mt-12">
-          <h2 className="text-2xl font-bold mb-8 ml-4 text-center bg-clip-text 
+          <h2 className="text-2xl font-bold mb-8 text-center bg-clip-text 
             text-transparent bg-gradient-to-r from-blue-500 to-red-500">Featured Games</h2>
           <div className="max-w-full overflow-hidden">
           <Slider {...featuredSliderSettings} className="w-[99%]  -mr-3">
             {isLoading
                 ? Array(9).fill().map((_, index) => <SkeletonFeaturedGame key={`loading-${index}`} />)
-                : games.slice(0, 9).map((game, index) => (
+                : games.slice(0, 3).map((game, index) => (
                 <Link href={`/games/${game.slug}`} key={game._id}>
                     <motion.div
                     whileHover={{ scale: 0.92 }}
@@ -235,8 +235,9 @@ const Games = () => {
           {Array(12).fill().map((_, index) => <SkeletonGameCard key={index} />)}
         </div>
       ) : (
-        <>       
-          {currentGames.map((game, index) => (
+        <>
+         {/* might later use currentGames which only contains games not in featured   */}     
+          {games.map((game, index) => (
             <GameCard key={index} game={game} />
           ))}
           <ScrollBackTop />

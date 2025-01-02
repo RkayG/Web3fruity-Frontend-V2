@@ -26,64 +26,66 @@ const Navigation = ({ title }) => {
     );
 };
 
-const GameDetails = () => {
-  const [game, setGame] = useState(null);
+const GameDetails = (initialData) => {
+  const [game, setGame] = useState(initialData.initialData);
   const [additionalGames, setAdditionalGames] = useState([]);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
   const [price, setPrice] = useState('$0.00');
   const [marketCap, setMarketCap] = useState('$0');
-  const { slug } = useParams();
+  const slug  = game.slug;
 
   useEffect(() => {
-    const fetchGame = async () => {
+    if (!game) {
+      setError('Failed to load game info');
+      return;
+    }
+    const fetchCoinDataAndAdditionalGames = async (slug) => {
       try {
-        const response = await fetch(`${apiUrl}/games/${slug}`);
-        const gameData = await response.json();
-        setGame(gameData);
-        setLoading(false);
-
         // Fetch coin data
-        if (gameData.token_api_id) {
+        if (game.token_api_id) {
           try {
-            const coinResponse = await axios.get(`https://api.coingecko.com/api/v3/coins/${gameData.token_api_id}`);
+            const coinResponse = await axios.get(`https://api.coingecko.com/api/v3/coins/${game.token_api_id}`);
             const coinData = coinResponse.data;
-            setPrice(`$${coinData.market_data.current_price.usd.toFixed(2)}`);
+            console.log(coinData);
+            setPrice(`$${coinData.market_data.current_price.usd.toFixed(5)}`);
             setMarketCap(`$${coinData.market_data.market_cap.usd.toLocaleString()}`);
           } catch (error) {
             console.error('Error fetching coin data:', error);
           }
         }
-      } catch (error) {
-        console.error('Failed to load Game info:', error);
-        setError('Failed to load game info');
-      }
-    };
 
-    const fetchAdditionalGames = async (slug) => {
-      try {
+        // Fetch additional games
         const response = await axios.get(`${apiUrl}/games`, {
           params: {
             limit: 4,
           },
         });
         const games = await response.data;
+        setLoading(false);
         const moreGames = games.filter((game) => game.slug !== slug);
         setAdditionalGames(moreGames);
       } catch (error) {
         console.error('Failed to load additional games:', error);
+        setLoading(false);
       }
     };
 
     if (slug) {
-      fetchGame();
-      fetchAdditionalGames(slug);
+      fetchCoinDataAndAdditionalGames(slug);
     }
-  }, [slug]);
+  }, [slug, game]);
 
   
   if (error) {
-    return <div className="text-red-500">{error}</div>;
+    return (
+      <div className="max-w-4xl mx-auto p-6 my-32">
+        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded" role="alert">
+          <p className="font-bold">Error</p>
+          <p>{error.message}</p>
+        </div>
+      </div>
+    );
   }
 
   if (loading) {
@@ -143,7 +145,7 @@ const GameCard = ({ game }) => {
           <InfoTag label="Genre" value={game?.genre} color="blue" />
           <InfoTag label="Platform" value={game?.platform.length > 1 ? game?.platform.join(', ') : game?.platform} color="green" />
           <InfoTag label="Token" value={game?.token} color="red" />
-          <InfoTag label="Free-to-Play" value={game?.free2play ? "Yes" : "No"} color="blue" />
+          <InfoTag label="Free-to-Play" value={game?.free2play == 'Yes' ? "Yes" : "No"} color="blue" />
           <InfoTag label="Chain" value={game?.chain || 'N/A'} color="green" />
         </div>
       </div>
@@ -168,15 +170,7 @@ const InfoTag = ({ label, value, color }) => {
     
   return (
     <>
-    <SEO 
-        title={title}
-        description={excerpt ? excerpt : description}
-        keywords={keywords && keywords.join(', ')}
-        logoUrl={image}
-        siteUrl={`https://www.web3fruity.com/games/${slug}`}
-      />
-    
-    <main className='max-w-[1928px] m-auto px-4 sm:px-6 lg:px-8'>
+    <section className='max-w-[1928px] m-auto px-4 sm:px-6 lg:px-8'>
       <Navigation title={title} />
       <GameCard game={game} className='mt-12' />
 
@@ -313,7 +307,7 @@ const InfoTag = ({ label, value, color }) => {
           ))}
         </div>
       </motion.div>
-    </main>
+    </section>
     </>
   );
 };

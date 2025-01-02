@@ -46,6 +46,11 @@ const TokenFarmingGuide = (initialData) => {
   const slug = tokenData.slug;
 
   useEffect(() => {
+    if (!tokenData) {
+      setError('Failed to load token data');
+      setLoading(false);
+      return;
+    }
     const fetchAdditionalTokens = async (slug) => {
       try {
         // Fetch additional tokens
@@ -55,8 +60,7 @@ const TokenFarmingGuide = (initialData) => {
         const filteredTokens = allTokens.filter(token => token.slug !== slug).slice(0, 3);
         setAdditionalTokens(filteredTokens);
       } catch (error) {
-        console.error('Failed to load token data:', error);
-        setError('Failed to load token data');
+        console.error('Failed to load additional tokens:', error);
         setLoading(false);
       }
     };
@@ -64,7 +68,7 @@ const TokenFarmingGuide = (initialData) => {
     if (slug) {
       fetchAdditionalTokens(slug);
     }
-  }, [slug]);
+  }, [slug, tokenData]);
 
   /*------------- Share links setting -----------------------------------------------
   const shareOnFacebook = () => {
@@ -91,9 +95,10 @@ const TokenFarmingGuide = (initialData) => {
  /*  ----if loading fails */
   if (error) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="text-red-500 text-xl bg-red-100 p-6 rounded-lg shadow-md">
-          {error}
+      <div className="max-w-4xl mx-auto p-6 my-32">
+        <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded" role="alert">
+          <p className="font-bold">Error</p>
+          <p>{error.message}</p>
         </div>
       </div>
     );

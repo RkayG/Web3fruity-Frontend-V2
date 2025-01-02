@@ -111,7 +111,7 @@ const GameCard = ({ game }) => {
                 </div>
                 <div className="bg-white text-blue-900 px-4 py-2 mr-6 mb-6 w-36 rounded-md shadow-md">
                   <p className="text-sm font-semibold text-center">Free-to-Play</p>
-                  <p className="text-center font-semibold text-xs">{game?.free2play ? "Yes" : "No"}</p>
+                  <p className="text-center font-semibold text-xs">{game?.free2play == 'Yes' ? "Yes" : "No"}</p>
                 </div>
                 <div className="bg-white text-green-800 px-4 py-2 mr-6 mb-6 w-36 rounded-md shadow-md">
                   <p className="text-sm font-semibold text-center">Chain</p>
