@@ -40,7 +40,7 @@ const Games = () => {
 
   useEffect(() => {
     if (games) {
-      setFilteredGames(games.slice(3));
+      setFilteredGames(games.slice(1));
     }
   }, [games]);
 
@@ -237,7 +237,7 @@ const Games = () => {
       ) : (
         <>
          {/* might later use currentGames which only contains games not in featured   */}     
-          {games.map((game, index) => (
+          {currentGames.map((game, index) => (
             <GameCard key={index} game={game} />
           ))}
           <ScrollBackTop />
