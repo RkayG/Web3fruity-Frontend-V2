@@ -6,7 +6,7 @@ import TokenFarmingGuide from './tokenFarmingGuide'
 export async function generateMetadata({ params }): Promise<Metadata> {
   const farmToken = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/farm-tokens/${params.slug}`).then(res => res.json())
   return {
-    title: farmToken.title,
+    title: farmToken.tokenName,
     description: farmToken.description,
     keywords: farmToken.keywords,
     /* authors: [{ name: farmToken.author }], */
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
     },
     twitter: {
       card: 'summary_large_image',
-      title: farmToken.title,
+      title: farmToken.tokenName,
       description: farmToken.description,
       images: [farmToken.logo],
       /* creator: farmToken.author, */
