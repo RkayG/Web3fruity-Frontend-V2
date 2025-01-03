@@ -53,7 +53,7 @@ const AirdropGuide = (initialData) => {
     };
 
     if (slug) {
-      alert(slug);
+
       fetchAdditionalAirdrops(slug);
     }
   }, [slug]);
