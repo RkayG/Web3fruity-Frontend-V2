@@ -11,7 +11,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
     keywords: farmToken.keywords,
     /* authors: [{ name: farmToken.author }], */
     openGraph: {
-      title: farmToken.title,
+      title: farmToken.tokenName,
       description: farmToken.description,
       images: [farmToken.logo],
       type: 'article',
