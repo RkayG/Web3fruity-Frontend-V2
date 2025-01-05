@@ -13,7 +13,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
     /* authors: [{ name: airdrop.author }], */
     openGraph: {
       title: airdrop.title,
-      description: `Take part in the ${airdrop.title} and earn free tokens for your participation. Don't miss out on this opportunity`,
+      description: airdrop.description ? airdrop.description : `Take part in the ${airdrop.title} and earn free tokens for your participation. Don't miss out on this opportunity`,
       images: [airdrop.logo],
       type: 'article',
       publishedTime: airdrop.timestamp,

@@ -85,11 +85,11 @@ class CategoryCache {
 
 // Configuration
 const CATEGORIES: Category[] = [
-  { name: 'Airdrops', key: 'airdrops', itemKey: 'title', linkPrefix: '/airdrops/' },
-  { name: 'Games', key: 'games', itemKey: 'title', linkPrefix: '/games/' },
-  { name: 'Farming', key: 'farm-tokens', itemKey: 'tokenName', linkPrefix: '/farm-tokens/' },
-  {name: 'Platforms', key: 'platforms', itemKey: 'title', linkPrefix: '/platforms/'},
-  { name: 'Academy', key: 'academy', itemKey: 'postHeading', linkPrefix: '/academy/' },
+  { name: 'Airdrops', key: 'airdrops', itemKey: 'airdrops/slug', linkPrefix: '/airdrops/' },
+  { name: 'Games', key: 'games', itemKey: 'games/slug', linkPrefix: '/games/' },
+  { name: 'Farming', key: 'farm-tokens', itemKey: 'farm-tokens/slug', linkPrefix: '/farm-tokens/' },
+  {name: 'Platforms', key: 'platforms', itemKey: 'reward-tasks/slug', linkPrefix: '/reward-tasks/'},
+  { name: 'Academy', key: 'academy', itemKey: 'academy/slug', linkPrefix: '/academy/' },
 ];
 
 const STATIC_ROUTES = ['', '/about', '/contact'];
@@ -118,12 +118,73 @@ export default async function sitemap(): Promise<SitemapEntry[]> {
 // Helper Functions
 async function fetchCategoryData(category: Category, cache: CategoryCache): Promise<Item[]> {
   return cache.getOrFetch(category, async () => {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/${category.key}`);
-    if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+    try {
+      const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/${category.key}`;
+      console.log(`Fetching data from: ${apiUrl}`);
+
+      const response = await fetch(apiUrl);
+      
+      // First check if the response is ok
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status} for category: ${category.key}`);
+      }
+
+      // Try to parse the response as JSON
+      let data: unknown;
+      try {
+        data = await response.json();
+      } catch (parseError) {
+        // Log the actual response text for debugging
+        const responseText = await response.text();
+        console.error(`Invalid JSON response for ${category.key}:`, responseText);
+        throw new Error(`Invalid JSON response for ${category.key}`);
+      }
+
+      // Validate the data structure
+      if (!Array.isArray(data)) {
+        console.error(`Invalid data structure for ${category.key}:`, data);
+        throw new Error(`Data for ${category.key} is not an array`);
+      }
+
+      // Validate each item has required fields
+      const validItems = data.filter((item: any) => {
+        const hasRequiredFields = item && 
+          typeof item === 'object' && 
+          typeof item.slug === 'string';
+
+        if (!hasRequiredFields) {
+          console.warn(`Invalid item in ${category.key}:`, item);
+        }
+
+        return hasRequiredFields;
+      });
+
+      if (validItems.length === 0) {
+        console.warn(`No valid items found for ${category.key}`);
+        return [];
+      }
+
+      return validItems as Item[];
+
+    } catch (error) {
+      // Log the full error details
+      console.error(`Error fetching/processing data for ${category.key}:`, error);
+      
+      // Return empty array instead of throwing
+      // This allows the sitemap to generate even if some categories fail
+      return [];
     }
-    return await response.json();
   });
+}
+
+// Add this type guard to validate the base Item structure
+function isValidItem(item: unknown): item is Item {
+  return (
+    typeof item === 'object' &&
+    item !== null &&
+    'slug' in item &&
+    typeof (item as any).slug === 'string'
+  );
 }
 
 function generateStaticRoutes(baseUrl: string): SitemapEntry[] {
