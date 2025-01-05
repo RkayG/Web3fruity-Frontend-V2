@@ -1,10 +1,11 @@
 // app/academy/[slug]/page.tsx
 import { Metadata } from 'next'
 import AirdropGuide from './airdrop-guide'
+import axios from 'axios'
 
 // This is a server component that handles metadata
 export async function generateMetadata({ params }): Promise<Metadata> {
-  const airdrop = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/airdrops/${params.slug}`).then(res => res.json())
+  const airdrop = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/airdrops/${params.slug}`).then(res => res.data)
   return {
     title: airdrop.title,
     description: airdrop.excerpt,
@@ -39,7 +40,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
 // Server component that passes data to client component
 export default async function AcademyairdropPage({ params }) {
   // Fetch the initial data server-side
-  const initialData = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/airdrops/${params.slug}`).then(res => res.json())
+  const initialData = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/airdrops/${params.slug}`).then(res => res.data)
   //console.log('initial data', initialData);
   return <AirdropGuide initialData={initialData} />
 }

@@ -203,9 +203,9 @@ const InfoTag = ({ label, value, color }) => {
         transition={{ delay: 0.2 }}
         className="gameplay-trailer-and-gallery my-12"
       >
-        <h2 className="text-3xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-red-500">
+        <h1 className="text-3xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-500 to-red-500">
           {game.title} Gameplay
-        </h2>
+        </h1>
         
          <GalleryAndTrailer trailer={game.trailer} gallery={game.gallery} />
 
@@ -230,22 +230,27 @@ const InfoTag = ({ label, value, color }) => {
                     <p className="text-lg  mb-6 ">{children}</p>
                   ),
                   [BLOCKS.HEADING_1]: (node, children) => (
-                    <h1 className="text-3xl font-bold mb-6 ">{children}</h1>
+                    <h1 className="text-3xl font-bold mb-6 text-blue-800">{children}</h1>
                   ),
                   [BLOCKS.HEADING_2]: (node, children) => (
-                    <h2 className="text-2xl font-bold mb-4 mt-8">{children}</h2>
+                    <h2 className="text-2xl font-bold mb-4 mt-8 text-blue-800">{children}</h2>
                   ),
                   [BLOCKS.HEADING_3]: (node, children) => (
-                    <h3 className="text-xl font-bold mb-3 mt-6 ">{children}</h3>
+                    <h3 className="text-xl font-bold mb-3 mt-6 text-blue-800">{children}</h3>
                   ),
+                  // Unordered List Node
                   [BLOCKS.UL_LIST]: (node, children) => (
-                    <ul className="list-disc list-inside mb-6 pl-4">{children}</ul>
+                    <ul className="list-disc list-outside pl-5 text-gray-700">{children}</ul>
                   ),
+                  
+                  // Ordered List Node
                   [BLOCKS.OL_LIST]: (node, children) => (
-                    <ol className="list-decimal list-inside mb-6 pl-4">{children}</ol>
+                    <ol className="list-decimal list-outside pl-4 ">{children}</ol>
                   ),
+                  
+                  // List Item Node
                   [BLOCKS.LIST_ITEM]: (node, children) => (
-                    <li className="mb-2 text-gray-700">{children}</li>
+                    <li className="text-gray-700 -my-2 pl-1">{children}</li>
                   ),
                   [BLOCKS.QUOTE]: (node, children) => (
                     <blockquote className="border-l-4 border-blue-500 pl-4 py-2 mb-6 italic text-gray-600">

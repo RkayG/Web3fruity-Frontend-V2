@@ -222,14 +222,6 @@ const TokenFarmingGuide = (initialData) => {
   return (
    /*  SECTION START */
    <>
-    <SEO 
-        title={`${tokenName} Farming`}
-        description={excerpt && excerpt }
-        keywords={keywords && keywords.join(', ')}
-        logoUrl={logo}
-        siteUrl={`https://www.web3fruity.com/token-farming/${slug}`}
-      />
-   
     <motion.section
     >
       <Navigation title={tokenName} />
