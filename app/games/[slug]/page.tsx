@@ -12,7 +12,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
     openGraph: {
       title: game.title,
       description: game.description,
-      images: [game.logo],
+      images: [game.image],
       type: 'article',
       publishedTime: game.timestamp,
       tags: game.tags,
@@ -21,7 +21,7 @@ export async function generateMetadata({ params }): Promise<Metadata> {
       card: 'summary_large_image',
       title: game.title,
       description: game.description,
-      images: [game.logo],
+      images: [game.image],
     },
     robots: {
       index: true,
