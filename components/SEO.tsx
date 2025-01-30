@@ -14,7 +14,7 @@ interface SEOProps {
 
 const SEO = ({ title, description, keywords, logoUrl, author, siteUrl }: SEOProps) => {
   if (!author) {
-    author = 'Rufus Gladness';
+    author = '';
   }
 
   const jsonLd = {

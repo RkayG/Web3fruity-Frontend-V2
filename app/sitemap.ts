@@ -1,4 +1,3 @@
-import NodeCache from 'node-cache';
 import { promises as fs } from 'fs';
 import path from 'path';
 
@@ -32,78 +31,26 @@ interface Item {
   [key: string]: any;
 }
 
-// Category Cache Class
-class CategoryCache {
-  private cache: NodeCache;
-  private readonly defaultTTL = 300; // 5 minutes
-
-  constructor() {
-    this.cache = new NodeCache({
-      stdTTL: this.defaultTTL,
-      checkperiod: 60,
-      useClones: false, // Improve performance
-    });
-  }
-
-  async getOrFetch(
-    category: Category,
-    fetcher: () => Promise<Item[]>
-  ): Promise<Item[]> {
-    const cacheKey = `category_${category.key}`;
-
-    // Check cache first
-    const cachedData = this.cache.get<Item[]>(cacheKey);
-    if (cachedData) {
-      return cachedData;
-    }
-
-    try {
-      const data = await fetcher();
-
-      // Validate data
-      if (!Array.isArray(data)) {
-        throw new Error('Invalid data format');
-      }
-
-      // Cache valid data
-      this.cache.set(cacheKey, data);
-      return data;
-    } catch (error) {
-      console.error(`Error fetching category "${category.key}":`, error);
-
-      // Return stale data if available
-      const staleData = this.cache.get<Item[]>(cacheKey);
-      if (staleData) {
-        console.warn(`Using stale cache for "${category.key}"`);
-        return staleData;
-      }
-
-      return [];
-    }
-  }
-}
-
 // Configuration
 const CATEGORIES: Category[] = [
-  { name: 'Airdrops', key: 'airdrops', itemKey: 'airdrops/slug', linkPrefix: '/airdrops/' },
-  { name: 'Games', key: 'games', itemKey: 'games/slug', linkPrefix: '/games/' },
-  { name: 'Farming', key: 'farm-tokens', itemKey: 'farm-tokens/slug', linkPrefix: '/farm-tokens/' },
-  {name: 'Platforms', key: 'platforms', itemKey: 'reward-tasks/slug', linkPrefix: '/reward-tasks/'},
-  { name: 'Academy', key: 'academy', itemKey: 'academy/slug', linkPrefix: '/academy/' },
+  { name: 'Airdrops', key: 'airdrops', itemKey: 'slug', linkPrefix: '/airdrops/' },
+  { name: 'Games', key: 'games', itemKey: 'slug', linkPrefix: '/games/' },
+  { name: 'Farming', key: 'farm-tokens', itemKey: 'slug', linkPrefix: '/farm-tokens/' },
+  { name: 'Platforms', key: 'reward-tasks', itemKey: '_id', linkPrefix: '/reward-tasks/'},
+  { name: 'Academy', key: 'academy', itemKey: 'slug', linkPrefix: '/academy/' },
 ];
 
-const STATIC_ROUTES = ['', '/about', '/contact'];
+const STATIC_ROUTES = ['', '/about', '/risks', '/contact'];
 
 // Main Sitemap Generator
 export default async function sitemap(): Promise<SitemapEntry[]> {
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.web3fruity.com';
-  const cache = new CategoryCache();
 
   // Generate static routes
   const staticRoutes = generateStaticRoutes(baseUrl);
   
   // Generate dynamic routes
-  const dynamicRoutes = await generateDynamicRoutes(baseUrl, cache);
+  const dynamicRoutes = await generateDynamicRoutes(baseUrl);
   
   const allRoutes = [...staticRoutes, ...dynamicRoutes];
 
@@ -116,75 +63,59 @@ export default async function sitemap(): Promise<SitemapEntry[]> {
 }
 
 // Helper Functions
-async function fetchCategoryData(category: Category, cache: CategoryCache): Promise<Item[]> {
-  return cache.getOrFetch(category, async () => {
+async function fetchCategoryData(category: Category): Promise<Item[]> {
+  try {
+    const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/${category.key}`;
+    console.log(`Fetching data from: ${apiUrl}`);
+
+    const response = await fetch(apiUrl);
+    
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status} for category: ${category.key}`);
+    }
+
+    let data: unknown;
     try {
-      const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/${category.key}`;
-      console.log(`Fetching data from: ${apiUrl}`);
+      data = await response.json();
+    } catch (parseError) {
+      const responseText = await response.text();
+      console.error(`Invalid JSON response for ${category.key}:`, responseText);
+      throw new Error(`Invalid JSON response for ${category.key}`);
+    }
+    console.log('========================================================================')
+    console.log(data);
+    console.log('===========end===========end=======end===========end==========end=======')
+  
+    // Validate the data structure
+    if (typeof data !== "object") {
+      console.error(`Invalid data structure for ${category.key}:`, data);
+      throw new Error(`Data for ${category.key} is not an object`);
+    }
+    // Validate each item has required fields
+    const validItems = data.filter((item: any) => { 
+      const hasRequiredFields = item && 
+        typeof item === 'object' && 
+        typeof item.slug === 'string';
 
-      const response = await fetch(apiUrl);
-      
-      // First check if the response is ok
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status} for category: ${category.key}`);
+      if (!hasRequiredFields) {
+        console.warn(`Invalid item in ${category.key}:`, item);
       }
 
-      // Try to parse the response as JSON
-      let data: unknown;
-      try {
-        data = await response.json();
-      } catch (parseError) {
-        // Log the actual response text for debugging
-        const responseText = await response.text();
-        console.error(`Invalid JSON response for ${category.key}:`, responseText);
-        throw new Error(`Invalid JSON response for ${category.key}`);
-      }
+      return hasRequiredFields;
+    });
 
-      // Validate the data structure
-      if (!Array.isArray(data)) {
-        console.error(`Invalid data structure for ${category.key}:`, data);
-        throw new Error(`Data for ${category.key} is not an array`);
-      }
-
-      // Validate each item has required fields
-      const validItems = data.filter((item: any) => {
-        const hasRequiredFields = item && 
-          typeof item === 'object' && 
-          typeof item.slug === 'string';
-
-        if (!hasRequiredFields) {
-          console.warn(`Invalid item in ${category.key}:`, item);
-        }
-
-        return hasRequiredFields;
-      });
-
-      if (validItems.length === 0) {
-        console.warn(`No valid items found for ${category.key}`);
-        return [];
-      }
-
-      return validItems as Item[];
-
-    } catch (error) {
-      // Log the full error details
-      console.error(`Error fetching/processing data for ${category.key}:`, error);
-      
-      // Return empty array instead of throwing
-      // This allows the sitemap to generate even if some categories fail
+    if (validItems.length === 0) {
+      console.warn(`No valid items found for ${category.key}`);
       return [];
     }
-  });
-}
 
-// Add this type guard to validate the base Item structure
-function isValidItem(item: unknown): item is Item {
-  return (
-    typeof item === 'object' &&
-    item !== null &&
-    'slug' in item &&
-    typeof (item as any).slug === 'string'
-  );
+    console.log(validItems);
+    return validItems as Item[];
+
+  } catch (error) {
+    console.error(`Error fetching/processing data for ${category.key}:`, error);
+    return [];
+  }
 }
 
 function generateStaticRoutes(baseUrl: string): SitemapEntry[] {
@@ -199,10 +130,10 @@ function generateStaticRoutes(baseUrl: string): SitemapEntry[] {
   }));
 }
 
-async function generateDynamicRoutes(baseUrl: string, cache: CategoryCache): Promise<SitemapEntry[]> {
+async function generateDynamicRoutes(baseUrl: string): Promise<SitemapEntry[]> {
   const routes = await Promise.all(
     CATEGORIES.map(async (category) => {
-      const items = await fetchCategoryData(category, cache);
+      const items = await fetchCategoryData(category);
       return items.map((item): SitemapEntry => ({
         url: `${baseUrl}${category.linkPrefix}${item.slug}`,
         lastModified: item.updatedAt || item.createdAt || new Date().toISOString(),
@@ -241,7 +172,6 @@ function getCategoryPriority(categoryKey: string): number {
   return priorities[categoryKey] || 0.5;
 }
 
-// XML Generation and File Management
 function escapeXml(unsafe: string): string {
   const replacements: Record<string, string> = {
     '<': '&lt;',
@@ -253,7 +183,6 @@ function escapeXml(unsafe: string): string {
   return unsafe.replace(/[<>&'"]/g, (c) => replacements[c] || c);
 }
 
-//generate sitemap.xml
 function generateSitemapXml(entries: SitemapEntry[]): string {
   return `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
