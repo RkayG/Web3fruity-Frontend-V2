@@ -23,7 +23,7 @@ interface SitemapEntry {
 }
 
 interface Item {
-  slug: string;
+  slug?: string;
   updatedAt?: string;
   createdAt?: string;
   image?: string;
@@ -68,29 +68,25 @@ async function fetchCategoryData(category: Category): Promise<Item[]> {
     const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/${category.key}`;
     console.log(`Fetching data from: ${apiUrl}`);
 
-    const response = await fetch(apiUrl);
+    const response = await fetch(apiUrl, {
+      headers: {
+        'Cache-Control': 'no-cache',
+        'Pragma': 'no-cache',
+      },
+    });
     
     if (!response.ok) {
       throw new Error(`HTTP error! Status: ${response.status} for category: ${category.key}`);
     }
 
-    let data: unknown;
-    try {
-      data = await response.json();
-    } catch (parseError) {
-      const responseText = await response.text();
-      console.error(`Invalid JSON response for ${category.key}:`, responseText);
-      throw new Error(`Invalid JSON response for ${category.key}`);
-    }
-    console.log('========================================================================')
-    console.log(data);
-    console.log('===========end===========end=======end===========end==========end=======')
+    const data = await response.json();
   
     // Validate the data structure
-    if (typeof data !== "object") {
+    if (!Array.isArray(data)) {
       console.error(`Invalid data structure for ${category.key}:`, data);
-      throw new Error(`Data for ${category.key} is not an object`);
+      throw new Error(`Data for ${category.key} is not an array`);
     }
+
     // Validate each item has required fields
     const validItems = data.filter((item: any) => { 
       const hasRequiredFields = item && 
@@ -109,7 +105,6 @@ async function fetchCategoryData(category: Category): Promise<Item[]> {
       return [];
     }
 
-    console.log(validItems);
     return validItems as Item[];
 
   } catch (error) {
@@ -156,7 +151,7 @@ function getCategoryChangeFreq(categoryKey: string): SitemapEntry['changeFrequen
   const freqMap: Record<string, SitemapEntry['changeFrequency']> = {
     airdrops: 'hourly',
     games: 'daily',
-    farmTokens: 'daily',
+    'farm-tokens': 'daily',
     academy: 'weekly',
   };
   return freqMap[categoryKey] || 'weekly';
@@ -166,7 +161,7 @@ function getCategoryPriority(categoryKey: string): number {
   const priorities: Record<string, number> = {
     airdrops: 0.9,
     games: 0.8,
-    farmTokens: 0.8,
+    'farm-tokens': 0.8,
     academy: 0.7,
   };
   return priorities[categoryKey] || 0.5;
