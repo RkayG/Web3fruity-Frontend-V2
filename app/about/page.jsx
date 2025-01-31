@@ -21,7 +21,7 @@ export default function Component() {
         title="Web3Fruity: Largest Crypto Rewards Curator"
         description="Dive into the vibrant orchard of DeFi with Web3Fruity and discover how to maximize your crypto earnings"
         keywords='airdrops, free crypto, cryptocurrency, crypto rewards, telegram airdrops'
-        logoUrl="/images/web3fruity-preview.png"
+        logoUrl="/images/web3fruity-preview2.png"
         siteUrl="https://www.web3fruity.com/about"
       />
     <div className="flex flex-col min-h-[100dvh] ">
