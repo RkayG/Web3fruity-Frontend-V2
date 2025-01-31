@@ -27,7 +27,7 @@ export default function Page() {
                 description="Discover the latest in Web3, Airdrops, Games, and more"
                 keywords='web3, airdrops, blockchain games, crypto, cryptocurrency, crypto rewards, 
                 crypto education, free crypto, staking, crypto farming, telegram airdrops'
-                logoUrl="https://www.web3fruity.com/logo.png"
+                logoUrl="/images/web3fruity-preview.png"
                 siteUrl="https://www.web3fruity.com"
             />
       
